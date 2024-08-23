@@ -1,13 +1,15 @@
 package PetStuff;
 
 import Constants.Constants;
+import FoodStuff.Food;
 
 public class Pet implements IPet
 {
     String name;
     Integer age;
     Float happiness;
-    Float hunger;
+    Float foodSatisfaction;
+    //^^ the above is meant to mean 'opposite of hunger'
 
     //three constructors for different ways in which a pet may be initialised
     public Pet()
@@ -21,12 +23,14 @@ public class Pet implements IPet
         this.name = name;
         this.age = age;
         this.happiness = Constants.MAXHAPPINESS;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
     }
-    public Pet(String name, Integer age, Float happiness)
+    public Pet(String name, Integer age, Float happiness, Float foodSatisfaction)
     {
         this.name = name;
         this.age = age;
         this.happiness = happiness;
+        this.foodSatisfaction = foodSatisfaction;
     }
 
     public String GetName()
@@ -44,9 +48,9 @@ public class Pet implements IPet
         return happiness;
     }
 
-    public Float GetHunger()
+    public Float GetFoodSatisfaction()
     {
-        return hunger;
+        return foodSatisfaction;
     }
 
     public void IncreaseHappiness(Float amount)
@@ -63,8 +67,8 @@ public class Pet implements IPet
         IncreaseHappiness(-amount);
     }
 
-    public void Feed()//Food food)
+    public void Feed(Food food)
     {
-        //do something with that
+        foodSatisfaction += food.GetNutritionalValue();
     }
 }

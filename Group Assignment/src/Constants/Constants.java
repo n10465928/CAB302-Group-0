@@ -6,4 +6,5 @@ public final class Constants
     private Constants() {}
 
     public static Float MAXHAPPINESS = 10f;
+    public static Float MAXFOODSATISFACTION = 10f;
 }
