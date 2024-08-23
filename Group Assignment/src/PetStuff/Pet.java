@@ -7,6 +7,7 @@ public class Pet implements IPet
     String name;
     Integer age;
     Float happiness;
+    Float hunger;
 
     //three constructors for different ways in which a pet may be initialised
     public Pet()
@@ -43,6 +44,11 @@ public class Pet implements IPet
         return happiness;
     }
 
+    public Float GetHunger()
+    {
+        return hunger;
+    }
+
     public void IncreaseHappiness(Float amount)
     {
         happiness += amount;
@@ -55,5 +61,10 @@ public class Pet implements IPet
     public void DecreaseHappiness(Float amount)
     {
         IncreaseHappiness(-amount);
+    }
+
+    public void Feed()//Food food)
+    {
+        //do something with that
     }
 }
