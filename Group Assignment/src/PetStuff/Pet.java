@@ -53,22 +53,40 @@ public class Pet implements IPet
         return foodSatisfaction;
     }
 
-    public void IncreaseHappiness(Float amount)
+    public String IncreaseHappiness(Float amount)
     {
         happiness += amount;
         if (happiness > 10f)
+        {
             happiness = 10f;
+            return "Too happy already, cannot be anymore";
+        }
         if (happiness < 0f)
+        {
             happiness = 0f;
+            return "Too unhappy already, cannot be anymore";
+        }
+        return "";
     }
 
-    public void DecreaseHappiness(Float amount)
+    public String DecreaseHappiness(Float amount)
     {
-        IncreaseHappiness(-amount);
+        return IncreaseHappiness(-amount);
     }
 
-    public void Feed(Food food)
+    public String Feed(Food food)
     {
         foodSatisfaction += food.GetNutritionalValue();
+        if (foodSatisfaction > 10f)
+        {
+            foodSatisfaction = 10f;
+            return "Too fed already, cannot be anymore";
+        }
+        if (foodSatisfaction < 0f)
+        {
+            foodSatisfaction = 0f;
+            return "Too unfed already, cannot be anymore";
+        }
+        return "";
     }
 }
