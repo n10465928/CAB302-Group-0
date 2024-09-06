@@ -10,6 +10,7 @@ public class Pet implements IPet
     Float happiness;
     Float foodSatisfaction;
     //^^ the above is meant to mean 'opposite of hunger'
+    Boolean isDirty;
 
     //three constructors for different ways in which a pet may be initialised
     public Pet()
@@ -56,9 +57,9 @@ public class Pet implements IPet
     public String IncreaseHappiness(Float amount)
     {
         happiness += amount;
-        if (happiness > 10f)
+        if (happiness > Constants.MAXHAPPINESS)
         {
-            happiness = 10f;
+            happiness = Constants.MAXHAPPINESS;
             return "Too happy already, cannot be anymore";
         }
         if (happiness < 0f)
@@ -77,9 +78,9 @@ public class Pet implements IPet
     public String Feed(Food food)
     {
         foodSatisfaction += food.GetNutritionalValue();
-        if (foodSatisfaction > 10f)
+        if (foodSatisfaction > Constants.MAXFOODSATISFACTION)
         {
-            foodSatisfaction = 10f;
+            foodSatisfaction = Constants.MAXFOODSATISFACTION;
             return "Too fed already, cannot be anymore";
         }
         if (foodSatisfaction < 0f)
@@ -88,5 +89,16 @@ public class Pet implements IPet
             return "Too unfed already, cannot be anymore";
         }
         return "";
+    }
+
+    public String Clean()
+    {
+        if (isDirty)
+        {
+            isDirty = Boolean.FALSE;
+            return "";
+        }
+        else
+            return "already clean";
     }
 }
