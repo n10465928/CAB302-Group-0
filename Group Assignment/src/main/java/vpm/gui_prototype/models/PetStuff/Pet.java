@@ -1,4 +1,4 @@
-package PetStuff;
+package vpm.gui_prototype.models.PetStuff;
 
 import Constants.Constants;
 import FoodStuff.Food;
@@ -11,6 +11,7 @@ public class Pet implements IPet
     Float foodSatisfaction;
     //^^ the above is meant to mean 'opposite of hunger'
     Boolean isDirty;
+    String type;
 
     //three constructors for different ways in which a pet may be initialised
     public Pet()
@@ -18,15 +19,17 @@ public class Pet implements IPet
         name = "";
         age = 0;
         happiness = Constants.MAXHAPPINESS;
+        type = "";
     }
-    public Pet(String name, Integer age)
+    public Pet(String name, Integer age, String type)
     {
         this.name = name;
         this.age = age;
+        this.type = type;
         this.happiness = Constants.MAXHAPPINESS;
         this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
     }
-    public Pet(String name, Integer age, Float happiness, Float foodSatisfaction)
+    public Pet(String name, Integer age, String type, Float happiness, Float foodSatisfaction)
     {
         this.name = name;
         this.age = age;
@@ -42,6 +45,10 @@ public class Pet implements IPet
     public Integer GetAge()
     {
         return age;
+    }
+
+    public String GetType() {
+        return type;
     }
 
     public Float GetHappiness()

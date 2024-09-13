@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetCreationController" spacing="20" alignment="CENTER" prefWidth="600" prefHeight="400">
+
+    <TextField fx:id="petNameField" promptText="Enter Pet Name" />
+    <ComboBox fx:id="petTypeComboBox" promptText="Select Pet Type" />
+
+    <Button text="Create Pet" onAction="#onCreatePet"/>
+    <Button text="Back" onAction="#onBack"/>
+</VBox>

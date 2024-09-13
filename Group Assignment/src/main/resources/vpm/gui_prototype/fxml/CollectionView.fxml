@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.CollectionController" spacing="20" alignment="CENTER" prefWidth="1024" prefHeight="768" style="-fx-padding: 20;">
+
+    <GridPane fx:id="petGrid" hgap="20" vgap="20" alignment="CENTER">
+        <!-- Pet slots will be populated programmatically -->
+    </GridPane>
+
+    <!-- Message label for displaying temporary messages -->
+    <Label fx:id="messageLabel" text="" style="-fx-text-fill: red;"/>
+
+    <Button fx:id="createPetButton" text="Create Pet" onAction="#onCreatePet"/>
+</VBox>
