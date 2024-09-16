@@ -9,10 +9,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LaunchView.fxml"));
         Scene scene = new Scene(loader.load());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Your Pets");
+        primaryStage.setTitle("Virtual Pet Simulator");
         primaryStage.show();
     }
 
