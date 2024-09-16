@@ -45,6 +45,12 @@ public class Pet implements IPet
         this.happiness = happiness;
         this.foodSatisfaction = foodSatisfaction;
     }
+    public Pet(String name, Integer age, String type)
+    {
+        this.name = name;
+        this.age = age;
+        this.type = type;
+    }
 
     public Integer GetID() { return petID; }
 

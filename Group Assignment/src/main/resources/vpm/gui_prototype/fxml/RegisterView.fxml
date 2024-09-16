@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #779ecb;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.RegisterController">
+    <top>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Virtual Pet Simulator" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="66.0" />
+            </font>
+            <BorderPane.margin>
+                <Insets top="25.0" />
+            </BorderPane.margin>
+        </Text>
+    </top>
+    <center>
+        <StackPane>
+            <GridPane alignment="CENTER" hgap="15" maxHeight="350.0" maxWidth="600.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #B3EBF2; -fx-padding: 20; -fx-background-radius: 10;" vgap="15">
+                <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="usernameField" minWidth="300.0" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </TextField>
+                <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="passwordField" minWidth="300.0" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </PasswordField>
+                <Label text="Confirm Password:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="confirmPasswordField" minWidth="300.0" promptText="Confirm Password" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </PasswordField>
+                <Button fx:id="registerButton" minHeight="50.0" minWidth="200.0" text="Register" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" onAction="#onRegisterPress">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
+                <columnConstraints>
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+            </GridPane>
+        </StackPane>
+    </center>
+</BorderPane>
