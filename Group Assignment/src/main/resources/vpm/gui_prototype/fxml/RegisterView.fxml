@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #779ecb;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #779ecb;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.RegisterController">
     <top>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Virtual Pet Simulator" BorderPane.alignment="CENTER">
             <font>
@@ -57,7 +57,7 @@
                         <Font size="24.0" />
                     </font>
                 </PasswordField>
-                <Button fx:id="registerButton" minHeight="50.0" minWidth="200.0" text="Register" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                <Button fx:id="registerButton" minHeight="50.0" minWidth="200.0" text="Register" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" onAction="#onRegisterPress">
                     <font>
                         <Font size="24.0" />
                     </font>
