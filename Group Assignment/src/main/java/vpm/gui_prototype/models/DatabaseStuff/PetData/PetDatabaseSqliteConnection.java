@@ -1,5 +1,4 @@
-package vpm.gui_prototype.models.DatabaseStuff;
-import vpm.gui_prototype.models.PetStuff.Pet;
+package vpm.gui_prototype.models.DatabaseStuff.PetData;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

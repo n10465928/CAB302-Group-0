@@ -1,4 +1,4 @@
-package vpm.gui_prototype.models.DatabaseStuff;
+package vpm.gui_prototype.models.DatabaseStuff.PetData;
 
 import vpm.gui_prototype.models.PetStuff.Pet;
 
