@@ -1,4 +1,4 @@
-package vpm.gui_prototype.models.DatabaseStuff;
+package vpm.gui_prototype.models.DatabaseStuff.PetData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import vpm.gui_prototype.models.PetStuff.Pet;
 
 public class SqlitePetDAO implements IPetDAO {
