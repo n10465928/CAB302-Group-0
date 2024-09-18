@@ -34,6 +34,15 @@ public class LoginController {
         userDAO = new SqliteUserDAO();
     }
 
+    //return true if fields have inputs, otherwise false
+    public boolean validInputs(String username, String password){
+        if(!username.isEmpty() && !password.isEmpty()){
+            return true;
+        }
+        //ToDO: make message appear in interface
+        else{System.out.println("Lack of credentials"); return false;}
+    }
+
     //go to login screen
     @FXML
     void onLoginPress() {
@@ -41,9 +50,14 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        //verify user inputs are valid
+        if(!validInputs(username, password)){
+            return;
+        }
+
         if (!userDAO.verifyUser(username, password)) {
             // ToDo: Make UI effects to alert users that they don't have correct credentials
-            System.out.println(username + password + " Not fucking right!");
+            System.out.println(username + password + " Not right!");
             return;
         }
 
