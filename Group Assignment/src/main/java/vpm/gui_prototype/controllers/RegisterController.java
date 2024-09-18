@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
@@ -28,6 +29,9 @@ public class RegisterController {
     @FXML
     private TextField confirmPasswordField;
 
+    @FXML
+    private Label errorMessageLabel;
+
     private IUserDAO userDAO;
 
     public RegisterController() {
@@ -35,7 +39,7 @@ public class RegisterController {
     }
 
     //helper functions verifying data is ready to be sent to database
-    //check if all fields are filled, true if they are otherwise faslse
+    //check if all fields are filled, true if they are otherwise false
     public boolean fieldsFilled(String username, String password, String confirmPassword){
         return !username.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
     }
@@ -46,13 +50,11 @@ public class RegisterController {
     //checks that data  is ready to interact with database, returns true if it is, otherwise returns false and outputs errors
     public boolean inputsReady(String username, String password, String confirmPassword){
         if(!fieldsFilled(username, password, confirmPassword)){
-            // ToDo: Make UI effects to alert users that they need to fill in all the boxes
-            System.out.println("Lack of credentials");
+            errorMessageLabel.setText("Please ensure you fill in all fields");
             return false;
         }
         else if(!matchingPassword(password, confirmPassword)){
-            // ToDo: Make UI effects to alert users that the username existed
-            System.out.println(username + " is already existed");
+            errorMessageLabel.setText("Passwords do not match");
             return false;
         }
         else{return true;}
@@ -71,8 +73,7 @@ public class RegisterController {
 
         // Check if the user existed
         if (userDAO.getUserByUsername(username) != null) {
-            // ToDo: Make UI effects to alert users that the username existed
-            System.out.println(username + " is already existed");
+            errorMessageLabel.setText("The username " + username + " is already taken");
             return;
         }
 
