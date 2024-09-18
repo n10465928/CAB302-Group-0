@@ -5,7 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
+import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
+import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
 
 import java.io.IOException;
 
@@ -17,10 +22,45 @@ public class LoginController {
     @FXML
     private Button RegisterButton;
 
+    @FXML
+    private TextField usernameField;
+
+    @FXML
+    private TextField passwordField;
+
+    private IUserDAO userDAO;
+
+    public LoginController() {
+        userDAO = new SqliteUserDAO();
+    }
+
+    //return true if fields have inputs, otherwise false
+    public boolean validInputs(String username, String password){
+        if(!username.isEmpty() && !password.isEmpty()){
+            return true;
+        }
+        //ToDO: make message appear in interface
+        else{System.out.println("Lack of credentials"); return false;}
+    }
 
     //go to login screen
     @FXML
     void onLoginPress() {
+        // Verify user's credentials first
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        //verify user inputs are valid
+        if(!validInputs(username, password)){
+            return;
+        }
+
+        if (!userDAO.verifyUser(username, password)) {
+            // ToDo: Make UI effects to alert users that they don't have correct credentials
+            System.out.println(username + password + " Not right!");
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
             Parent LoginView = loader.load();
