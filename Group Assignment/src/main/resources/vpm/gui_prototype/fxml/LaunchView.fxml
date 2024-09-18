@@ -9,34 +9,24 @@
 <?import javafx.scene.text.Text?>
 <?import com.jfoenix.controls.JFXButton?>
 
-<BorderPane style="-fx-background-color: #779ecb;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.LaunchController">
+<BorderPane style="-fx-background-color: #c6e5f3;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.LaunchController">
     <bottom>
-        <JFXButton fx:id="LoginButton" alignment="CENTER" mnemonicParsing="false" text="Login" BorderPane.alignment="CENTER" styleClass="button-raised" onAction="#onLoginClick">
+        <JFXButton fx:id="LoginButton" style="-fx-background-color: #779ecb; -fx-text-fill: black; -fx-background-radius: 20px;" alignment="CENTER" mnemonicParsing="false" text="Login" BorderPane.alignment="CENTER" styleClass="button-raised" onAction="#onLoginClick">
             <font>
-                <Font size="36.0" />
+                <Font size="60.0" />
             </font>
             <BorderPane.margin>
-                <Insets bottom="25.0" />
+                <Insets bottom="50.0" />
             </BorderPane.margin>
             <padding>
-                <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
             </padding>
         </JFXButton>
     </bottom>
-    <top>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Virtual Pet Simulator" BorderPane.alignment="CENTER">
-            <font>
-                <Font size="66.0" />
-            </font>
-            <BorderPane.margin>
-                <Insets top="25.0" />
-            </BorderPane.margin>
-        </Text>
-    </top>
     <center>
-        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="3.5" scaleY="3.5" BorderPane.alignment="CENTER">
+        <ImageView fitWidth="250.0" pickOnBounds="true" preserveRatio="true" scaleX="3.5" scaleY="3.5" BorderPane.alignment="CENTER">
             <image>
-                <Image url="@../../../assets/placeholder-logo.png" />
+                <Image url="@../../../assets/image-removebg-preview.png" />
             </image></ImageView>
     </center>
 </BorderPane>
