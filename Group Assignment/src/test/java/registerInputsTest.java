@@ -54,7 +54,7 @@ public class registerInputsTest {
 
         assertFalse(registerController.fieldsFilled("", "", "pass"));
         assertFalse(registerController.fieldsFilled("user", "", ""));
-        assertFalse(registerController.fieldsFilled("", "", "pass"));
+        assertFalse(registerController.fieldsFilled("", "pass", ""));
         assertFalse(registerController.fieldsFilled("", "", ""));
     }
 
