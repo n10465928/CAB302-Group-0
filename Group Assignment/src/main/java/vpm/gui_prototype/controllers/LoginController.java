@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -28,6 +29,9 @@ public class LoginController {
 
     @FXML
     private TextField passwordField;
+
+    @FXML
+    private Label errorMessageLabel;
 
     private IUserDAO userDAO;
 
@@ -63,7 +67,8 @@ public class LoginController {
 
         if (!verifyUser(username, password)) {
             // ToDo: Make UI effects to alert users that they don't have correct credentials
-            System.out.println(username + password + " Not right!");
+            // System.out.println(username + password + " Not right!");
+            errorMessageLabel.setText("Username or password is incorrect");
             return;
         }
 
