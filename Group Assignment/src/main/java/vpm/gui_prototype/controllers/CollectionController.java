@@ -11,12 +11,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
+import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.PetStuff.Pet;
-import vpm.gui_prototype.services.PetService;
+import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
 
 public class CollectionController {
+
+    private PetManager petManager;
+
+    int userId = UserSession.getInstance().getUserId();
 
     @FXML
     private GridPane petGrid;
@@ -27,16 +33,12 @@ public class CollectionController {
     @FXML
     private Label messageLabel; // Label to display temporary messages
 
-    private PetService petService = new PetService(); // Initial empty service
-
+    public CollectionController() {
+        petManager = new PetManager(new SqlitePetDAO());
+    }
     @FXML
     public void initialize() {
         setupPetSlots();
-    }
-
-    public void setPetService(PetService petService) {
-        this.petService = petService;
-        setupPetSlots(); // Refresh pet slots
     }
 
     // Set up pet slots in the grid
@@ -47,8 +49,8 @@ public class CollectionController {
 
         for (int i = 0; i < numSlots; i++) {
             VBox tile;
-            if (i < petService.getAllPets().size()) {
-                Pet pet = petService.getAllPets().get(i);
+            if (i < petManager.getAllUsersPets(userId).size()) {
+                Pet pet = petManager.getAllUsersPets(userId).get(i);
                 tile = createPetTile(pet);
             } else {
                 tile = createEmptyPetTile();
@@ -118,9 +120,6 @@ public class CollectionController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetCreationView.fxml"));
             Scene scene = new Scene(loader.load());
-
-            PetCreationController petCreationController = loader.getController();
-            petCreationController.setPetService(petService);
 
             Stage stage = (Stage) createPetButton.getScene().getWindow();
             stage.setScene(scene);

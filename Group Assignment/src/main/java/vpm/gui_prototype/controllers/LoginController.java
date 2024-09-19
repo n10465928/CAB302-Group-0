@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import org.w3c.dom.Text;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
+import vpm.gui_prototype.services.LoginService;
 
 import java.io.IOException;
 
@@ -62,6 +63,8 @@ public class LoginController {
         }
 
         try {
+            LoginService loginservice = new LoginService();
+            loginservice.login(userDAO.getUserID(username, password));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
             Parent LoginView = loader.load();
 

@@ -3,11 +3,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class PetDatabaseSqliteConnection {
+/**
+ * Class that connects and interacts with a SQL database.
+ */
+public class SqlitePetDatabaseConnection {
     private static Connection instance = null;
 
-    private PetDatabaseSqliteConnection() {
-        String url = "jdbc:sqlite:pet_database.db";
+    private SqlitePetDatabaseConnection() {
+        String url = "jdbc:sqlite:pets_database.db";
         try {
             instance = DriverManager.getConnection(url);
         } catch (SQLException sqlEx) {
@@ -15,9 +18,13 @@ public class PetDatabaseSqliteConnection {
         }
     }
 
+    /**
+     * Method that gets an instance of the SQL connection
+     * @return The instance of the connection
+     */
     public static Connection getInstance() {
         if (instance == null) {
-            new PetDatabaseSqliteConnection();
+            new SqlitePetDatabaseConnection();
         }
         return instance;
     }

@@ -53,4 +53,12 @@ public interface IUserDAO {
      * @return True if the password matches the username, else false.
      */
     public boolean verifyUser(String username, String password);
+
+    /**
+     * Retrives a user from the database
+     * @param username the username
+     * @param password the password
+     * @return the user with the given ID
+     */
+    public int getUserID(String username, String password);
 }

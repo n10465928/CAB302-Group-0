@@ -17,9 +17,6 @@ public class SqliteUserDAO implements IUserDAO {
     public SqliteUserDAO () {
         connection = UserSqliteConnection.getInstance();
         createTable();
-
-        // used for testing, to be removed later
-        insertSampleData();
     }
 
     private void createTable() {
@@ -34,23 +31,6 @@ public class SqliteUserDAO implements IUserDAO {
                     + "phone VARCHAR NULL"
                     + ")";
             statement.execute(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void insertSampleData() {
-        try {
-            // Clear before inserting
-            Statement clearStatement = connection.createStatement();
-            String clearQuery = "DELETE FROM users";
-            clearStatement.execute(clearQuery);
-            Statement insertStatement = connection.createStatement();
-            String insertQuery = "INSERT INTO users (username, password, email, phone) VALUES "
-                    + "('kien1', 'qwerty', 'kien1@gmail.com', '0423423423'),"
-                    + "('kien2', 'qwertyz', 'kien2@gmail.com', '0423423424'),"
-                    + "('kien3', 'qwertyl', 'kien3@gmail.com', '0423423425')";
-            insertStatement.execute(insertQuery);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,5 +161,21 @@ public class SqliteUserDAO implements IUserDAO {
       User user = getUserByUsername(username);
       if (user == null) return false;
       return (user.getPassword().equals(password));
+    }
+
+    @Override
+    public int getUserID(String Username, String Password) {
+        int userId = 0;
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT id FROM users WHERE username = ?" +
+                    "AND password = ?");
+            statement.setString(1, Username);
+            statement.setString(2, Password);
+            ResultSet resultSet = statement.executeQuery();
+            userId = resultSet.getInt("id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userId;
     }
 }

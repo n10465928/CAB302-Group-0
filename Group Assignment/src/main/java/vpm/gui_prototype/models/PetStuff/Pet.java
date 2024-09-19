@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 
 public class Pet implements IPet
 {
+    Integer userID;
     Integer petID;
     String name;
     Integer age;
@@ -17,33 +18,32 @@ public class Pet implements IPet
     String colour;
 
     //three constructors for different ways in which a pet may be initialised
-    public Pet(Integer petID)
+    public Pet()
     {
-        this.petID = petID;
         name = "";
         age = 0;
         happiness = Constants.MAXHAPPINESS;
         type = "";
     }
-    public Pet(Integer petID, String name, Integer age, String type, String colour)
+    public Pet(String name, Integer age, String type, String colour)
     {
-        this.petID = petID;
         this.name = name;
         this.age = age;
         this.type = type;
         this.colour = colour;
         this.happiness = Constants.MAXHAPPINESS;
         this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.isDirty = false;
     }
-    public Pet(Integer petID, String name, Integer age, String type, String colour, Float happiness, Float foodSatisfaction)
+    public Pet(String name, Integer age, String type, String colour, Float happiness, Float foodSatisfaction, Boolean isDirty)
     {
-        this.petID = petID;
         this.name = name;
         this.age = age;
         this.type = type;
         this.colour = colour;
         this.happiness = happiness;
         this.foodSatisfaction = foodSatisfaction;
+        this.isDirty = isDirty;
     }
     public Pet(String name, Integer age, String type)
     {
@@ -52,33 +52,86 @@ public class Pet implements IPet
         this.type = type;
     }
 
-    public Integer GetID() { return petID; }
+    public Integer GetUserID()
+    {
+        return userID;
+    }
+    public void SetUserID(Integer userID)
+    {
+        this.userID = userID;
+    }
+
+    public Integer GetPetID()
+    {
+        return petID;
+    }
+    public void SetPetID(Integer petID)
+    {
+        this.petID = petID;
+    }
 
     public String GetName()
     {
         return name;
+    }
+    public void SetName(String name){
+        this.name = name;
     }
 
     public Integer GetAge()
     {
         return age;
     }
+    public void SetAge(Integer age)
+    {
+        this.age = age;
+    }
 
-    public String GetType() {
+    public String GetType()
+    {
         return type;
+    }
+    public void SetType(String type)
+    {
+        this.type = type;
     }
 
     public Float GetHappiness()
     {
         return happiness;
     }
+    public void SetHappiness(Float happiness)
+    {
+        this.happiness = happiness;
+    }
 
     public Float GetFoodSatisfaction()
     {
         return foodSatisfaction;
     }
+    public void SetFoodSatisfaction(Float foodSatisfaction)
+    {
+        this.foodSatisfaction = foodSatisfaction;
+    }
 
-    public String GetColour() { return colour; }
+    public String GetColour()
+    {
+        return colour;
+    }
+    public void SetColour(String colour)
+    {
+        this.colour = colour;
+    }
+
+    public Boolean GetIsDirty()
+    {
+        return isDirty;
+    }
+    public void SetIsDirty(Boolean isDirty)
+    {
+        this.isDirty = isDirty;
+    }
+
 
     public String IncreaseHappiness(Float amount)
     {

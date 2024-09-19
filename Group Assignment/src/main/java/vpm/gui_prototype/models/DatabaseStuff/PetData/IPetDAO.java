@@ -44,5 +44,11 @@ public interface IPetDAO {
      * @param userId The user's account id
      * @return A list of all contacts in the database.
      */
-    public List<Pet> getAllPets(int userId);
+    public List<Pet> getAllUsersPets(int userId);
+
+    /**
+     * Retrieves all users pets from the database.
+     * @return A list of all contacts in the database.
+     */
+    public List<Pet> getAllPets();
 }

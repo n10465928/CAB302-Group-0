@@ -4,9 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
+import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.PetStuff.Pet;
+import vpm.gui_prototype.models.UserStuff.UserSession;
 
 public class PetManagementController {
+
+    private PetManager petManager;
+    int userId = UserSession.getInstance().getUserId();
 
     @FXML
     private Label petNameLabel;
@@ -19,6 +25,10 @@ public class PetManagementController {
 
     @FXML
     private TextField customTraitField;
+
+    public PetManagementController() {
+        petManager = new PetManager(new SqlitePetDAO());
+    }
 
     private Pet currentPet;
 
