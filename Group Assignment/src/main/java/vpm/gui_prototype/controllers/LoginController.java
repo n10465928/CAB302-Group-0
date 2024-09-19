@@ -44,6 +44,11 @@ public class LoginController {
         else{System.out.println("Lack of credentials"); return false;}
     }
 
+    // return true if the credentials match, false otherwise
+    public boolean verifyUser(String username, String password) {
+        return userDAO.verifyUser(username, password);
+    }
+
     //go to login screen
     @FXML
     void onLoginPress() {
@@ -56,7 +61,7 @@ public class LoginController {
             return;
         }
 
-        if (!userDAO.verifyUser(username, password)) {
+        if (!verifyUser(username, password)) {
             // ToDo: Make UI effects to alert users that they don't have correct credentials
             System.out.println(username + password + " Not right!");
             return;
