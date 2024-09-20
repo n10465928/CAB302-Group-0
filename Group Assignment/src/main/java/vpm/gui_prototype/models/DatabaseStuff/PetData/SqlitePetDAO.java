@@ -160,6 +160,7 @@ public class SqlitePetDAO implements IPetDAO {
             selectAllUsersPets.setInt(1, userId);
             ResultSet resultSet = selectAllUsersPets.executeQuery();
             while (resultSet.next()) {
+                int petId = resultSet.getInt("petId");
                 String petName = resultSet.getString("petName");
                 String petType = resultSet.getString("petType");
                 int petAge = resultSet.getInt("petAge");
@@ -167,7 +168,7 @@ public class SqlitePetDAO implements IPetDAO {
                 //Float petHappiness = resultSet.getFloat("petHappiness");
                 //Float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
                 //Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
-                Pet pet = new Pet(petName, petAge, petType, petColour);
+                Pet pet = new Pet(petId, petName, petAge, petType, petColour);
                 pets.add(pet);
             }
         } catch (Exception e) {

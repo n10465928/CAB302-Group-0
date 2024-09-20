@@ -3,9 +3,11 @@ package vpm.gui_prototype.controllers;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -17,6 +19,9 @@ import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CollectionController {
 
@@ -43,7 +48,7 @@ public class CollectionController {
 
     // Set up pet slots in the grid
     private void setupPetSlots() {
-        petGrid.getChildren().clear(); // Clear existing slots
+        petGrid.getChildren().clear();
 
         int numSlots = 8; // We have 8 slots to display
 
