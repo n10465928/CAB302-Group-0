@@ -63,6 +63,11 @@
                         <Font size="24.0" />
                     </font>
                 </Button>
+                <Button fx:id="backButton" minHeight="50.0" minWidth="200.0" text="Back" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" onAction="#onBackPress">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Button>
                 <columnConstraints>
                     <ColumnConstraints />
                     <ColumnConstraints />
