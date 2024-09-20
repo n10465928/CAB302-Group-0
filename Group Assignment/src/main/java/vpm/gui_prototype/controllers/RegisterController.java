@@ -60,11 +60,6 @@ public class RegisterController {
         else{return true;}
     }
 
-    // return true if the user exists, false otherwise
-    public boolean checkExistingUser(String username) {
-        return userDAO.getUserByUsername(username) != null;
-    }
-
     @FXML
     void onRegisterPress() {
         String username = usernameField.getText();
@@ -77,7 +72,7 @@ public class RegisterController {
         }
 
         // Check if the user existed
-        if (checkExistingUser(username)) {
+        if (userDAO.getUserByUsername(username) != null) {
             errorMessageLabel.setText("The username " + username + " is already taken");
             return;
         }
