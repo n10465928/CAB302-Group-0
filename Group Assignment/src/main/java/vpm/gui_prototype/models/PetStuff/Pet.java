@@ -35,6 +35,18 @@ public class Pet implements IPet
         this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
         this.isDirty = false;
     }
+
+    public Pet(int id, String name, Integer age, String type, String colour)
+    {
+        this.petID = id;
+        this.name = name;
+        this.age = age;
+        this.type = type;
+        this.colour = colour;
+        this.happiness = Constants.MAXHAPPINESS;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.isDirty = false;
+    }
     public Pet(String name, Integer age, String type, String colour, Float happiness, Float foodSatisfaction, Boolean isDirty)
     {
         this.name = name;

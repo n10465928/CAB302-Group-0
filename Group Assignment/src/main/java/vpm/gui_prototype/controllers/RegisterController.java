@@ -21,6 +21,9 @@ public class RegisterController {
     private Button registerButton;
 
     @FXML
+    private Button backButton;
+
+    @FXML
     private TextField usernameField;
 
     @FXML
@@ -63,6 +66,24 @@ public class RegisterController {
     // return true if the user exists, false otherwise
     public boolean checkExistingUser(String username) {
         return userDAO.getUserByUsername(username) != null;
+    }
+
+    @FXML
+        // Go back to login screen
+    void onBackPress() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LoginView.fxml"));
+            Parent LoginView = loader.load();
+
+            // Get the current stage and load new scene
+            Stage stage = (Stage) backButton.getScene().getWindow();  // Use backButton instead of registerButton
+            stage.setScene(new Scene(LoginView));
+
+            // Change title
+            stage.setTitle("Login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

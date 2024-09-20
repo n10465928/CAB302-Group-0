@@ -14,5 +14,6 @@
     <ComboBox fx:id="petPersonalityComboBox" promptText="Select Personality Trait"/>
     <TextField fx:id="customTraitField" promptText="Enter Custom Trait"/>
 
-    <Button text="Save" onAction="#onSaveCustomizations"/>
+    <Button fx:id = "SaveButton" text="Save" onAction="#onSaveCustomizations"/>
+    <Button fx:id = "DeleteButton" text="Delete" onAction="#onDelete"/>
 </VBox>
