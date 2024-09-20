@@ -45,7 +45,9 @@ public class LoginController {
             return true;
         }
         //ToDO: make message appear in interface
-        else{System.out.println("Lack of credentials"); return false;}
+        else {
+            errorMessageLabel.setText("Please input all credentials");;
+            return false;}
     }
 
     // return true if the credentials match, false otherwise
