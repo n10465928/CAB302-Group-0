@@ -1,7 +1,7 @@
 package vpm.gui_prototype.models.PetStuff;
 
-import Constants.Constants;
 import javafx.scene.paint.Color;
+import vpm.gui_prototype.models.Constants.Constants;
 import vpm.gui_prototype.models.FoodStuff.Food;
 
 public class Pet implements IPet
@@ -28,6 +28,7 @@ public class Pet implements IPet
         type = "";
     }
 
+    //Constructor for when a new pet is created
     public Pet(String Name, String Type, Integer petAge)
     {
         this.name = Name;
@@ -41,29 +42,9 @@ public class Pet implements IPet
         this.customTrait = null;
     }
 
-    public Pet(String name, Integer age, String type, String colour)
-    {
-        this.name = name;
-        this.age = age;
-        this.type = type;
-        this.colour = colour;
-        this.happiness = Constants.MAXHAPPINESS/2;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
-        this.isDirty = false;
-    }
-
-    public Pet(int id, String name, Integer age, String type, String colour)
-    {
-        this.petID = id;
-        this.name = name;
-        this.age = age;
-        this.type = type;
-        this.colour = colour;
-        this.happiness = Constants.MAXHAPPINESS/2;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
-        this.isDirty = false;
-    }
-    public Pet(String name, Integer age, String type, String colour, Float happiness, Float foodSatisfaction, Boolean isDirty)
+    public Pet(String name, Integer age, String type, String colour,
+               Float happiness, Float foodSatisfaction, Boolean isDirty,
+               String personality, String customTrait)
     {
         this.name = name;
         this.age = age;
@@ -72,12 +53,8 @@ public class Pet implements IPet
         this.happiness = happiness;
         this.foodSatisfaction = foodSatisfaction;
         this.isDirty = isDirty;
-    }
-    public Pet(String name, Integer age, String type)
-    {
-        this.name = name;
-        this.age = age;
-        this.type = type;
+        this.personality = personality;
+        this.customTrait = customTrait;
     }
 
     public Integer GetUserID()

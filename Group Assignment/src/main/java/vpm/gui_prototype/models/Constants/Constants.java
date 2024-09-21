@@ -1,4 +1,4 @@
-package Constants;
+package vpm.gui_prototype.models.Constants;
 
 public final class Constants
 {

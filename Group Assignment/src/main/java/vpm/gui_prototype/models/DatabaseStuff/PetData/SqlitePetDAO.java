@@ -151,10 +151,14 @@ public class SqlitePetDAO implements IPetDAO {
                 String petType = resultSet.getString("petType");
                 int petAge = resultSet.getInt("petAge");
                 String petColour = resultSet.getString("petColour");
-                //Float petHappiness = resultSet.getFloat("petHappiness");
-                //Float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
-                //Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
-                Pet pet = new Pet(petName, petAge, petType, petColour);
+                Float petHappiness = resultSet.getFloat("petHappiness");
+                Float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
+                Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
+                String petPersonality = resultSet.getString("petPersonality");
+                String petCustomTrait = resultSet.getString("petCustomTrait");
+                Pet pet = new Pet(petName, petAge, petType, petColour, petHappiness, petFoodSatisfaction,
+                        petIsDirty, petPersonality, petCustomTrait);
+                pet.SetUserID(userId);
                 pet.SetPetID(petId);
                 return pet;
             }
@@ -182,10 +186,15 @@ public class SqlitePetDAO implements IPetDAO {
                 String petType = resultSet.getString("petType");
                 int petAge = resultSet.getInt("petAge");
                 String petColour = resultSet.getString("petColour");
-                //Float petHappiness = resultSet.getFloat("petHappiness");
-                //Float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
-                //Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
-                Pet pet = new Pet(petId, petName, petAge, petType, petColour);
+                Float petHappiness = resultSet.getFloat("petHappiness");
+                Float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
+                Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
+                String petPersonality = resultSet.getString("petPersonality");
+                String petCustomTrait = resultSet.getString("petCustomTrait");
+                Pet pet = new Pet(petName, petAge, petType, petColour, petHappiness, petFoodSatisfaction,
+                        petIsDirty, petPersonality, petCustomTrait);
+                pet.SetUserID(userId);
+                pet.SetPetID(petId);
                 pets.add(pet);
             }
         } catch (Exception e) {
@@ -212,10 +221,15 @@ public class SqlitePetDAO implements IPetDAO {
                 String petType = resultSet.getString("petType");
                 int petAge = resultSet.getInt("petAge");
                 String petColour = resultSet.getString("petColour");
-                //Float petHappiness = resultSet.getFloat("petHappiness");
-                //Float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
-                //Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
-                Pet pet = new Pet(petName, petAge, petType, petColour);
+                Float petHappiness = resultSet.getFloat("petHappiness");
+                Float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
+                Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
+                String petPersonality = resultSet.getString("petPersonality");
+                String petCustomTrait = resultSet.getString("petCustomTrait");
+                Pet pet = new Pet(petName, petAge, petType, petColour, petHappiness, petFoodSatisfaction,
+                        petIsDirty, petPersonality, petCustomTrait);
+                pet.SetUserID(userId);
+                pet.SetPetID(petId);
                 pet.SetUserID(userId);
                 pet.SetPetID(petId);
                 pets.add(pet);

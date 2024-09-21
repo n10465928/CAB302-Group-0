@@ -9,7 +9,9 @@ public class PetTest {
 
     @BeforeEach
     public void setUp() {
-        pet = new Pet("Max", 4, "Dog", "Black");
+        pet = new Pet("Max", 4, "Dog", "Black",
+                10f, 10f,
+                true, "Friendly", "A Good Boy");
     }
 
     @Test

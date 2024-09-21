@@ -65,7 +65,7 @@ public class PetCreationController {
         }
 
         // Create new Pet object using the custom constructor
-        Pet newPet = new Pet(petName, petAge, petType); // Assuming "Black" as a default color
+        Pet newPet = new Pet(petName, petType, petAge); // Assuming "Black" as a default color
 
         // Add pet to database
         try {
