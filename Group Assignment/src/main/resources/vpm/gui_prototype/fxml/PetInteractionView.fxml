@@ -11,6 +11,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #779ecb;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetInteractionController">
     <StackPane>
         <VBox spacing="20">
@@ -25,31 +26,34 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="HappinessField" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label fx:id="HappinessField" GridPane.columnIndex="1" GridPane.rowIndex="0">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label text="Hunger:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <JFXButton fx:id="playButton" text="Play" GridPane.columnIndex="3" GridPane.rowIndex="0" onAction="#onPlay"/>
+                <Label text="Hunger:" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="HungerField" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Label fx:id="HungerField"  GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label text="Cleanliness:" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                <JFXButton fx:id="feedButton" text="Play" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed"/>
+                <Label text="Cleanliness:" GridPane.columnIndex="0" GridPane.rowIndex="2">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="CleanField" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Label fx:id="CleanField"  GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
+                <JFXButton fx:id="cleanButton" text="Play" GridPane.columnIndex="3" GridPane.rowIndex="2" onAction="#onClean"/>
             </GridPane>
         </VBox>
     </StackPane>

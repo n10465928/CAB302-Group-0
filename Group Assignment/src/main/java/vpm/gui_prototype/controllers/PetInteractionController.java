@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
+import vpm.gui_prototype.models.FoodStuff.Food;
 import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 
@@ -37,6 +38,24 @@ public class PetInteractionController {
             CleanField.setText("Dirty");
         }
         else{CleanField.setText("Clean");}
+    }
+
+    @FXML
+    private void onPlay(){
+        currentPet.IncreaseHappiness(1f);
+        HappinessField.setText(String.valueOf(currentPet.GetHappiness()));
+    }
+
+    @FXML
+    private void onFeed(){
+        currentPet.Feed(1f);
+        HungerField.setText(String.valueOf(currentPet.GetFoodSatisfaction()));
+    }
+
+    @FXML
+    private void onClean(){
+        currentPet.Clean();
+        CleanField.setText("Clean");
     }
 
     @FXML

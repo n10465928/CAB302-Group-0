@@ -1,8 +1,8 @@
 package vpm.gui_prototype.models.PetStuff;
 
 import Constants.Constants;
-import FoodStuff.Food;
 import javafx.scene.paint.Color;
+import vpm.gui_prototype.models.FoodStuff.Food;
 
 public class Pet implements IPet
 {
@@ -31,8 +31,8 @@ public class Pet implements IPet
         this.age = age;
         this.type = type;
         this.colour = colour;
-        this.happiness = Constants.MAXHAPPINESS;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.happiness = Constants.MAXHAPPINESS/2;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
         this.isDirty = false;
     }
 
@@ -43,8 +43,8 @@ public class Pet implements IPet
         this.age = age;
         this.type = type;
         this.colour = colour;
-        this.happiness = Constants.MAXHAPPINESS;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.happiness = Constants.MAXHAPPINESS/2;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
         this.isDirty = false;
     }
     public Pet(String name, Integer age, String type, String colour, Float happiness, Float foodSatisfaction, Boolean isDirty)
@@ -169,6 +169,20 @@ public class Pet implements IPet
     public String Feed(Food food)
     {
         foodSatisfaction += food.GetNutritionalValue();
+        if (foodSatisfaction > Constants.MAXFOODSATISFACTION)
+        {
+            foodSatisfaction = Constants.MAXFOODSATISFACTION;
+            return "Too fed already, cannot be anymore";
+        }
+        if (foodSatisfaction < 0f)
+        {
+            foodSatisfaction = 0f;
+            return "Too unfed already, cannot be anymore";
+        }
+        return "";
+    }
+
+    public String Feed(float food){
         if (foodSatisfaction > Constants.MAXFOODSATISFACTION)
         {
             foodSatisfaction = Constants.MAXFOODSATISFACTION;
