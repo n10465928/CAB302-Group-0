@@ -2,14 +2,12 @@ package vpm.gui_prototype.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
 import vpm.gui_prototype.services.LoginService;
@@ -21,11 +19,15 @@ public class LoginController {
     @FXML
     private Button LoginButton;
 
+
+    @FXML
+    private Button ExitButton;
+
     @FXML
     private TextField usernameField;
 
     @FXML
-    private TextField passwordField;
+    private PasswordField passwordField;
 
     @FXML
     private Label errorMessageLabel;
@@ -33,77 +35,82 @@ public class LoginController {
     private IUserDAO userDAO;
 
     public LoginController() {
+        // Initialize the user DAO to interact with the user database.
         userDAO = new SqliteUserDAO();
     }
 
-    //return true if fields have inputs, otherwise false
-    public boolean validInputs(String username, String password){
-        if(!username.isEmpty() && !password.isEmpty()){
+    // Validates that the input fields have values.
+    public boolean validInputs(String username, String password) {
+        if (!username.isEmpty() && !password.isEmpty()) {
             return true;
+        } else {
+            errorMessageLabel.setText("Please input all credentials");
+            return false;
         }
-        //ToDO: make message appear in interface
-        else {
-            errorMessageLabel.setText("Please input all credentials");;
-            return false;}
     }
 
-    // return true if the credentials match, false otherwise
+    // Verifies that the user exists with the given username and password.
     public boolean verifyUser(String username, String password) {
         return userDAO.verifyUser(username, password);
     }
 
-    //go to login screen
+    // Handles login button press.
     @FXML
     void onLoginPress() {
-        // Verify user's credentials first
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        //verify user inputs are valid
-        if(!validInputs(username, password)){
+        // Validate inputs
+        if (!validInputs(username, password)) {
             return;
         }
 
+        // Verify user credentials
         if (!verifyUser(username, password)) {
-            // ToDo: Make UI effects to alert users that they don't have correct credentials
-            // System.out.println(username + password + " Not right!");
             errorMessageLabel.setText("Username or password is incorrect");
             return;
         }
 
+        // Successful login - set user session and navigate to CollectionView.
         try {
-            LoginService loginservice = new LoginService();
-            loginservice.login(userDAO.getUserID(username, password));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
-            Parent LoginView = loader.load();
-
-            // Get the current stage and load new scene
-            Stage stage = (Stage) LoginButton.getScene().getWindow();
-            stage.setScene(new Scene(LoginView));
-
-            //change title
-            stage.setTitle("Pet Collection");
-        } catch (IOException e) {
+            LoginService loginService = new LoginService();
+            loginService.login(userDAO.getUserID(username, password));
+            navigateToCollectionView();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Handles registration button press.
     @FXML
     void onRegisterPress() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/RegisterView.fxml"));
-            Parent LoginView = loader.load();
-
-            // Get the current stage and load new scene
-            Stage stage = (Stage) LoginButton.getScene().getWindow();
-            stage.setScene(new Scene(LoginView));
-
-            //change title
-            stage.setTitle("Register");
-        } catch (IOException e) {
+            navigateToRegisterView();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Navigate to CollectionView after successful login.
+    private void navigateToCollectionView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
+        Stage stage = (Stage) LoginButton.getScene().getWindow();
+        stage.setScene(new Scene(loader.load()));
+        stage.setTitle("Pet Collection");
+    }
 
+    // Navigate to RegisterView for new user registration.
+    private void navigateToRegisterView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/RegisterView.fxml"));
+        Stage stage = (Stage) LoginButton.getScene().getWindow();
+        stage.setScene(new Scene(loader.load()));
+        stage.setTitle("Register");
+    }
+
+    @FXML
+    void onExitPress() {
+        // Close application
+        Stage stage = (Stage) ExitButton.getScene().getWindow();
+        stage.close();
+    }
 }
