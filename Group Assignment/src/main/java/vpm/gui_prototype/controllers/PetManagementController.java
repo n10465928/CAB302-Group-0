@@ -89,4 +89,21 @@ public class PetManagementController {
         petManager.deletePet(currentPet, userId);
         goBackToCollectionView();
     }
+
+    @FXML
+    private void onInteraction(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetInteractionView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            PetInteractionController petInteractionController = loader.getController();
+            petInteractionController.setPet(currentPet); // Pass the pet to the management screen
+
+            Stage stage = (Stage) petNameLabel.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle(currentPet.GetName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
