@@ -16,4 +16,5 @@
 
     <Button fx:id = "SaveButton" text="Save" onAction="#onSaveCustomizations"/>
     <Button fx:id = "DeleteButton" text="Delete" onAction="#onDelete"/>
+    <Button fx:id = "InteractButton" text="Interact" onAction="#onInteraction"/>
 </VBox>
