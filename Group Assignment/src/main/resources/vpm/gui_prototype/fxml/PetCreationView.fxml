@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -58,9 +59,9 @@
                     <Label text="Pet Name:" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #00796B;" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="RIGHT"/>
                     <TextField fx:id="petNameField" promptText="Enter pet name" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <!-- Pet Type Field -->
+                    <!-- Pet Type Field (Changed to ComboBox) -->
                     <Label text="Pet Type:" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #00796B;" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.halignment="RIGHT"/>
-                    <TextField fx:id="petTypeField" promptText="Enter pet type (e.g., Cat, Dog)" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <ComboBox fx:id="petTypeComboBox" promptText="Select pet type" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                     <!-- Pet Age Field -->
                     <Label text="Pet Age:" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #00796B;" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="RIGHT"/>
@@ -74,8 +75,6 @@
                     </effect>
                 </JFXButton>
 
-                <!-- Error Message Label Below the Create Pet Button -->
-                <Label fx:id="errorMessageLabel" text="" style="-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;" />
             </VBox>
         </StackPane>
     </center>
@@ -93,10 +92,23 @@
                     </ImageView>
                 </VBox>
             </left>
+
+            <center>
+                <VBox alignment="BOTTOM_CENTER" style="-fx-padding: 0 40 0 0;">
+                    <!-- Error Message Label Moved Above the Button -->
+                    <Label fx:id="messageLabel" text="" style="-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;">
+                        <VBox.margin>
+                            <Insets bottom="20.0" />
+                        </VBox.margin>
+                    </Label>
+
+                </VBox>
+            </center>
+
             <!-- Back button positioned to the right and aligned at the bottom -->
             <right>
                 <VBox alignment="BOTTOM_RIGHT">
-                    <JFXButton fx:id="backButton" text="Back" style="-fx-background-color: #0288D1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15px; -fx-padding: 5 20;" onAction="#onBackPress">
+                    <JFXButton fx:id="backButton" text="Back" style="-fx-background-color: #0288D1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15px; -fx-padding: 5 20;" onAction="#onBack">
                         <effect>
                             <DropShadow radius="10" spread="0.15" color="#01579B" />
                         </effect>

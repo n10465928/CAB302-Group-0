@@ -51,18 +51,20 @@ public class SqlitePetDAO implements IPetDAO {
     @Override
     public void addPet(Pet pet, int userId) {
         try {
+            // Check the number of existing pets for the user
             PreparedStatement selectAllUsersPets = connection.prepareStatement("SELECT * FROM pets WHERE userID = ?");
             selectAllUsersPets.setInt(1, userId);
             ResultSet rs = selectAllUsersPets.executeQuery();
             int numberOfPets = 0;
-            while( rs.next()){
+            while (rs.next()) {
                 numberOfPets++;
             }
+            // Add a new pet only if the user has less than 8 pets
             if (numberOfPets < 8) {
-                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName" +
-                        ", petType, petAge, petColour, petHappiness, petFoodSatisfaction" +
-                        ", petIsDirty, petPersonality, petCustomTrait)" +
-                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement insertPet = connection.prepareStatement(
+                        "INSERT INTO pets (userId, petName, petType, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                );
                 insertPet.setInt(1, userId);
                 insertPet.setString(2, pet.GetName());
                 insertPet.setString(3, pet.GetType());
@@ -74,12 +76,14 @@ public class SqlitePetDAO implements IPetDAO {
                 insertPet.setString(9, pet.GetPersonality());
                 insertPet.setString(10, pet.GetCustomTrait());
                 insertPet.executeUpdate();
+            } else {
+                System.out.println("Maximum number of pets reached for user ID: " + userId);
             }
-            //Need to add Else statement that lets user know they have reached the maximum number of pets.
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Method that queries the SQL pets database and updates the pets on the database
