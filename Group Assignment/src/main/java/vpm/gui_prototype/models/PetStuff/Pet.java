@@ -1,8 +1,8 @@
 package vpm.gui_prototype.models.PetStuff;
 
 import Constants.Constants;
-import FoodStuff.Food;
 import javafx.scene.paint.Color;
+import vpm.gui_prototype.models.FoodStuff.Food;
 
 public class Pet implements IPet
 {
@@ -16,6 +16,8 @@ public class Pet implements IPet
     Boolean isDirty;
     String type;
     String colour;
+    String personality;
+    String customTrait;
 
     //three constructors for different ways in which a pet may be initialised
     public Pet()
@@ -25,14 +27,28 @@ public class Pet implements IPet
         happiness = Constants.MAXHAPPINESS;
         type = "";
     }
+
+    public Pet(String Name, String Type, Integer petAge)
+    {
+        this.name = Name;
+        this.type = Type;
+        this.age = petAge;
+        this.colour = null;
+        this.happiness = Constants.MAXHAPPINESS;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.isDirty = false;
+        this.personality= null;
+        this.customTrait = null;
+    }
+
     public Pet(String name, Integer age, String type, String colour)
     {
         this.name = name;
         this.age = age;
         this.type = type;
         this.colour = colour;
-        this.happiness = Constants.MAXHAPPINESS;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.happiness = Constants.MAXHAPPINESS/2;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
         this.isDirty = false;
     }
 
@@ -43,8 +59,8 @@ public class Pet implements IPet
         this.age = age;
         this.type = type;
         this.colour = colour;
-        this.happiness = Constants.MAXHAPPINESS;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.happiness = Constants.MAXHAPPINESS/2;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
         this.isDirty = false;
     }
     public Pet(String name, Integer age, String type, String colour, Float happiness, Float foodSatisfaction, Boolean isDirty)
@@ -144,6 +160,24 @@ public class Pet implements IPet
         this.isDirty = isDirty;
     }
 
+    public String GetPersonality()
+    {
+        return personality;
+    }
+    public void SetPersonality(String personality)
+    {
+        this.personality = personality;
+    }
+
+    public String GetCustomTrait()
+    {
+        return customTrait;
+    }
+    public void SetCustomTrait(String customTrait)
+    {
+        this.customTrait = customTrait;
+    }
+
 
     public String IncreaseHappiness(Float amount)
     {
@@ -169,6 +203,20 @@ public class Pet implements IPet
     public String Feed(Food food)
     {
         foodSatisfaction += food.GetNutritionalValue();
+        if (foodSatisfaction > Constants.MAXFOODSATISFACTION)
+        {
+            foodSatisfaction = Constants.MAXFOODSATISFACTION;
+            return "Too fed already, cannot be anymore";
+        }
+        if (foodSatisfaction < 0f)
+        {
+            foodSatisfaction = 0f;
+            return "Too unfed already, cannot be anymore";
+        }
+        return "";
+    }
+
+    public String Feed(float food){
         if (foodSatisfaction > Constants.MAXFOODSATISFACTION)
         {
             foodSatisfaction = Constants.MAXFOODSATISFACTION;
