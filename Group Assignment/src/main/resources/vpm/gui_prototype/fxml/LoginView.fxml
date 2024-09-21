@@ -18,8 +18,12 @@
 <?import javafx.scene.text.Text?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 
+<?import javafx.scene.layout.VBox?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.LoginController" style="-fx-background-color: linear-gradient(to bottom right, #e0f7fa, #80deea);">
 
     <!-- Title Section with Background Bar -->
@@ -65,7 +69,7 @@
                 </JFXButton>
 
                 <!-- Register Button -->
-                <JFXButton fx:id="RegisterButton" text="Register" style="-fx-background-color: #0288D1; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" onAction="#onRegisterPress">
+                <JFXButton text="Register" style="-fx-background-color: #0288D1; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" onAction="#onRegisterPress">
                     <effect>
                         <DropShadow radius="10" spread="0.15" color="#01579B" />
                     </effect>
@@ -86,5 +90,33 @@
             </GridPane>
         </StackPane>
     </center>
+
+    <!-- Bottom Section with Logo and Exit Button -->
+    <bottom>
+        <BorderPane style="-fx-padding: 20;">
+            <!-- Logo positioned to the left and aligned at the bottom -->
+            <left>
+                <VBox alignment="BOTTOM_LEFT" style="-fx-padding: 0 20 0 0;">
+                    <ImageView fitWidth="100" fitHeight="80" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../assets/LOGO_SMALL.png" />
+                        </image>
+                    </ImageView>
+                </VBox>
+            </left>
+            <!-- Exit button positioned to the right and aligned at the bottom -->
+            <right>
+                <VBox alignment="BOTTOM_RIGHT">
+
+                    <JFXButton fx:id="ExitButton" text="Exit" style="-fx-background-color: #c62828; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15px; -fx-padding: 5 20;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" onAction="#onExitPress">
+                        <effect>
+                            <DropShadow radius="10" spread="0.15" color="#004D40" />
+                        </effect>
+                    </JFXButton>
+
+                </VBox>
+            </right>
+        </BorderPane>
+    </bottom>
 
 </BorderPane>

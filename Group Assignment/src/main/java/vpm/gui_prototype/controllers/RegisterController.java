@@ -23,6 +23,8 @@ public class RegisterController {
     @FXML
     private Button backButton;
 
+    @FXML Button ExitButton;
+
     @FXML
     private TextField usernameField;
 
@@ -123,5 +125,11 @@ public class RegisterController {
         }
     }
 
+    @FXML
+    void onExitPress() {
+        // Close application
+        Stage stage = (Stage) ExitButton.getScene().getWindow();
+        stage.close();
+    }
 
 }

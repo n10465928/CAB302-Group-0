@@ -19,6 +19,10 @@ public class LoginController {
     @FXML
     private Button LoginButton;
 
+
+    @FXML
+    private Button ExitButton;
+
     @FXML
     private TextField usernameField;
 
@@ -101,5 +105,12 @@ public class LoginController {
         Stage stage = (Stage) LoginButton.getScene().getWindow();
         stage.setScene(new Scene(loader.load()));
         stage.setTitle("Register");
+    }
+
+    @FXML
+    void onExitPress() {
+        // Close application
+        Stage stage = (Stage) ExitButton.getScene().getWindow();
+        stage.close();
     }
 }
