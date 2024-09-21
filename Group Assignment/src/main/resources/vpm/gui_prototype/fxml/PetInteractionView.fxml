@@ -12,50 +12,136 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #779ecb;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetInteractionController">
-    <StackPane>
-        <VBox spacing="20">
-            <Label fx:id="PetName" text="test" alignment="CENTER">
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color:linear-gradient(to bottom right, #e0f7fa, #80deea);" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetInteractionController">
+    <StackPane AnchorPane.topAnchor="40" AnchorPane.leftAnchor="212">
+        <Rectangle width="600" height="100" arcWidth="20" arcHeight="20" fill="#00796B"/>
+
+        <Label fx:id="PetName"  style="-fx-text-fill:white;  -fx-font-weight: bold;">
+            <font>
+                <Font size="50.0" />
+            </font>
+        </Label>
+    </StackPane>
+
+    <StackPane AnchorPane.topAnchor="180" AnchorPane.leftAnchor="40">
+        <VBox spacing="20" prefWidth="452" prefHeight="500" alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
+            <Label text="Details" alignment="CENTER" style="-fx-font-weight: bold;">
                 <font>
-                    <Font size = "50.0"/>
+                    <Font size="30"/>
                 </font>
             </Label>
-            <JFXButton text="Back" onAction="#onInteraction"/>
-            <GridPane alignment="CENTER" hgap="15" maxHeight="300.0" maxWidth="600.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #779ecb; -fx-padding: 20; -fx-background-radius: 10;" vgap="15">
-                <Label text="Happiness:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <GridPane alignment="TOP_LEFT" hgap="10" maxWidth="452.0" maxHeight="350.0" prefHeight="350.0" prefWidth="452.0" vgap="15">
+                <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="petName" GridPane.columnIndex="1" GridPane.rowIndex="0" >
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="petType" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label text="Colour:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="petColour" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label text="Personality Trait:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="petPersonality" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+            </GridPane>
+            <Label text="Stats" alignment="CENTER" style="-fx-font-weight: bold;">
+                <font>
+                    <Font size="30"/>
+                </font>
+            </Label>
+            <GridPane alignment="TOP_LEFT" hgap="15" maxWidth="452.0" maxHeight="150.0" prefHeight="150.0" prefWidth="452.0" vgap="15">
+                <Label text="Happiness:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="20.0" />
                     </font>
                 </Label>
                 <Label fx:id="HappinessField" GridPane.columnIndex="1" GridPane.rowIndex="0">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="playButton" text="Play" GridPane.columnIndex="3" GridPane.rowIndex="0" onAction="#onPlay"/>
-                <Label text="Hunger:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <JFXButton fx:id="playButton" text="Play" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="3" GridPane.rowIndex="0" onAction="#onPlay"/>
+                <Label text="Hunger:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="20.0" />
                     </font>
                 </Label>
                 <Label fx:id="HungerField"  GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="feedButton" text="Feed" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed"/>
-                <Label text="Cleanliness:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <JFXButton fx:id="feedButton" text="Feed" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed"/>
+                <Label text="Cleanliness:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="20.0" />
                     </font>
                 </Label>
                 <Label fx:id="CleanField"  GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="cleanButton" text="Wash" GridPane.columnIndex="3" GridPane.rowIndex="2" onAction="#onClean"/>
+                <JFXButton fx:id="cleanButton" text="Wash" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;"  GridPane.columnIndex="3" GridPane.rowIndex="2" onAction="#onClean"/>
             </GridPane>
         </VBox>
+
     </StackPane>
+
+    <StackPane AnchorPane.rightAnchor="40" AnchorPane.topAnchor="180" maxWidth="452.0" prefWidth="452" minHeight="500.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
+        <VBox alignment="CENTER">
+            <Label fx:id="picturePetName" alignment="CENTER">
+                <font>
+                    <Font size="50"/>
+                </font>
+            </Label>
+            <ImageView fx:id="image" preserveRatio="true" fitHeight="300" fitWidth="300"/>
+            <Label fx:id="picturePetType" alignment="CENTER">
+                <font>
+                    <Font size="30"/>
+                </font>
+            </Label>
+        </VBox>
+    </StackPane>
+    <HBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" prefWidth="-Infinity" alignment="CENTER">
+        <JFXButton text="Back" alignment="CENTER" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onInteraction" AnchorPane.bottomAnchor="20">
+            <effect>
+                <DropShadow radius="10" spread="0.15" color="#004D40" />
+            </effect>
+        </JFXButton>
+    </HBox>
+
 </AnchorPane>

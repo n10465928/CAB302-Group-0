@@ -195,6 +195,7 @@ public class Pet implements IPet
     }
 
     public String Feed(float food){
+        foodSatisfaction += food;
         if (foodSatisfaction > Constants.MAXFOODSATISFACTION)
         {
             foodSatisfaction = Constants.MAXFOODSATISFACTION;
