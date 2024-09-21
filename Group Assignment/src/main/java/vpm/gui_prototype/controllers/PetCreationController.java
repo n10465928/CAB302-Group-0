@@ -23,6 +23,10 @@ public class PetCreationController {
     private TextField petNameField;
 
     @FXML
+    private TextField petAgeField;
+
+
+    @FXML
     private ComboBox<String> petTypeComboBox;
     public PetCreationController() {
         petManager = new PetManager(new SqlitePetDAO());
@@ -37,9 +41,10 @@ public class PetCreationController {
     private void onCreatePet() {
         String petName = petNameField.getText();
         String petType = petTypeComboBox.getValue();
+        Integer petAge = Integer.valueOf(petAgeField.getText());
 
-        if (petName != null && petType != null) {
-            Pet newPet = new Pet(petName, 0, petType, "Black");
+        if (petName != null && petType != null && petAge != null) {
+            Pet newPet = new Pet(petName, petType, petAge);
             petManager.addPet(newPet, userId); // Add the new pet to the service
 
             goBackToCollectionView();

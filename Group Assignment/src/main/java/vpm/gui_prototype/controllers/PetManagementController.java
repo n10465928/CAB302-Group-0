@@ -67,6 +67,12 @@ public class PetManagementController {
         String selectedPersonality = petPersonalityComboBox.getValue();
         String customTrait = customTraitField.getText();
 
+        currentPet.SetColour(selectedColor);
+        currentPet.SetPersonality(selectedPersonality);
+        currentPet.SetCustomTrait(customTrait);
+
+        petManager.updatePet(currentPet, userId);
+
         if (selectedColor != null) {
             System.out.println("Pet Color: " + selectedColor);
         }

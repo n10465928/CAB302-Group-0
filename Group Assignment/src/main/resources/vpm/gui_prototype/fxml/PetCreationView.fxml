@@ -8,6 +8,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetCreationController" spacing="20" alignment="CENTER" prefWidth="600" prefHeight="400">
 
     <TextField fx:id="petNameField" promptText="Enter Pet Name" />
+    <TextField fx:id="petAgeField" promptText="Enter Pet Age" />
     <ComboBox fx:id="petTypeComboBox" promptText="Select Pet Type" />
 
     <Button text="Create Pet" onAction="#onCreatePet"/>

@@ -29,8 +29,13 @@ public class SqlitePetDAO implements IPetDAO {
                     + "petId INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "petName VARCHAR NOT NULL,"
                     + "petType VARCHAR NOT NULL,"
-                    + "petAge INTEGER NOT NULL,"
-                    + "petColour VARCHAR NOT NULL"
+                    + "petAge INTEGER NULL,"
+                    + "petColour VARCHAR NULL,"
+                    + "petHappiness FLOAT NOT NULL,"
+                    + "petFoodSatisfaction FLOAT NOT NULL,"
+                    + "petIsDirty BOOLEAN NOT NULL,"
+                    + "petPersonality VARCHAR NULL,"
+                    + "petCustomTrait VARCHAR NULL"
                     + ")";
             statement.execute(createPetsTableQuery);
         } catch (Exception e) {
@@ -55,15 +60,19 @@ public class SqlitePetDAO implements IPetDAO {
             }
             if (numberOfPets < 8) {
                 PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName" +
-                        ", petType, petAge, petColour) VALUES (?, ?, ?, ?, ?)");
+                        ", petType, petAge, petColour, petHappiness, petFoodSatisfaction" +
+                        ", petIsDirty, petPersonality, petCustomTrait)" +
+                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 insertPet.setInt(1, userId);
                 insertPet.setString(2, pet.GetName());
                 insertPet.setString(3, pet.GetType());
                 insertPet.setInt(4, pet.GetAge());
                 insertPet.setString(5, pet.GetColour());
-                //insertPet.setFloat(6, pet.GetHappiness());
-                //insertPet.setFloat(7, pet.GetFoodSatisfaction());
-                //insertPet.setBoolean(8, pet.GetIsDirty());
+                insertPet.setFloat(6, pet.GetHappiness());
+                insertPet.setFloat(7, pet.GetFoodSatisfaction());
+                insertPet.setBoolean(8, pet.GetIsDirty());
+                insertPet.setString(9, pet.GetPersonality());
+                insertPet.setString(10, pet.GetCustomTrait());
                 insertPet.executeUpdate();
             }
             //Need to add Else statement that lets user know they have reached the maximum number of pets.
@@ -81,17 +90,21 @@ public class SqlitePetDAO implements IPetDAO {
     public void updatePet(Pet pet, int userId) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?" +
-                    ", petType = ?, petAge = ?, petColour = ?" +
+                    ", petType = ?, petAge = ?, petColour = ?, petHappiness = ?" +
+                    ", petFoodSatisfaction = ?, petIsDirty = ?" +
+                    ", petPersonality = ?, petCustomTrait = ?" +
                     " WHERE userId = ? AND petId = ?");
             statement.setString(1, pet.GetName());
             statement.setString(2, pet.GetType());
             statement.setInt(3, pet.GetAge());
             statement.setString(4, pet.GetColour());
-            //statement.setFloat(5, pet.GetHappiness());
-            //statement.setFloat(6, pet.GetFoodSatisfaction());
-            //statement.setBoolean(7, pet.GetIsDirty());
-            statement.setInt(5, userId);
-            statement.setInt(6, pet.GetPetID());
+            statement.setFloat(5, pet.GetHappiness());
+            statement.setFloat(6, pet.GetFoodSatisfaction());
+            statement.setBoolean(7, pet.GetIsDirty());
+            statement.setString(8, pet.GetPersonality());
+            statement.setString(9, pet.GetCustomTrait());
+            statement.setInt(10, userId);
+            statement.setInt(11, pet.GetPetID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

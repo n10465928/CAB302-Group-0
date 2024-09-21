@@ -16,6 +16,8 @@ public class Pet implements IPet
     Boolean isDirty;
     String type;
     String colour;
+    String personality;
+    String customTrait;
 
     //three constructors for different ways in which a pet may be initialised
     public Pet()
@@ -25,6 +27,20 @@ public class Pet implements IPet
         happiness = Constants.MAXHAPPINESS;
         type = "";
     }
+
+    public Pet(String Name, String Type, Integer petAge)
+    {
+        this.name = Name;
+        this.type = Type;
+        this.age = petAge;
+        this.colour = null;
+        this.happiness = Constants.MAXHAPPINESS;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        this.isDirty = false;
+        this.personality= null;
+        this.customTrait = null;
+    }
+
     public Pet(String name, Integer age, String type, String colour)
     {
         this.name = name;
@@ -142,6 +158,24 @@ public class Pet implements IPet
     public void SetIsDirty(Boolean isDirty)
     {
         this.isDirty = isDirty;
+    }
+
+    public String GetPersonality()
+    {
+        return personality;
+    }
+    public void SetPersonality(String personality)
+    {
+        this.personality = personality;
+    }
+
+    public String GetCustomTrait()
+    {
+        return customTrait;
+    }
+    public void SetCustomTrait(String customTrait)
+    {
+        this.customTrait = customTrait;
     }
 
 
