@@ -31,4 +31,3 @@ public interface IPet
     public Boolean GetIsDirty();
     public void SetIsDirty(Boolean IsDirty);
 }
-
