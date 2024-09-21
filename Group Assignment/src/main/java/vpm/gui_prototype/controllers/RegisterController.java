@@ -102,7 +102,7 @@ public class RegisterController {
             hasUppercase |= Character.isUpperCase(c);
             hasSpecial |= (!Character.isAlphabetic(c) & !Character.isDigit(c));
         }
-        System.out.println(password + " " + hasUppercase + " " + hasSpecial);
+
         if (hasUppercase & hasSpecial) {
             return "Good";
         } if (!hasUppercase) {
