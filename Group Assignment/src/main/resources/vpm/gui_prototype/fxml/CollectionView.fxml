@@ -63,6 +63,7 @@
                         <DropShadow radius="10" spread="0.15" color="#004D40" />
                     </effect>
                 </JFXButton>
+                <Rectangle width="200" height="50" arcWidth="20" arcHeight="20" fill="transparent" onMouseClicked="#onCreatePet" />
 
                 <!-- Error Message Label Below the Create Pet Button -->
                 <Label fx:id="messageLabel" text="" style="-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;" />
