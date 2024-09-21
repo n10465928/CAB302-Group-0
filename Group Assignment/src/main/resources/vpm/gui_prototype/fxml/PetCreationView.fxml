@@ -1,15 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXButton?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetCreationController" spacing="20" alignment="CENTER" prefWidth="600" prefHeight="400">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.effect.DropShadow?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0"
+            xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetCreationController"
+            style="-fx-background-color: linear-gradient(to bottom right, #e0f7fa, #80deea);">
 
-    <TextField fx:id="petNameField" promptText="Enter Pet Name" />
-    <ComboBox fx:id="petTypeComboBox" promptText="Select Pet Type" />
+    <!-- Title Section with Background Bar -->
+    <top>
+        <StackPane alignment="CENTER" style="-fx-padding: 40;">
+            <!-- Rectangular Bar Background for Title -->
+            <Rectangle width="600" height="100" arcWidth="20" arcHeight="20" fill="#00796B" />
+            <!-- Title Text -->
+            <Text text="Create New Pet" style="-fx-fill: white; -fx-font-weight: bold;">
+                <font>
+                    <Font size="50.0" />
+                </font>
+            </Text>
+        </StackPane>
+    </top>
 
-    <Button text="Create Pet" onAction="#onCreatePet"/>
-    <Button text="Back" onAction="#onBack"/>
-</VBox>
+    <!-- Pet Creation Form -->
+    <center>
+        <StackPane alignment="CENTER" style="-fx-padding: 20;">
+            <VBox alignment="CENTER" spacing="10">
+                <GridPane hgap="20" vgap="20" alignment="CENTER" style="-fx-background-color: #ffffff; -fx-background-radius: 15; -fx-padding: 40;">
+                    <!-- Column and Row Constraints for consistent layout -->
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="200" prefWidth="200" maxWidth="200" />
+                        <ColumnConstraints minWidth="200" prefWidth="200" maxWidth="200" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="50" prefHeight="50" maxHeight="50" />
+                        <RowConstraints minHeight="50" prefHeight="50" maxHeight="50" />
+                        <RowConstraints minHeight="50" prefHeight="50" maxHeight="50" />
+                    </rowConstraints>
+
+                    <!-- Pet Name Field -->
+                    <Label text="Pet Name:" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #00796B;" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="RIGHT"/>
+                    <TextField fx:id="petNameField" promptText="Enter pet name" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <!-- Pet Type Field (Changed to ComboBox) -->
+                    <Label text="Pet Type:" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #00796B;" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.halignment="RIGHT"/>
+                    <ComboBox fx:id="petTypeComboBox" promptText="Select pet type" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <!-- Pet Age Field -->
+                    <Label text="Pet Age:" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #00796B;" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="RIGHT"/>
+                    <TextField fx:id="petAgeField" promptText="Enter pet age" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                </GridPane>
+
+                <!-- Create Pet Button -->
+                <JFXButton fx:id="createPetButton" text="Create Pet" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onCreatePet">
+                    <effect>
+                        <DropShadow radius="10" spread="0.15" color="#004D40" />
+                    </effect>
+                </JFXButton>
+                <Rectangle width="200" height="50" arcWidth="20" arcHeight="20" fill="transparent" onMouseClicked="#onCreatePet" />
+
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- Bottom Section with Logo and Back Button -->
+    <bottom>
+        <BorderPane style="-fx-padding: 20;">
+            <!-- Logo positioned to the left and aligned at the bottom -->
+            <left>
+                <VBox alignment="BOTTOM_LEFT" style="-fx-padding: 0 20 0 0;">
+                    <ImageView fitWidth="100" fitHeight="80" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../assets/LOGO_SMALL.png" />
+                        </image>
+                    </ImageView>
+                </VBox>
+            </left>
+
+            <center>
+                <VBox alignment="BOTTOM_CENTER" style="-fx-padding: 0 40 0 0;">
+                    <!-- Error Message Label Moved Above the Button -->
+                    <Label fx:id="messageLabel" text="" style="-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;">
+                        <VBox.margin>
+                            <Insets bottom="20.0" />
+                        </VBox.margin>
+                    </Label>
+
+                </VBox>
+            </center>
+
+            <!-- Back button positioned to the right and aligned at the bottom -->
+            <right>
+                <VBox alignment="BOTTOM_RIGHT">
+                    <JFXButton fx:id="backButton" text="Back" style="-fx-background-color: #0288D1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15px; -fx-padding: 5 20;" onAction="#onBack">
+                        <effect>
+                            <DropShadow radius="10" spread="0.15" color="#01579B" />
+                        </effect>
+                    </JFXButton>
+                </VBox>
+            </right>
+        </BorderPane>
+    </bottom>
+
+</BorderPane>
+

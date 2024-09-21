@@ -1,7 +1,7 @@
 package vpm.gui_prototype.models.PetStuff;
 
-import Constants.Constants;
 import javafx.scene.paint.Color;
+import vpm.gui_prototype.models.Constants.Constants;
 import vpm.gui_prototype.models.FoodStuff.Food;
 
 public class Pet implements IPet
@@ -16,38 +16,36 @@ public class Pet implements IPet
     Boolean isDirty;
     String type;
     String colour;
+    String personality;
+    String customTrait;
 
     //three constructors for different ways in which a pet may be initialised
     public Pet()
     {
         name = "";
         age = 0;
-        happiness = Constants.MAXHAPPINESS;
+        happiness = Constants.MAXHAPPINESS/2;
         type = "";
     }
-    public Pet(String name, Integer age, String type, String colour)
+
+    //Constructor for when a pet is first created
+    public Pet(String Name, String Type, Integer petAge)
     {
-        this.name = name;
-        this.age = age;
-        this.type = type;
-        this.colour = colour;
+        this.name = Name;
+        this.type = Type;
+        this.age = petAge;
+        this.colour = null;
         this.happiness = Constants.MAXHAPPINESS/2;
         this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
-        this.isDirty = false;
+        this.isDirty = true;
+        this.personality= null;
+        this.customTrait = null;
     }
 
-    public Pet(int id, String name, Integer age, String type, String colour)
-    {
-        this.petID = id;
-        this.name = name;
-        this.age = age;
-        this.type = type;
-        this.colour = colour;
-        this.happiness = Constants.MAXHAPPINESS/2;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
-        this.isDirty = false;
-    }
-    public Pet(String name, Integer age, String type, String colour, Float happiness, Float foodSatisfaction, Boolean isDirty)
+    //Constructor for getting pets and details
+    public Pet(String name, Integer age, String type, String colour,
+               Float happiness, Float foodSatisfaction, Boolean isDirty,
+               String personality, String customTrait)
     {
         this.name = name;
         this.age = age;
@@ -56,12 +54,8 @@ public class Pet implements IPet
         this.happiness = happiness;
         this.foodSatisfaction = foodSatisfaction;
         this.isDirty = isDirty;
-    }
-    public Pet(String name, Integer age, String type)
-    {
-        this.name = name;
-        this.age = age;
-        this.type = type;
+        this.personality = personality;
+        this.customTrait = customTrait;
     }
 
     public Integer GetUserID()
@@ -142,6 +136,24 @@ public class Pet implements IPet
     public void SetIsDirty(Boolean isDirty)
     {
         this.isDirty = isDirty;
+    }
+
+    public String GetPersonality()
+    {
+        return personality;
+    }
+    public void SetPersonality(String personality)
+    {
+        this.personality = personality;
+    }
+
+    public String GetCustomTrait()
+    {
+        return customTrait;
+    }
+    public void SetCustomTrait(String customTrait)
+    {
+        this.customTrait = customTrait;
     }
 
 

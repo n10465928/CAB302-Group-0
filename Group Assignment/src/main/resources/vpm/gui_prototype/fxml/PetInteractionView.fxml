@@ -43,7 +43,7 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="feedButton" text="Play" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed"/>
+                <JFXButton fx:id="feedButton" text="Feed" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed"/>
                 <Label text="Cleanliness:" GridPane.columnIndex="0" GridPane.rowIndex="2">
                     <font>
                         <Font size="24.0" />
@@ -54,7 +54,7 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="cleanButton" text="Play" GridPane.columnIndex="3" GridPane.rowIndex="2" onAction="#onClean"/>
+                <JFXButton fx:id="cleanButton" text="Wash" GridPane.columnIndex="3" GridPane.rowIndex="2" onAction="#onClean"/>
             </GridPane>
         </VBox>
     </StackPane>
