@@ -42,7 +42,6 @@ public class PetCreationController {
         petTypeComboBox.getItems().addAll("Dog", "Cat", "Bird", "Fish");
     }
 
-
     @FXML
     private void onCreatePet() {
         // Get values from the fields
@@ -78,7 +77,6 @@ public class PetCreationController {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     private void onBack() {
