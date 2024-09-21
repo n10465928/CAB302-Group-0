@@ -24,7 +24,7 @@ public class Pet implements IPet
     {
         name = "";
         age = 0;
-        happiness = Constants.MAXHAPPINESS;
+        happiness = Constants.MAXHAPPINESS/2;
         type = "";
     }
 
@@ -35,9 +35,9 @@ public class Pet implements IPet
         this.type = Type;
         this.age = petAge;
         this.colour = null;
-        this.happiness = Constants.MAXHAPPINESS;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION;
-        this.isDirty = false;
+        this.happiness = Constants.MAXHAPPINESS/2;
+        this.foodSatisfaction = Constants.MAXFOODSATISFACTION/2;
+        this.isDirty = true;
         this.personality= null;
         this.customTrait = null;
     }
