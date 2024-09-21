@@ -61,12 +61,15 @@ public class PetInteractionController {
     @FXML
     private void onInteraction(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetInteractionView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetManagementView.fxml"));
             Scene scene = new Scene(loader.load());
+
+            PetManagementController petManagementController = loader.getController();
+            petManagementController.setPet(currentPet); // Pass the pet to the management screen
 
             Stage stage = (Stage) HappinessField.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle(currentPet.GetName());
+            stage.setTitle("Manage Pet: " + currentPet.GetName());
         } catch (IOException e) {
             e.printStackTrace();
         }

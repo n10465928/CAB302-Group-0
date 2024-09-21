@@ -20,6 +20,7 @@
                     <Font size = "50.0"/>
                 </font>
             </Label>
+            <JFXButton text="Back" onAction="#onInteraction"/>
             <GridPane alignment="CENTER" hgap="15" maxHeight="300.0" maxWidth="600.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #779ecb; -fx-padding: 20; -fx-background-radius: 10;" vgap="15">
                 <Label text="Happiness:" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <font>
