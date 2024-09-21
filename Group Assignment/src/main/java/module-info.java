@@ -2,6 +2,7 @@ module vpm.gui_prototype {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires java.desktop;
 
 
     opens vpm.gui_prototype to javafx.fxml;
