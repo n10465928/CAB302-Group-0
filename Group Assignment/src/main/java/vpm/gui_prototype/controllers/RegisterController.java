@@ -68,6 +68,49 @@ public class RegisterController {
         return userDAO.getUserByUsername(username) != null;
     }
 
+    public String evaluateUsername(String username) {
+        /*
+            Some conditions:
+                - In range of [6, 20] characters
+                - No special character
+         */
+        if (username.length() < 6 || username.length() > 20) {
+            return "Username must be from 6 to 20 characters long";
+        }
+        for (int i = 0; i < username.length(); i ++) {
+            char c = username.charAt(i);
+            if (!Character.isDigit(c) && !Character.isAlphabetic(c)) {
+                return "Username must not contain special characters";
+            }
+        }
+        return "Good";
+    }
+    public String evaluatePassword(String password) {
+        /*
+            Some conditions:
+                - Has an uppercase letter
+                - Longer than 8 characters
+                - Has a special character
+         */
+        if (password.length() < 8) {
+            return "Password must be at least 8 characters long";
+        }
+        boolean hasUppercase = false;
+        boolean hasSpecial = false;
+        for (int i = 0; i < password.length(); i ++) {
+            char c = password.charAt(i);
+            hasUppercase |= Character.isUpperCase(c);
+            hasSpecial |= (!Character.isAlphabetic(c) & !Character.isDigit(c));
+        }
+        System.out.println(password + " " + hasUppercase + " " + hasSpecial);
+        if (hasUppercase & hasSpecial) {
+            return "Good";
+        } if (!hasUppercase) {
+            return "Password must have an uppercase letter";
+        }
+        return "Password must have a special character";
+    }
+
     @FXML
         // Go back to login screen
     void onBackPress() {
@@ -100,6 +143,22 @@ public class RegisterController {
         // Check if the user existed
         if (checkExistingUser(username)) {
             errorMessageLabel.setText("The username " + username + " is already taken");
+            return;
+        }
+
+        // Check if the username satisfies the conditions
+        // return good if passed all conditions
+        // return failed condition otherwise
+        if (!evaluateUsername(username).equals("Good")) {
+            errorMessageLabel.setText(evaluateUsername(username));
+            return;
+        }
+
+        // Check if the password is strong enough
+        // return good if passed all conditions
+        // return failed condition otherwise
+        if (!evaluatePassword(password).equals("Good")) {
+            errorMessageLabel.setText(evaluatePassword(password));
             return;
         }
 
