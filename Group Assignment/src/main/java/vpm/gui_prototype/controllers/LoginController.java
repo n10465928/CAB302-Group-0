@@ -40,13 +40,11 @@ public class LoginController {
     }
 
     // Validates that the input fields have values.
-    public boolean validInputs(String username, String password) {
+    public String validInputs(String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
-            return true;
-        } else {
-            errorMessageLabel.setText("Please input all credentials");
-            return false;
+            return "Good";
         }
+        return "Please input all credentials";
     }
 
     // Verifies that the user exists with the given username and password.
@@ -61,7 +59,8 @@ public class LoginController {
         String password = passwordField.getText();
 
         // Validate inputs
-        if (!validInputs(username, password)) {
+        if (!validInputs(username, password).equals("Good")) {
+            errorMessageLabel.setText(validInputs(username, password));
             return;
         }
 

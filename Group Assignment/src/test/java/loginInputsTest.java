@@ -17,13 +17,15 @@ public class loginInputsTest {
 
     @Test
     void testAllFieldsFilled(){
-        assertTrue(loginController.validInputs("user", "pass"));
+        String satisfied = "Good";
+        assertTrue(loginController.validInputs("user", "pass").equals(satisfied));
     }
 
     @Test
     void testEachFieldEmpty(){
-        assertFalse(loginController.validInputs("user", ""));
-        assertFalse(loginController.validInputs("", "pass"));
+        String condition1 = "Please input all credentials";
+        assertTrue(loginController.validInputs("user", "").equals(condition1));
+        assertTrue(loginController.validInputs("", "pass").equals(condition1));
     }
 
     @Test
