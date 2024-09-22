@@ -9,8 +9,11 @@ import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 
+/**
+ * Controller class to handle EditPetFieldView
+ */
 public class EditPetFieldController {
-
+    //UI elements
     @FXML
     private Label fieldNameLabel;
 
@@ -22,7 +25,7 @@ public class EditPetFieldController {
 
     @FXML
     private Button cancelButton;
-
+    //variables for pet
     private Pet currentPet;
 
     private String field;
@@ -30,18 +33,26 @@ public class EditPetFieldController {
     private PetManager petManager;
 
     private Runnable onSaveCallback; // Callback to be executed on save
-
+    //constants for input constraints
     private final int MAX_NAME_LENGTH = 20;
     private final int MAX_AGE_LENGTH = 3; // Maximum 3 digits for age
     private final int MAX_COLOUR_LENGTH = 15;
     private final int MAX_PERSONALITY_LENGTH = 30;
 
+    /**
+     * initialises the Editor
+     */
     @FXML
     public void initialize() {
         petManager = new PetManager(new vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO());
         addTextLimiter(fieldValueTextField, MAX_NAME_LENGTH);
     }
 
+    /**
+     * Sets the pet and field to be edited
+     * @param pet a pet object to be edited
+     * @param field the field of the detail to be edited of the pet
+     */
     public void setPetAndField(Pet pet, String field) {
         this.currentPet = pet;
         this.field = field;
@@ -74,6 +85,10 @@ public class EditPetFieldController {
         }
     }
 
+    /**
+     * call back to return to previous screen when saving
+     * @param onSaveCallback callback function
+     */
     public void setOnSaveCallback(Runnable onSaveCallback) {
         this.onSaveCallback = onSaveCallback;
     }
@@ -87,6 +102,9 @@ public class EditPetFieldController {
         });
     }
 
+    /**
+     * Save button press function, save the fields value to the database and update interaction view
+     */
     @FXML
     private void onSavePress() {
         String newValue = fieldValueTextField.getText().trim();
@@ -132,6 +150,9 @@ public class EditPetFieldController {
         stage.close();
     }
 
+    /**
+     * Function for cancel button, closes the edit window
+     */
     @FXML
     private void onCancelPress() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

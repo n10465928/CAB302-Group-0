@@ -16,8 +16,11 @@ import vpm.gui_prototype.models.UserStuff.User;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Controller for RegisterView
+ */
 public class RegisterController {
-
+    //UI elements
     @FXML
     private Button registerButton;
 
@@ -43,24 +46,49 @@ public class RegisterController {
 
     @FXML
     private Label errorMessageLabel;
-
+    //DAO
     private IUserDAO userDAO;
 
+    /**
+     * Constructor for RegisterController
+     */
     public RegisterController() {
         userDAO = new SqliteUserDAO();
     }
 
     //helper functions verifying data is ready to be sent to database
     //check if all fields are filled, true if they are otherwise false
+
+    /**
+     * Checks if all of the input fiels have a user input
+     * @param username the users username input string
+     * @param password the users password input string
+     * @param confirmPassword the users confirm passwrod input string
+     * @return true if fields are all filled, otherwise false
+     */
     public boolean fieldsFilled(String username, String password, String confirmPassword){
         return !username.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty();
     }
     //check password and confirm password match, true if they do otherwise false
+
+    /**
+     * Verifies that the password and confirm password inputs match
+     * @param password users password input string
+     * @param confirmPassword users confirm password string
+     * @return true if the passwords match, otherwise false
+     */
     public boolean matchingPassword(String password, String confirmPassword){
         return Objects.equals(password, confirmPassword);
     }
-
     //checks that data  is ready to interact with database, returns true if it is, otherwise returns false and outputs errors
+
+    /**
+     * Verifies inputs arae ready to be sent to database, i.e; all fields filled and passwords match, using helper functions
+     * @param username the users username input string
+     * @param password the users password input string
+     * @param confirmPassword the users confirm password input string
+     * @return
+     */
     public String inputsReady(String username, String password, String confirmPassword){
         if (!fieldsFilled(username, password, confirmPassword)) {
             return "Please ensure you fill in all fields";
@@ -72,10 +100,23 @@ public class RegisterController {
     }
 
     // return true if the user exists, false otherwise
+
+    /**
+     * checks if the user exists in the database
+     * @param username users username input string
+     * @return true if it exists, otherwise false
+     */
     public boolean checkExistingUser(String username) {
         return userDAO.getUserByUsername(username) != null;
     }
 
+    /**
+     * Evaluates if the users username meets the conditions:
+     *      -range of 6 to 20 characters
+     *      -no special characters
+     * @param username the users username input string
+     * @return true if it meets the connections, otherwise false
+     */
     public String evaluateUsername(String username) {
         /*
             Some conditions:
@@ -94,6 +135,14 @@ public class RegisterController {
         return "Good";
     }
 
+    /**
+     * Evaluates if the password is strong enough by meeting the following conditions:
+     *      -has an uppercase letter
+     *      -greater than 8 characters
+     *      -contains a special character
+     * @param password the users password input string
+     * @return true if valid, otherwise false
+     */
     public String evaluatePassword(String password) {
         /*
             Some conditions:
@@ -120,6 +169,9 @@ public class RegisterController {
         return "Password must have a special character";
     }
 
+    /**
+     * returns to login screen
+     */
     @FXML
         // Go back to login screen
     void onBackPress() {
@@ -138,6 +190,9 @@ public class RegisterController {
         }
     }
 
+    /**
+     * attemps to register user, shows error messages if fails, otherwise returns to login screen
+     */
     @FXML
     void onRegisterPress() {
         String username = usernameField.getText();
@@ -192,6 +247,9 @@ public class RegisterController {
         }
     }
 
+    /**
+     * closes the application
+     */
     @FXML
     void onExitPress() {
         // Close application

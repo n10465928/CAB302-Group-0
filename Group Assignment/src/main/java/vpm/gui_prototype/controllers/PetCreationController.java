@@ -16,11 +16,14 @@ import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
 
+/**
+ * Controller for PetCreationView
+ */
 public class PetCreationController {
-
+    //pet and user
     private PetManager petManager;
     int userId = UserSession.getInstance().getUserId();
-
+    //UI elements
     @FXML
     private TextField petNameField;
 
@@ -33,15 +36,24 @@ public class PetCreationController {
     @FXML
     private Label messageLabel; // Label for showing error messages
 
+    /**
+     * constructor to create a PetCreationController
+     */
     public PetCreationController() {
         petManager = new PetManager(new SqlitePetDAO());
     }
 
+    /**
+     * initialises the class, adds the valid types to combo box UI element
+     */
     @FXML
     public void initialize() {
         petTypeComboBox.getItems().addAll("Dog", "Cat", "Bird", "Fish");
     }
 
+    /**
+     * checks if the inputs are valid then saves the pet to the database linked to the user or displays and error message appropriately
+     */
     @FXML
     private void onCreatePet() {
         // Get values from the fields
@@ -78,12 +90,19 @@ public class PetCreationController {
         }
     }
 
+    /**
+     *handles back button clicks, returns to CollectionView
+     */
     @FXML
     private void onBack() {
         goBackToCollectionView();
     }
 
     // Navigate back to CollectionView
+
+    /**
+     * Helper method to return to collection view
+     */
     private void goBackToCollectionView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
@@ -99,6 +118,11 @@ public class PetCreationController {
     }
 
     // Show an error message in the label for 3 seconds
+
+    /**
+     * Displays an error message for 3 seconds
+     * @param message the string to be displayed as an error
+     */
     private void showErrorMessage(String message) {
         messageLabel.setText(message);
         messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;"); // Set error message style

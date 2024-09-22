@@ -23,8 +23,7 @@ public class PetInteractionController {
     private PetManager petManager;
     int userId = UserSession.getInstance().getUserId();
 
-    @FXML
-    private Label PetName;
+
     @FXML
     private Label HappinessField;
     @FXML
@@ -69,7 +68,6 @@ public class PetInteractionController {
     // Update the pet details on the interaction view
     private void updatePetDetails() {
         if (currentPet != null) {
-            PetName.setText(currentPet.GetName());
             HappinessField.setText(String.format("%.1f", currentPet.GetHappiness()));
             HungerField.setText(String.format("%.1f", currentPet.GetFoodSatisfaction()));
             CleanField.setText(currentPet.GetIsDirty() ? "Dirty" : "Clean");

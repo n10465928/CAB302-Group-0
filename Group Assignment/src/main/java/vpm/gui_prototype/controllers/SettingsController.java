@@ -11,8 +11,11 @@ import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
 import vpm.gui_prototype.models.UserStuff.User;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 
+/**
+ * controller for SettingsView
+ */
 public class SettingsController {
-
+    //UI elements
     @FXML
     private TextField usernameField;
 
@@ -27,10 +30,13 @@ public class SettingsController {
 
     @FXML
     private Label messageLabel; // Label to display error or success messages
-
+    //user and DAO
     private User user;
     private IUserDAO userDAO;
 
+    /**
+     * initialises the DAO, gets the user and the users details
+     */
     @FXML
     public void initialize() {
         // Initialize the DAO
@@ -55,6 +61,12 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Populates the fields
+     * @param field a textfield to populate
+     * @param value a string of the value to populate the field with
+     * @param placeholder string for a placeholder
+     */
     // Helper method to populate fields or show placeholder text
     private void populateField(TextField field, String value, String placeholder) {
         if (value != null && !value.isEmpty()) {
@@ -65,16 +77,29 @@ public class SettingsController {
         }
     }
 
+    /**
+     * checks if an email is valid
+     * @param email the users email input string
+     * @return
+     */
     // Method to validate email format
     private boolean isValidEmail(String email) {
         return email.contains("@") && email.contains(".");
     }
 
+    /**
+     * checks if the users phone number input is valid
+     * @param phoneNumber the users phoneNumber input string
+     * @return
+     */
     // Method to validate phone number format (assuming 10-digit phone number)
     private boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("\\d{10}");
     }
 
+    /**
+     * save the users details to the database
+     */
     // Method to save updated user details
     @FXML
     private void saveUserDetails() {
@@ -142,6 +167,9 @@ public class SettingsController {
         }
     }
 
+    /**
+     * close the settings window
+     */
     // Method to handle the "Back" button click
     @FXML
     private void goBack() {
@@ -150,6 +178,10 @@ public class SettingsController {
         stage.close();
     }
 
+    /**
+     * display an error message for 3 seconds
+     * @param message a string of the message to be displayed
+     */
     // Show an error message in the label for 3 seconds
     private void showErrorMessage(String message) {
         messageLabel.setText(message);

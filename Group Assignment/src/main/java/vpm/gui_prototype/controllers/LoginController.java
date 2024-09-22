@@ -14,8 +14,11 @@ import vpm.gui_prototype.services.LoginService;
 
 import java.io.IOException;
 
+/**
+ * A controller for the LoginView, handles user inputs and navigation in this page
+ */
 public class LoginController {
-
+    //UI elements
     @FXML
     private Button LoginButton;
 
@@ -31,15 +34,25 @@ public class LoginController {
 
     @FXML
     private Label errorMessageLabel;
-
+    //database variable
     private IUserDAO userDAO;
 
+    /**
+     * Constructor for LoginController, initialises a user DAO
+     */
     public LoginController() {
         // Initialize the user DAO to interact with the user database.
         userDAO = new SqliteUserDAO();
     }
 
     // Validates that the input fields have values.
+
+    /**
+     * Method to check  if the users inputs are valid before sending to database
+     * @param username the users username input string
+     * @param password the users passsword input string
+     * @return true if inputs are valid, otherwise false
+     */
     public String validInputs(String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
             return "Good";
@@ -48,11 +61,23 @@ public class LoginController {
     }
 
     // Verifies that the user exists with the given username and password.
+
+    /**
+     * verifies that the username and password inputs match an existing user in te database
+     * @param username users username input string
+     * @param password users password input string
+     * @return
+     */
     public boolean verifyUser(String username, String password) {
         return userDAO.verifyUser(username, password);
     }
 
     // Handles login button press.
+
+    /**
+     * handles login press, checks if inputs are valid then checks if they match a user in the database
+     * giving an error message or logging in appropriately
+     */
     @FXML
     void onLoginPress() {
         String username = usernameField.getText();
@@ -81,6 +106,10 @@ public class LoginController {
     }
 
     // Handles registration button press.
+
+    /**
+     * Takes the user to the register screen
+     */
     @FXML
     void onRegisterPress() {
         try {
@@ -91,6 +120,11 @@ public class LoginController {
     }
 
     // Navigate to CollectionView after successful login.
+
+    /**
+     * Navigates to the collection view if login is successful
+     * @throws IOException
+     */
     private void navigateToCollectionView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
         Stage stage = (Stage) LoginButton.getScene().getWindow();
@@ -99,6 +133,11 @@ public class LoginController {
     }
 
     // Navigate to RegisterView for new user registration.
+
+    /**
+     * navigates to register view
+     * @throws IOException
+     */
     private void navigateToRegisterView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/RegisterView.fxml"));
         Stage stage = (Stage) LoginButton.getScene().getWindow();
@@ -106,6 +145,9 @@ public class LoginController {
         stage.setTitle("Register");
     }
 
+    /**
+     * closes the application
+     */
     @FXML
     void onExitPress() {
         // Close application

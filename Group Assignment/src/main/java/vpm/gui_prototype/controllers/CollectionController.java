@@ -21,42 +21,52 @@ import vpm.gui_prototype.models.UserStuff.UserSession;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Controller class for CollectionView, handling all functionality of the buttons and generation of the tiles
+ */
+
 public class CollectionController {
 
-    public PetManager petManager;
+    private PetManager petManager;
     int userId = UserSession.getInstance().getUserId();
 
     @FXML
-    public GridPane petGrid;
+    private GridPane petGrid;
 
     @FXML
-    public Button createPetButton; // Button to create a new pet
+    private Button createPetButton; // Button to create a new pet
 
     @FXML
-    public Button settingsButton;
+    private Button settingsButton;
 
     @FXML
-    public Label petNameLabel;
+    private Label petNameLabel;
 
     @FXML
-    public Button LogoutButton;
+    private Button LogoutButton;
 
     @FXML
-    public Label messageLabel; // Label to display error messages
+    private Label messageLabel; // Label to display error messages
 
     private Pet currentPet;
 
+    /**
+     * Constructs a CollectionController to handle the Collection View
+     */
     public CollectionController() {
         petManager = new PetManager(new SqlitePetDAO());
     }
 
+    /**
+     * Initialises the pet tiles
+     */
     @FXML
     public void initialize() {
         setupPetSlots();
     }
 
     // Set up pet slots in the grid
-    public void setupPetSlots() {
+    private void setupPetSlots() {
         petGrid.getChildren().clear(); // Clear existing tiles
 
         int numSlots = 8; // Number of tiles to display
@@ -74,7 +84,7 @@ public class CollectionController {
     }
 
     // Create a filled pet slot tile with pet type, image, and name
-    public VBox createPetTile(Pet pet) {
+    private VBox createPetTile(Pet pet) {
         VBox tile = new VBox();
         tile.setStyle("-fx-border-color: #00796B; -fx-border-width: 2; -fx-background-color: #B2DFDB; -fx-alignment: center; -fx-pref-width: 200; -fx-pref-height: 200; -fx-border-radius: 10; -fx-background-radius: 10;");
         tile.setPrefSize(200, 200); // Fixed size to maintain uniformity
@@ -138,7 +148,7 @@ public class CollectionController {
     }
 
     // Create an empty pet slot tile with the default image
-    public VBox createEmptyPetTile() {
+    private VBox createEmptyPetTile() {
         VBox tile = new VBox();
         tile.setStyle("-fx-border-color: #B0BEC5; -fx-border-width: 2; -fx-background-color: #ECEFF1; -fx-alignment: center; -fx-pref-width: 200; -fx-pref-height: 200; -fx-border-radius: 10; -fx-background-radius: 10;");
         tile.setPrefSize(200, 200); // Fixed size to maintain uniformity
@@ -175,7 +185,7 @@ public class CollectionController {
     }
 
     // Show an error message in the label for 3 seconds
-    public void showErrorMessage(String message) {
+    private void showErrorMessage(String message) {
         messageLabel.setText(message);
         messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;"); // Set error message style
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
@@ -184,7 +194,7 @@ public class CollectionController {
     }
 
     // Open the pet management screen for a specific pet
-    public void openPetInteraction(Pet pet) {
+    private void openPetInteraction(Pet pet) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetInteractionView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -202,7 +212,7 @@ public class CollectionController {
 
 
     @FXML
-    public void onCreatePetPress() {
+    private void onCreatePetPress() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetCreationView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -218,7 +228,7 @@ public class CollectionController {
 
     // Method to open Settings View
     @FXML
-    public void openSettingsView() {
+    private void openSettingsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/SettingsView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -234,7 +244,7 @@ public class CollectionController {
 
     // Handle Exit button action
     @FXML
-    public void onLogoutPress() {
+    private void onLogoutPress() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LoginView.fxml"));
             Scene scene = new Scene(loader.load());
