@@ -59,17 +59,16 @@ public class RegisterController {
     public boolean matchingPassword(String password, String confirmPassword){
         return Objects.equals(password, confirmPassword);
     }
+
     //checks that data  is ready to interact with database, returns true if it is, otherwise returns false and outputs errors
-    public boolean inputsReady(String username, String password, String confirmPassword){
-        if(!fieldsFilled(username, password, confirmPassword)){
-            errorMessageLabel.setText("Please ensure you fill in all fields");
-            return false;
+    public String inputsReady(String username, String password, String confirmPassword){
+        if (!fieldsFilled(username, password, confirmPassword)) {
+            return "Please ensure you fill in all fields";
         }
-        else if(!matchingPassword(password, confirmPassword)){
-            errorMessageLabel.setText("Passwords do not match");
-            return false;
+        if (!matchingPassword(password, confirmPassword)) {
+            return "Passwords do not match";
         }
-        else{return true;}
+        return "Good";
     }
 
     // return true if the user exists, false otherwise
@@ -94,6 +93,7 @@ public class RegisterController {
         }
         return "Good";
     }
+
     public String evaluatePassword(String password) {
         /*
             Some conditions:
@@ -145,7 +145,8 @@ public class RegisterController {
         String confirmPassword = confirmPasswordField.getText();
 
         // Check inputs are valid
-        if (!inputsReady(username, password, confirmPassword)){
+        if (!inputsReady(username, password, confirmPassword).equals("Good")){
+            errorMessageLabel.setText(inputsReady(username, password, confirmPassword));
             return;
         }
 
