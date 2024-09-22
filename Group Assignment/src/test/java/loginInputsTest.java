@@ -31,18 +31,18 @@ public class loginInputsTest {
         // Add new users and test
         User user1 = new User("user1", "qwerty1", "", "");
         userDAO.addUser(user1);
-        assertTrue(loginController.verifyUser("kien1", "qwerty1"));
-        assertFalse(loginController.verifyUser("kien1", "qwerty"));
+        assertTrue(loginController.verifyUser("user1", "qwerty1"));
+        assertFalse(loginController.verifyUser("user1", "qwerty"));
 
         User user2 = new User("user2", "qwerty2", "", "");
         userDAO.addUser(user2);
-        assertTrue(loginController.verifyUser("kien2", "qwerty2"));
-        assertFalse(loginController.verifyUser("kien2", "qwerty"));
+        assertTrue(loginController.verifyUser("user2", "qwerty2"));
+        assertFalse(loginController.verifyUser("user2", "qwerty"));
 
         User user3 = new User("user3", "qwerty3", "", "");
         userDAO.addUser(user3);
-        assertTrue(loginController.verifyUser("kien3", "qwerty3"));
-        assertFalse(loginController.verifyUser("kien3", "qwerty"));
+        assertTrue(loginController.verifyUser("user3", "qwerty3"));
+        assertFalse(loginController.verifyUser("user3", "qwerty"));
 
         // Removes after testing
         userDAO.deleteUser(user1);
