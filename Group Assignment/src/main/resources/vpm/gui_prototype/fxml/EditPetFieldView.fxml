@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.effect.DropShadow?>
+
+<VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.EditPetFieldController"
+      style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 15;">
+    <!-- Title Label indicating the field being edited -->
+    <Label fx:id="fieldNameLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #00796B;">
+        <effect>
+            <DropShadow radius="10" color="#004D40"/>
+        </effect>
+    </Label>
+
+    <!-- TextField to input the new value for the field -->
+    <TextField fx:id="fieldValueTextField" style="-fx-font-size: 18px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;"/>
+
+    <!-- Save Button to save the new value -->
+    <Button fx:id="saveButton" text="Save" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onSavePress">
+        <effect>
+            <DropShadow radius="10" spread="0.15" color="#004D40"/>
+        </effect>
+    </Button>
+
+    <!-- Cancel Button to exit without saving -->
+    <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #c62828; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onCancelPress">
+        <effect>
+            <DropShadow radius="10" spread="0.15" color="#B71C1C"/>
+        </effect>
+    </Button>
+</VBox>

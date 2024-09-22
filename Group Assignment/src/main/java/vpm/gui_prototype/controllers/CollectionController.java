@@ -30,13 +30,21 @@ public class CollectionController {
     private GridPane petGrid;
 
     @FXML
-    private Button createPetButton;
+    private Button createPetButton; // Button to create a new pet
+
+    @FXML
+    private Button settingsButton;
+
+    @FXML
+    private Label petNameLabel;
 
     @FXML
     private Button LogoutButton;
 
     @FXML
     private Label messageLabel; // Label to display error messages
+
+    private Pet currentPet;
 
     public CollectionController() {
         petManager = new PetManager(new SqlitePetDAO());
@@ -108,7 +116,7 @@ public class CollectionController {
         tile.getChildren().addAll(petTypeText, petImageView, petNameText);
 
         // Set the tile to be clickable and open the pet management screen
-        tile.setOnMouseClicked(e -> openPetManagement(pet));
+        tile.setOnMouseClicked(e -> openPetInteraction(pet));
 
         return tile;
     }
@@ -176,13 +184,13 @@ public class CollectionController {
     }
 
     // Open the pet management screen for a specific pet
-    private void openPetManagement(Pet pet) {
+    private void openPetInteraction(Pet pet) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetManagementView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetInteractionView.fxml"));
             Scene scene = new Scene(loader.load());
 
-            PetManagementController petManagementController = loader.getController();
-            petManagementController.setPet(pet); // Pass the pet to the management screen
+            PetInteractionController petInteractionController = loader.getController();
+            petInteractionController.setPet(pet); // Pass the pet to the management screen
 
             Stage stage = (Stage) petGrid.getScene().getWindow();
             stage.setScene(scene);
@@ -192,16 +200,33 @@ public class CollectionController {
         }
     }
 
-    // Handle "Create Pet" button click to open the Pet Creation screen
+
     @FXML
-    private void onCreatePet() {
+    private void onCreatePetPress() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetCreationView.fxml"));
             Scene scene = new Scene(loader.load());
 
-            Stage stage = (Stage) createPetButton.getScene().getWindow();
+            Stage stage = (Stage) createPetButton.getScene().getWindow(); // Get the current stage
             stage.setScene(scene);
             stage.setTitle("Create New Pet");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorMessage("Error: Could not open Pet Creation view.");
+        }
+    }
+
+    // Method to open Settings View
+    @FXML
+    private void openSettingsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/SettingsView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Settings");
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -214,7 +239,7 @@ public class CollectionController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LoginView.fxml"));
             Scene scene = new Scene(loader.load());
 
-            Stage stage = (Stage) createPetButton.getScene().getWindow();
+            Stage stage = (Stage) LogoutButton.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Logout");
         } catch (IOException e) {

@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
@@ -29,10 +30,16 @@ public class RegisterController {
     private TextField usernameField;
 
     @FXML
-    private TextField passwordField;
+    private PasswordField passwordField;
 
     @FXML
-    private TextField confirmPasswordField;
+    private PasswordField confirmPasswordField;
+
+    @FXML
+    private TextField passwordFieldVisible;
+
+    @FXML
+    private TextField confirmPasswordFieldVisible;
 
     @FXML
     private Label errorMessageLabel;
@@ -191,4 +198,31 @@ public class RegisterController {
         stage.close();
     }
 
+    @FXML
+    void showPassword() {
+        passwordFieldVisible.setText(passwordField.getText());
+        passwordFieldVisible.setVisible(true);
+        passwordField.setVisible(false);
+    }
+
+    @FXML
+    void hidePassword() {
+        passwordField.setText(passwordFieldVisible.getText());
+        passwordField.setVisible(true);
+        passwordFieldVisible.setVisible(false);
+    }
+
+    @FXML
+    void showConfirmPassword() {
+        confirmPasswordFieldVisible.setText(confirmPasswordField.getText());
+        confirmPasswordFieldVisible.setVisible(true);
+        confirmPasswordField.setVisible(false);
+    }
+
+    @FXML
+    void hideConfirmPassword() {
+        confirmPasswordField.setText(confirmPasswordFieldVisible.getText());
+        confirmPasswordField.setVisible(true);
+        confirmPasswordFieldVisible.setVisible(false);
+    }
 }

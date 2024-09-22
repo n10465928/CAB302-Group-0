@@ -156,10 +156,15 @@ public class Pet implements IPet
         this.customTrait = customTrait;
     }
 
+    private float roundToTwoDecimalPlaces(float value) {
+        return Math.round(value * 100.0f) / 100.0f;
+    }
+
 
     public String IncreaseHappiness(Float amount)
     {
         happiness += amount;
+        happiness = roundToTwoDecimalPlaces(happiness);
         if (happiness > Constants.MAXHAPPINESS)
         {
             happiness = Constants.MAXHAPPINESS;
@@ -181,6 +186,7 @@ public class Pet implements IPet
     public String Feed(Food food)
     {
         foodSatisfaction += food.GetNutritionalValue();
+        foodSatisfaction = roundToTwoDecimalPlaces(foodSatisfaction);
         if (foodSatisfaction > Constants.MAXFOODSATISFACTION)
         {
             foodSatisfaction = Constants.MAXFOODSATISFACTION;

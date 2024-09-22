@@ -1,5 +1,6 @@
 package vpm.gui_prototype.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,9 +9,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
-import vpm.gui_prototype.models.FoodStuff.Food;
+import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.UserStuff.UserSession;
+import vpm.gui_prototype.services.GlobalPetCleanlinessService;
+import vpm.gui_prototype.services.GlobalPetStatService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,29 +46,62 @@ public class PetInteractionController {
     @FXML
     private Label petPersonality;
 
-
     private Pet currentPet;
-
 
     public void setPet(Pet pet) {
         currentPet = pet;
-        PetName.setText(pet.GetName());
-        HappinessField.setText(String.valueOf(pet.GetHappiness()));
-        HungerField.setText(String.valueOf(pet.GetFoodSatisfaction()));
-        if(pet.GetIsDirty()){
-            CleanField.setText("Dirty");
-        }
-        else{CleanField.setText("Clean");}
-        picturePetName.setText(currentPet.GetName());
-        picturePetType.setText(currentPet.GetType());
-        setImage();
-        petName.setText(currentPet.GetName());
-        petType.setText(currentPet.GetType());
-        petColour.setText(currentPet.GetColour());
-        petPersonality.setText(currentPet.GetPersonality());
+        updatePetDetails();
     }
 
-    // Get the image path for the corresponding pet type
+    @FXML
+    public void initialize() {
+        petManager = new PetManager(new SqlitePetDAO());
+        try {
+            // Set the controller reference in the global service
+            GlobalPetStatService.getInstance().setController(this);
+            startGlobalPetStatService();
+        } catch (Exception e) {
+            System.err.println("Error initializing PetInteractionController: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Update the pet details on the interaction view
+    private void updatePetDetails() {
+        if (currentPet != null) {
+            PetName.setText(currentPet.GetName());
+            HappinessField.setText(String.format("%.1f", currentPet.GetHappiness()));
+            HungerField.setText(String.format("%.1f", currentPet.GetFoodSatisfaction()));
+            CleanField.setText(currentPet.GetIsDirty() ? "Dirty" : "Clean");
+            picturePetName.setText(currentPet.GetName());
+            picturePetType.setText(currentPet.GetType());
+            petName.setText(currentPet.GetName());
+            petType.setText(currentPet.GetType());
+            petColour.setText(currentPet.GetColour());
+            petPersonality.setText(currentPet.GetPersonality());
+            setImage();
+        }
+    }
+
+    // Refresh UI manually
+    public void refreshUI() {
+        Platform.runLater(this::updatePetDetails); // Refresh UI on JavaFX Application Thread
+    }
+
+    private void setImage() {
+        String imagePath = getPetImagePath(currentPet.GetType());
+        if (imagePath != null) {
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream != null) {
+                image.setImage(new Image(imageStream));
+            } else {
+                System.err.println("Error: Pet image not found for path: " + imagePath);
+            }
+        } else {
+            image.setImage(new Image(getClass().getResourceAsStream("/assets/default.png")));
+        }
+    }
+
     private String getPetImagePath(String petType) {
         switch (petType.toLowerCase()) {
             case "cat":
@@ -77,56 +113,125 @@ public class PetInteractionController {
             case "bird":
                 return "/assets/bird.png";
             default:
-                return null; // No specific image path for this type
+                return null;
         }
     }
 
-    private void setImage(){
-        String imagePath = getPetImagePath(currentPet.GetType());
-        if (imagePath != null) {
-            InputStream imageStream = getClass().getResourceAsStream(imagePath);
-            if (imageStream != null) {
-                image.setImage(new Image(imageStream));
-            } else {
-                // Log an error if the image is not found
-                System.err.println("Error: Pet image not found for path: " + imagePath);
-            }
-        } else {
-            // Set a default image if the pet type is not recognized
-            image.setImage(new Image(getClass().getResourceAsStream("/assets/default.png")));
-        }
-    }
     @FXML
-    private void onPlay(){
+    private void onPlay() {
         currentPet.IncreaseHappiness(1f);
-        HappinessField.setText(String.valueOf(currentPet.GetHappiness()));
+        petManager.updatePet(currentPet, userId); // Update the database
+        refreshUI(); // Refresh UI fields
     }
 
     @FXML
-    private void onFeed(){
+    private void onFeed() {
         currentPet.Feed(1f);
-        HungerField.setText(String.valueOf(currentPet.GetFoodSatisfaction()));
+        petManager.updatePet(currentPet, userId); // Update the database
+        refreshUI(); // Refresh UI fields
     }
 
     @FXML
-    private void onClean(){
+    private void onClean() {
         currentPet.Clean();
-        CleanField.setText("Clean");
+        petManager.updatePet(currentPet, userId); // Update the database
+        refreshUI(); // Refresh UI fields
     }
 
     @FXML
-    private void onInteraction(){
+    private void onEditName() {
+        openEditPetFieldView("name");
+    }
+
+    @FXML
+    private void onEditAge() {
+        openEditPetFieldView("age");
+    }
+
+    @FXML
+    private void onEditColour() {
+        openEditPetFieldView("colour");
+    }
+
+    @FXML
+    private void onEditPersonality() {
+        openEditPetFieldView("personality");
+    }
+
+    private void openEditPetFieldView(String field) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetManagementView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/EditPetFieldView.fxml"));
             Scene scene = new Scene(loader.load());
 
-            PetManagementController petManagementController = loader.getController();
-            petManagementController.setPet(currentPet); // Pass the pet to the management screen
+            EditPetFieldController editPetFieldController = loader.getController();
+            editPetFieldController.setPetAndField(currentPet, field);
+
+            // Pass a callback to refresh pet details on save
+            editPetFieldController.setOnSaveCallback(this::refreshUI);
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Edit Pet " + field.substring(0, 1).toUpperCase() + field.substring(1));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onInteraction() {
+        goBackToCollectionView();
+    }
+
+    @FXML
+    private void onDelete() {
+        if (currentPet != null) {
+            petManager.deletePet(currentPet, userId); // Ensure petManager is initialized before calling this
+            goBackToCollectionView();
+        }
+    }
+
+    private void goBackToCollectionView() {
+        try {
+            stopGlobalPetStatService(); // Stop services when leaving the view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            CollectionController collectionController = loader.getController();
+            collectionController.initialize(); // Call initialize to refresh the pet collection
 
             Stage stage = (Stage) HappinessField.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Manage Pet: " + currentPet.GetName());
+            stage.setTitle("Pet Collection");
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Start both global services when the interaction screen is active
+    private void startGlobalPetStatService() {
+        try {
+            GlobalPetStatService statService = GlobalPetStatService.getInstance();
+            GlobalPetCleanlinessService cleanlinessService = GlobalPetCleanlinessService.getInstance();
+
+            statService.startService(); // Start happiness and hunger decrement service
+            cleanlinessService.startService(); // Start cleanliness service
+        } catch (Exception e) {
+            System.err.println("Error starting global services: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Stop both global services when exiting the interaction screen
+    private void stopGlobalPetStatService() {
+        try {
+            GlobalPetStatService statService = GlobalPetStatService.getInstance();
+            GlobalPetCleanlinessService cleanlinessService = GlobalPetCleanlinessService.getInstance();
+
+            statService.stopService(); // Stop happiness and hunger decrement service
+            cleanlinessService.stopService(); // Stop cleanliness service
+        } catch (Exception e) {
+            System.err.println("Error stopping global services: " + e.getMessage());
             e.printStackTrace();
         }
     }
