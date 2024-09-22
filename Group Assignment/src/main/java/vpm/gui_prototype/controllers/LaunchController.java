@@ -8,9 +8,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.IOException;
-
+/**
+ * Controller for the LaunchView, opens launch screen for 2.5 seconds then moves to login screen
+ */
 public class LaunchController {
-
+    /**
+     * Initializes the launch view and moves to login screen
+     */
     @FXML
     public void initialize() {
         // Create a pause transition that lasts for 2.5 seconds
@@ -23,6 +27,9 @@ public class LaunchController {
         pause.play();
     }
 
+    /**
+     * helper method to move to login screen
+     */
     // Navigate to the login screen
     private void showLoginScreen() {
         try {

@@ -10,9 +10,6 @@
       style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 15;">
     <!-- Title Label indicating the field being edited -->
     <Label fx:id="fieldNameLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #00796B;">
-        <effect>
-            <DropShadow radius="10" color="#004D40"/>
-        </effect>
     </Label>
 
     <!-- TextField to input the new value for the field -->
@@ -20,15 +17,10 @@
 
     <!-- Save Button to save the new value -->
     <Button fx:id="saveButton" text="Save" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onSavePress">
-        <effect>
-            <DropShadow radius="10" spread="0.15" color="#004D40"/>
-        </effect>
+
     </Button>
 
     <!-- Cancel Button to exit without saving -->
     <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #c62828; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onCancelPress">
-        <effect>
-            <DropShadow radius="10" spread="0.15" color="#B71C1C"/>
-        </effect>
     </Button>
 </VBox>

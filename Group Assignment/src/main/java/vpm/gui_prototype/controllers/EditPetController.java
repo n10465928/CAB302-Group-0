@@ -14,13 +14,16 @@ import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 
 import java.io.IOException;
 
+/**
+ * Controller class to handle the EditPetFieldView
+ */
 public class EditPetController {
-
+    //variables for pets and user
     private Pet currentPet;
     private PetManager petManager;
     private String editDetail;
     int userId = UserSession.getInstance().getUserId();
-
+    //javafx UI elements
     @FXML
     private Label petNameLabel;
     @FXML
@@ -32,11 +35,19 @@ public class EditPetController {
     @FXML
     private Button cancelButton; // Button to cancel editing
 
+    /**
+     * Constructor to create a EditPetController object
+     */
     public EditPetController() {
         petManager = new PetManager(new SqlitePetDAO());
     }
 
     // Sets the pet to be edited and updates the view
+
+    /**
+     * Set the pet to be edited, call when initialising the class
+     * @param pet a pet object to be edited
+     */
     public void setPet(Pet pet) {
         this.currentPet = pet;
         petNameLabel.setText(pet.GetName());
@@ -44,13 +55,22 @@ public class EditPetController {
     }
 
     // Set which detail is being edited
+
+    /**
+     *Set the pet detail you wish to edit, class when initialising class
+     * @param editDetail a string of the detail to be edited
+     */
     public void setEditDetail(String editDetail) {
         this.editDetail = editDetail;
         detailLabel.setText("Edit " + capitalizeFirstLetter(editDetail)); // Display which detail is being edited
         updateDetailField(); // Update the text field with current value
     }
 
-    // Capitalize the first letter of a string (helper method)
+    /**
+     * Helper method to set the users input to all lowercase with capital first letter
+     * @param str the users input string
+     * @return an updated string
+     */
     private String capitalizeFirstLetter(String str) {
         if (str == null || str.isEmpty()) {
             return str;

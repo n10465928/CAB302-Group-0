@@ -21,6 +21,10 @@ import vpm.gui_prototype.models.UserStuff.UserSession;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Controller class for CollectionView, handling all functionality of the buttons and generation of the tiles
+ */
+
 public class CollectionController {
 
     private PetManager petManager;
@@ -46,10 +50,16 @@ public class CollectionController {
 
     private Pet currentPet;
 
+    /**
+     * Constructs a CollectionController to handle the Collection View
+     */
     public CollectionController() {
         petManager = new PetManager(new SqlitePetDAO());
     }
 
+    /**
+     * Initialises the pet tiles
+     */
     @FXML
     public void initialize() {
         setupPetSlots();

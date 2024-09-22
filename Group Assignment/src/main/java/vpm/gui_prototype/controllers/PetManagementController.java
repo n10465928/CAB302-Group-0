@@ -15,11 +15,14 @@ import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
 
+/**
+ * Controller for PetManagementView
+ */
 public class PetManagementController {
-
+    //pet and user
     private PetManager petManager;
     int userId = UserSession.getInstance().getUserId();
-
+    //UI elemetns
     @FXML
     private Label petNameLabel;
 
@@ -32,12 +35,19 @@ public class PetManagementController {
     @FXML
     private TextField customTraitField;
 
+    /**
+     * Constructor for PetManagementController
+     */
     public PetManagementController() {
         petManager = new PetManager(new SqlitePetDAO());
     }
 
     private Pet currentPet;
 
+    /**
+     * Sets the current pet
+     * @param pet a pet object to be managed
+     */
     public void setPet(Pet pet) {
         this.currentPet = pet;
         petNameLabel.setText(pet.GetName());
@@ -48,6 +58,10 @@ public class PetManagementController {
     }
 
     // Navigate back to CollectionView
+
+    /**
+     * helper function to navigate back to the collection view
+     */
     private void goBackToCollectionView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
@@ -62,6 +76,9 @@ public class PetManagementController {
     }
 
     @FXML
+    /**
+     * Save the customisations made
+     */
     private void onSaveCustomizations() {
         String selectedColor = petColorComboBox.getValue();
         String selectedPersonality = petPersonalityComboBox.getValue();
@@ -91,12 +108,18 @@ public class PetManagementController {
     }
 
     @FXML
+    /**
+     * deletes a pet and returns to collection view
+     */
     private void onDelete() {
         petManager.deletePet(currentPet, userId);
         goBackToCollectionView();
     }
 
     @FXML
+    /**
+     * navigates to interaction view
+     */
     private void onInteraction(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetInteractionView.fxml"));
