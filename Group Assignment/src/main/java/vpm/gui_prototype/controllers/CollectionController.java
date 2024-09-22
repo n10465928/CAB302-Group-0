@@ -23,26 +23,26 @@ import java.io.InputStream;
 
 public class CollectionController {
 
-    private PetManager petManager;
+    public PetManager petManager;
     int userId = UserSession.getInstance().getUserId();
 
     @FXML
-    private GridPane petGrid;
+    public GridPane petGrid;
 
     @FXML
-    private Button createPetButton; // Button to create a new pet
+    public Button createPetButton; // Button to create a new pet
 
     @FXML
-    private Button settingsButton;
+    public Button settingsButton;
 
     @FXML
-    private Label petNameLabel;
+    public Label petNameLabel;
 
     @FXML
-    private Button LogoutButton;
+    public Button LogoutButton;
 
     @FXML
-    private Label messageLabel; // Label to display error messages
+    public Label messageLabel; // Label to display error messages
 
     private Pet currentPet;
 
@@ -56,7 +56,7 @@ public class CollectionController {
     }
 
     // Set up pet slots in the grid
-    private void setupPetSlots() {
+    public void setupPetSlots() {
         petGrid.getChildren().clear(); // Clear existing tiles
 
         int numSlots = 8; // Number of tiles to display
@@ -74,7 +74,7 @@ public class CollectionController {
     }
 
     // Create a filled pet slot tile with pet type, image, and name
-    private VBox createPetTile(Pet pet) {
+    public VBox createPetTile(Pet pet) {
         VBox tile = new VBox();
         tile.setStyle("-fx-border-color: #00796B; -fx-border-width: 2; -fx-background-color: #B2DFDB; -fx-alignment: center; -fx-pref-width: 200; -fx-pref-height: 200; -fx-border-radius: 10; -fx-background-radius: 10;");
         tile.setPrefSize(200, 200); // Fixed size to maintain uniformity
@@ -138,7 +138,7 @@ public class CollectionController {
     }
 
     // Create an empty pet slot tile with the default image
-    private VBox createEmptyPetTile() {
+    public VBox createEmptyPetTile() {
         VBox tile = new VBox();
         tile.setStyle("-fx-border-color: #B0BEC5; -fx-border-width: 2; -fx-background-color: #ECEFF1; -fx-alignment: center; -fx-pref-width: 200; -fx-pref-height: 200; -fx-border-radius: 10; -fx-background-radius: 10;");
         tile.setPrefSize(200, 200); // Fixed size to maintain uniformity
@@ -175,7 +175,7 @@ public class CollectionController {
     }
 
     // Show an error message in the label for 3 seconds
-    private void showErrorMessage(String message) {
+    public void showErrorMessage(String message) {
         messageLabel.setText(message);
         messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;"); // Set error message style
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
@@ -184,7 +184,7 @@ public class CollectionController {
     }
 
     // Open the pet management screen for a specific pet
-    private void openPetInteraction(Pet pet) {
+    public void openPetInteraction(Pet pet) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetInteractionView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -202,7 +202,7 @@ public class CollectionController {
 
 
     @FXML
-    private void onCreatePetPress() {
+    public void onCreatePetPress() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/PetCreationView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -218,7 +218,7 @@ public class CollectionController {
 
     // Method to open Settings View
     @FXML
-    private void openSettingsView() {
+    public void openSettingsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/SettingsView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -234,7 +234,7 @@ public class CollectionController {
 
     // Handle Exit button action
     @FXML
-    private void onLogoutPress() {
+    public void onLogoutPress() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LoginView.fxml"));
             Scene scene = new Scene(loader.load());

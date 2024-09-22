@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SqliteUserDAO implements IUserDAO {
     // Connects to Sqlite database to manipulate User Data
-    private Connection connection;
+    public Connection connection;
 
     // When initializes the class, a new user database is automatically set up
     public SqliteUserDAO () {
@@ -19,7 +19,7 @@ public class SqliteUserDAO implements IUserDAO {
         createTable();
     }
 
-    private void createTable() {
+    public void createTable() {
         // create table if not exists
         try {
             Statement statement = connection.createStatement();

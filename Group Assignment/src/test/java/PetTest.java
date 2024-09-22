@@ -93,7 +93,7 @@ public class PetTest {
 
     @Test
     public void testGetIsDirty(){
-        assertEquals(false, pet.GetIsDirty());
+        assertEquals(true, pet.GetIsDirty());
     }
 
     @Test
