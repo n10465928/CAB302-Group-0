@@ -1,6 +1,7 @@
 package vpm.gui_prototype.models.DatabaseStuff.UserData;
 
 import vpm.gui_prototype.models.UserStuff.User;
+import vpm.gui_prototype.services.PasswordHashingService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,10 +13,12 @@ import java.util.List;
 public class SqliteUserDAO implements IUserDAO {
     // Connects to Sqlite database to manipulate User Data
     public Connection connection;
+    public PasswordHashingService hashService;
 
     // When initializes the class, a new user database is automatically set up
     public SqliteUserDAO () {
         connection = UserSqliteConnection.getInstance();
+        hashService = new PasswordHashingService();
         createTable();
     }
 
@@ -156,11 +159,14 @@ public class SqliteUserDAO implements IUserDAO {
         return null;
     }
 
+
+
     @Override
     public boolean verifyUser(String username, String password) {
       User user = getUserByUsername(username);
       if (user == null) return false;
-      return (user.getPassword().equals(password));
+      System.out.println(password + " " + hashService.getHash(password));
+      return (user.getPassword().equals(hashService.getHash(password)));
     }
 
     @Override

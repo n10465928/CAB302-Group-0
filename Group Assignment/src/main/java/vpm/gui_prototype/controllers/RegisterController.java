@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
 import vpm.gui_prototype.models.UserStuff.User;
+import vpm.gui_prototype.services.PasswordHashingService;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -48,12 +49,15 @@ public class RegisterController {
     private Label errorMessageLabel;
     //DAO
     private IUserDAO userDAO;
+    // Service
+    private PasswordHashingService hashService;
 
     /**
      * Constructor for RegisterController
      */
     public RegisterController() {
         userDAO = new SqliteUserDAO();
+        hashService = new PasswordHashingService();
     }
 
     //helper functions verifying data is ready to be sent to database
@@ -228,9 +232,9 @@ public class RegisterController {
         }
 
         // Todo: Email and Phone can be added later in the profile stuff if we have one
-        User user = new User(username, password, null, null);
+        String storedPassword = hashService.getHash(password);
+        User user = new User(username, storedPassword, null, null);
         userDAO.addUser(user);
-        // Todo: Maybe shows something that indicates successfully registered
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LoginView.fxml"));
