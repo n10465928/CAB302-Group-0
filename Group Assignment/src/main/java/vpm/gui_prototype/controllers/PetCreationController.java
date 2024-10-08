@@ -44,6 +44,26 @@ public class PetCreationController {
     }
 
     /**
+     * Evaluates if the pets name meets the conditions:
+     *      -range of 2 to 12 characters
+     *      -no special characters
+     * @param petName the users username input string
+     * @return String message
+     */
+    public String evaluatePetName(String petName) {
+        if (petName.length() < 2 || petName.length() > 12) {
+            return "Your pets name must be from 2 to 12 characters long";
+        }
+        for (int i = 0; i < petName.length(); i ++) {
+            char c = petName.charAt(i);
+            if (!Character.isDigit(c) && !Character.isAlphabetic(c) && c != ' ') {
+                return "Your pets name must not contain special characters";
+            }
+        }
+        return "Good";
+    }
+
+    /**
      * initialises the class, adds the valid types to combo box UI element
      */
     @FXML
@@ -65,6 +85,11 @@ public class PetCreationController {
         if (petName == null || petName.isEmpty() || petType == null || petType.isEmpty() || petAgeText == null || petAgeText.isEmpty()) {
             showErrorMessage("All fields must be filled out.");
             return; // Stop if validation fails
+        }
+
+        if (!evaluatePetName(petName).equals("Good")) {
+            messageLabel.setText(evaluatePetName(petName));
+            return;
         }
 
         // Convert age to integer

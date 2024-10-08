@@ -7,26 +7,29 @@
 <?import javafx.scene.effect.DropShadow?>
 
 <VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.EditPetFieldController"
-      style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 15;">
+      style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 15;" prefWidth="400" prefHeight="300">
     <!-- Title Label indicating the field being edited -->
-    <Label fx:id="fieldNameLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #00796B;">
+    <Label fx:id="fieldNameLabel" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #00796B;">
         <effect>
             <DropShadow radius="10" color="#004D40"/>
         </effect>
     </Label>
 
     <!-- TextField to input the new value for the field -->
-    <TextField fx:id="fieldValueTextField" style="-fx-font-size: 18px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;"/>
+    <TextField fx:id="fieldValueTextField" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 8;"/>
+
+    <!-- Error Message Label Moved Above the Button -->
+    <Label fx:id="messageLabel" text="" style="-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;"/>
 
     <!-- Save Button to save the new value -->
-    <Button fx:id="saveButton" text="Save" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onSavePress">
+    <Button fx:id="saveButton" text="Save" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20px; -fx-padding: 8 24;" onAction="#onSavePress">
         <effect>
             <DropShadow radius="10" spread="0.15" color="#004D40"/>
         </effect>
     </Button>
 
     <!-- Cancel Button to exit without saving -->
-    <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #c62828; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onCancelPress">
+    <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #c62828; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20px; -fx-padding: 8 24;" onAction="#onCancelPress">
         <effect>
             <DropShadow radius="10" spread="0.15" color="#B71C1C"/>
         </effect>

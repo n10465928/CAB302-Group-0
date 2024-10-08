@@ -25,6 +25,10 @@ public class EditPetFieldController {
 
     @FXML
     private Button cancelButton;
+
+    @FXML
+    private Label messageLabel; // Label for showing error messages
+
     //variables for pet
     private Pet currentPet;
 
@@ -46,6 +50,26 @@ public class EditPetFieldController {
     public void initialize() {
         petManager = new PetManager(new vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO());
         addTextLimiter(fieldValueTextField, MAX_NAME_LENGTH);
+    }
+
+    /**
+     * Evaluates if the pets name meets the conditions:
+     *      -range of 2 to 12 characters
+     *      -no special characters
+     * @param petName the users username input string
+     * @return String message
+     */
+    public String evaluatePetName(String petName) {
+        if (petName.length() < 2 || petName.length() > 12) {
+            return "Your pets name must be from 2 to 12 characters long";
+        }
+        for (int i = 0; i < petName.length(); i ++) {
+            char c = petName.charAt(i);
+            if (!Character.isDigit(c) && !Character.isAlphabetic(c) && c != ' ') {
+                return "Your pets name must not contain special characters";
+            }
+        }
+        return "Good";
     }
 
     /**
@@ -108,6 +132,7 @@ public class EditPetFieldController {
     @FXML
     private void onSavePress() {
         String newValue = fieldValueTextField.getText().trim();
+        String validationMessage = "Good";
 
         if (newValue.isEmpty()) {
             fieldNameLabel.setText("Field value cannot be empty!");
@@ -116,6 +141,11 @@ public class EditPetFieldController {
 
         switch (field.toLowerCase()) {
             case "name":
+                validationMessage = evaluatePetName(newValue);
+                if (!validationMessage.equals("Good")) {
+                    messageLabel.setText(validationMessage);
+                    return; // Exit the method if the name is invalid
+                }
                 currentPet.SetName(newValue);
                 break;
             case "age":
