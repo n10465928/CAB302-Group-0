@@ -42,6 +42,26 @@ public class PetCreationController {
         petTypeComboBox.getItems().addAll("Dog", "Cat", "Bird", "Fish");
     }
 
+    /**
+     * Evaluates if the pets name meets the conditions:
+     *      -range of 2 to 12 characters
+     *      -no special characters
+     * @param petName the users username input string
+     * @return String message
+     */
+    public String evaluatePetName(String petName) {
+        if (petName.length() < 2 || petName.length() > 12) {
+            return "Your pets name must be from 2 to 12 characters long";
+        }
+        for (int i = 0; i < petName.length(); i ++) {
+            char c = petName.charAt(i);
+            if (!Character.isDigit(c) && !Character.isAlphabetic(c) && c != ' ') {
+                return "Your pets name must not contain special characters";
+            }
+        }
+        return "Good";
+    }
+
     @FXML
     private void onCreatePet() {
         String petName = petNameField.getText();
@@ -58,6 +78,11 @@ public class PetCreationController {
             petAge = Integer.parseInt(petAgeText);
         } catch (NumberFormatException e) {
             showErrorMessage("Pet age must be a valid number.");
+            return;
+        }
+
+        if (!evaluatePetName(petName).equals("Good")) {
+            messageLabel.setText(evaluatePetName(petName));
             return;
         }
 

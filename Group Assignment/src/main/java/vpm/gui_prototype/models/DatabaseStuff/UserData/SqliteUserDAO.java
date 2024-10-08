@@ -1,6 +1,7 @@
 package vpm.gui_prototype.models.DatabaseStuff.UserData;
 
 import vpm.gui_prototype.models.UserStuff.User;
+import vpm.gui_prototype.services.PasswordHashingService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +13,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SqliteUserDAO implements IUserDAO {
     private Connection connection;
+    public PasswordHashingService hashService;
 
     // DateTimeFormatter to parse string representations of timestamps
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -21,6 +24,7 @@ public class SqliteUserDAO implements IUserDAO {
     // Initialize connection and create table
     public SqliteUserDAO() {
         connection = UserSqliteConnection.getInstance();
+        hashService = new PasswordHashingService();
         createTable();
     }
 
@@ -179,7 +183,7 @@ public class SqliteUserDAO implements IUserDAO {
     public boolean verifyUser(String username, String password) {
         User user = getUserByUsername(username);
         if (user == null) return false;
-        return user.getPassword().equals(password);
+        return (user.getPassword().equals(hashService.getHash(password)));
     }
 
     @Override

@@ -22,7 +22,7 @@
     <!-- Title Section -->
     <StackPane AnchorPane.topAnchor="40" AnchorPane.leftAnchor="212">
         <Rectangle width="600" height="100" arcWidth="20" arcHeight="20" fill="#00796B"/>
-        <Label fx:id="PetName" style="-fx-text-fill:white;  -fx-font-weight: bold;">
+        <Label text="Pet Customization" style="-fx-text-fill:white;  -fx-font-weight: bold;">
             <font>
                 <Font size="50.0" />
             </font>
