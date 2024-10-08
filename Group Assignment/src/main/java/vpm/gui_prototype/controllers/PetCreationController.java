@@ -11,19 +11,16 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
-import vpm.gui_prototype.models.PetStuff.Pet;
+import vpm.gui_prototype.models.PetStuff.*;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
 
-/**
- * Controller for PetCreationView
- */
 public class PetCreationController {
-    //pet and user
+
     private PetManager petManager;
     int userId = UserSession.getInstance().getUserId();
-    //UI elements
+
     @FXML
     private TextField petNameField;
 
@@ -36,63 +33,26 @@ public class PetCreationController {
     @FXML
     private Label messageLabel; // Label for showing error messages
 
-    /**
-     * constructor to create a PetCreationController
-     */
     public PetCreationController() {
         petManager = new PetManager(new SqlitePetDAO());
     }
 
-    /**
-     * Evaluates if the pets name meets the conditions:
-     *      -range of 2 to 12 characters
-     *      -no special characters
-     * @param petName the users username input string
-     * @return String message
-     */
-    public String evaluatePetName(String petName) {
-        if (petName.length() < 2 || petName.length() > 12) {
-            return "Your pets name must be from 2 to 12 characters long";
-        }
-        for (int i = 0; i < petName.length(); i ++) {
-            char c = petName.charAt(i);
-            if (!Character.isDigit(c) && !Character.isAlphabetic(c) && c != ' ') {
-                return "Your pets name must not contain special characters";
-            }
-        }
-        return "Good";
-    }
-
-    /**
-     * initialises the class, adds the valid types to combo box UI element
-     */
     @FXML
     public void initialize() {
         petTypeComboBox.getItems().addAll("Dog", "Cat", "Bird", "Fish");
     }
 
-    /**
-     * checks if the inputs are valid then saves the pet to the database linked to the user or displays and error message appropriately
-     */
     @FXML
     private void onCreatePet() {
-        // Get values from the fields
         String petName = petNameField.getText();
         String petType = petTypeComboBox.getValue();
         String petAgeText = petAgeField.getText();
 
-        // Validate fields
         if (petName == null || petName.isEmpty() || petType == null || petType.isEmpty() || petAgeText == null || petAgeText.isEmpty()) {
             showErrorMessage("All fields must be filled out.");
-            return; // Stop if validation fails
-        }
-
-        if (!evaluatePetName(petName).equals("Good")) {
-            messageLabel.setText(evaluatePetName(petName));
             return;
         }
 
-        // Convert age to integer
         int petAge;
         try {
             petAge = Integer.parseInt(petAgeText);
@@ -101,33 +61,41 @@ public class PetCreationController {
             return;
         }
 
-        // Create new Pet object using the custom constructor
-        Pet newPet = new Pet(petName, petType, petAge); // Assuming "Black" as a default color
+        Pet newPet;
+        switch (petType.toLowerCase()) {
+            case "dog":
+                newPet = new Dog(petName, petAge);
+                break;
+            case "cat":
+                newPet = new Cat(petName, petAge);
+                break;
+            case "bird":
+                newPet = new Bird(petName, petAge);
+                break;
+            case "fish":
+                newPet = new Fish(petName, petAge);
+                break;
+            default:
+                showErrorMessage("Invalid pet type selected.");
+                return;
+        }
 
-        // Add pet to database
         try {
-            petManager.addPet(newPet, userId); // Add the new pet to the database
-            showErrorMessage("Pet added successfully: " + newPet.GetName()); // Use custom GetName() method
-            goBackToCollectionView(); // Go back to collection view
+            petManager.addPet(newPet, userId);
+            showErrorMessage("Pet added successfully: " + newPet.GetName());
+            goBackToCollectionView();
         } catch (Exception e) {
             showErrorMessage("Could not add pet to the database.");
             e.printStackTrace();
         }
     }
 
-    /**
-     *handles back button clicks, returns to CollectionView
-     */
     @FXML
     private void onBack() {
         goBackToCollectionView();
     }
 
     // Navigate back to CollectionView
-
-    /**
-     * Helper method to return to collection view
-     */
     private void goBackToCollectionView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
@@ -143,11 +111,6 @@ public class PetCreationController {
     }
 
     // Show an error message in the label for 3 seconds
-
-    /**
-     * Displays an error message for 3 seconds
-     * @param message the string to be displayed as an error
-     */
     private void showErrorMessage(String message) {
         messageLabel.setText(message);
         messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;"); // Set error message style

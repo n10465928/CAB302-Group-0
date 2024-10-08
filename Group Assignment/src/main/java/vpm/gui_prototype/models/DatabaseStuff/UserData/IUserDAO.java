@@ -2,6 +2,7 @@ package vpm.gui_prototype.models.DatabaseStuff.UserData;
 
 import vpm.gui_prototype.models.UserStuff.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -34,9 +35,9 @@ public interface IUserDAO {
     public User getUser(int id);
 
     /**
-     * Retrives a user from the database
+     * Retrieves a user from the database
      * @param username the username
-     * @return the user with the given ID
+     * @return The user with the given username
      */
     public User getUserByUsername(String username);
 
@@ -55,10 +56,24 @@ public interface IUserDAO {
     public boolean verifyUser(String username, String password);
 
     /**
-     * Retrives a user from the database
-     * @param username the username
-     * @param password the password
-     * @return the user with the given ID
+     * Retrieves a user's ID from the database based on their username and password
+     * @param username The username
+     * @param password The password
+     * @return The user's ID, or 0 if not found
      */
     public int getUserID(String username, String password);
+
+    /**
+     * Retrieves the last interaction time for a user from the database
+     * @param userId The ID of the user
+     * @return The last interaction time as a LocalDateTime object, or null if not set
+     */
+    public LocalDateTime getLastInteractionTime(int userId);
+
+    /**
+     * Sets the last interaction time for a user in the database
+     * @param userId The ID of the user
+     * @param lastInteractionTime The LocalDateTime object representing the last interaction time
+     */
+    public void setLastInteractionTime(int userId, LocalDateTime lastInteractionTime);
 }
