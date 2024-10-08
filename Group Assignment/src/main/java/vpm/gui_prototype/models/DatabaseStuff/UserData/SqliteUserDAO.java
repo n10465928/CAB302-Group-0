@@ -6,21 +6,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SqliteUserDAO implements IUserDAO {
-    // Connects to Sqlite database to manipulate User Data
     private Connection connection;
 
-    // When initializes the class, a new user database is automatically set up
-    public SqliteUserDAO () {
+    // DateTimeFormatter to parse string representations of timestamps
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    // Initialize connection and create table
+    public SqliteUserDAO() {
         connection = UserSqliteConnection.getInstance();
         createTable();
     }
 
     private void createTable() {
-        // create table if not exists
         try {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS users ("
@@ -28,7 +32,8 @@ public class SqliteUserDAO implements IUserDAO {
                     + "username VARCHAR NOT NULL,"
                     + "password VARCHAR NOT NULL,"
                     + "email VARCHAR NULL,"
-                    + "phone VARCHAR NULL"
+                    + "phone VARCHAR NULL,"
+                    + "last_interaction_time DATETIME"
                     + ")";
             statement.execute(query);
         } catch (Exception e) {
@@ -39,23 +44,21 @@ public class SqliteUserDAO implements IUserDAO {
     @Override
     public void addUser(User user) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO users (username, password, email, phone) VALUES (?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO users (username, password, email, phone, last_interaction_time) VALUES (?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPhone());
+            statement.setString(5, user.getLastInteractionTime() != null ? user.getLastInteractionTime().format(FORMATTER) : null);
 
-            // System.out.println(user.getUsername() + user.getPassword() + user.getEmail() + user.getPhone());
             statement.executeUpdate();
-            // Set the id of the new contact using incremented ID from Sqlite
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getInt(1));
             }
-
-            // Verifies if user is actually inserted
-            // User newUser = getUser(user.getId());
-            // System.out.println(newUser.getUsername() + newUser.getPassword() + newUser.getEmail() + newUser.getPhone());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,12 +67,16 @@ public class SqliteUserDAO implements IUserDAO {
     @Override
     public void updateUser(User user) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE users SET username = ?, password = ?, email = ?, phone = ? WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE users SET username = ?, password = ?, email = ?, phone = ?, last_interaction_time = ? WHERE id = ?"
+            );
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPhone());
-            statement.setInt(5, user.getId());
+            statement.setString(5, user.getLastInteractionTime() != null ? user.getLastInteractionTime().format(FORMATTER) : null);
+            statement.setInt(6, user.getId());
+
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +85,6 @@ public class SqliteUserDAO implements IUserDAO {
 
     @Override
     public void deleteUser(User user) {
-        // ToDo: We might implement different roles so that admins can delete user's accounts, besides the actual users.
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             statement.setInt(1, user.getId());
@@ -99,9 +105,13 @@ public class SqliteUserDAO implements IUserDAO {
                 String password = resultSet.getString("password");
                 String email = resultSet.getString("email");
                 String phone = resultSet.getString("phone");
+                String lastInteractionTimeString = resultSet.getString("last_interaction_time");
+
+                LocalDateTime lastInteractionTime = lastInteractionTimeString != null ? LocalDateTime.parse(lastInteractionTimeString, FORMATTER) : null;
+
                 User user = new User(username, password, email, phone);
-                // We need to set the id manually
                 user.setId(id);
+                user.setLastInteractionTime(lastInteractionTime);
                 return user;
             }
         } catch (Exception e) {
@@ -123,8 +133,13 @@ public class SqliteUserDAO implements IUserDAO {
                 String password = resultSet.getString("password");
                 String email = resultSet.getString("email");
                 String phone = resultSet.getString("phone");
+                String lastInteractionTimeString = resultSet.getString("last_interaction_time");
+
+                LocalDateTime lastInteractionTime = lastInteractionTimeString != null ? LocalDateTime.parse(lastInteractionTimeString, FORMATTER) : null;
+
                 User user = new User(username, password, email, phone);
                 user.setId(id);
+                user.setLastInteractionTime(lastInteractionTime);
                 users.add(user);
             }
         } catch (Exception e) {
@@ -134,19 +149,23 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
     @Override
-    public User getUserByUsername(String Username) {
+    public User getUserByUsername(String username) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
-            statement.setString(1, Username);
+            statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                String username = resultSet.getString("username");
                 String password = resultSet.getString("password");
                 String email = resultSet.getString("email");
                 String phone = resultSet.getString("phone");
+                String lastInteractionTimeString = resultSet.getString("last_interaction_time");
+
+                LocalDateTime lastInteractionTime = lastInteractionTimeString != null ? LocalDateTime.parse(lastInteractionTimeString, FORMATTER) : null;
+
                 User user = new User(username, password, email, phone);
                 user.setId(id);
+                user.setLastInteractionTime(lastInteractionTime);
                 return user;
             }
             return null;
@@ -158,24 +177,61 @@ public class SqliteUserDAO implements IUserDAO {
 
     @Override
     public boolean verifyUser(String username, String password) {
-      User user = getUserByUsername(username);
-      if (user == null) return false;
-      return (user.getPassword().equals(password));
+        User user = getUserByUsername(username);
+        if (user == null) return false;
+        return user.getPassword().equals(password);
     }
 
     @Override
-    public int getUserID(String Username, String Password) {
+    public int getUserID(String username, String password) {
         int userId = 0;
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT id FROM users WHERE username = ?" +
-                    "AND password = ?");
-            statement.setString(1, Username);
-            statement.setString(2, Password);
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id FROM users WHERE username = ? AND password = ?"
+            );
+            statement.setString(1, username);
+            statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            userId = resultSet.getInt("id");
+            if (resultSet.next()) {
+                userId = resultSet.getInt("id");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return userId;
+    }
+
+    @Override
+    public LocalDateTime getLastInteractionTime(int userId) {
+        LocalDateTime lastInteractionTime = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT last_interaction_time FROM users WHERE id = ?"
+            );
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String lastInteractionTimeString = resultSet.getString("last_interaction_time");
+                lastInteractionTime = lastInteractionTimeString != null ? LocalDateTime.parse(lastInteractionTimeString, FORMATTER) : null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lastInteractionTime;
+    }
+
+    @Override
+    public void setLastInteractionTime(int userId, LocalDateTime lastInteractionTime) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE users SET last_interaction_time = ? WHERE id = ?"
+            );
+            statement.setString(1, lastInteractionTime != null ? lastInteractionTime.format(FORMATTER) : null);
+            statement.setInt(2, userId);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

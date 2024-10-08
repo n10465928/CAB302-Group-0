@@ -1,5 +1,7 @@
 package vpm.gui_prototype.controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,20 +10,26 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
-import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.UserStuff.UserSession;
-import vpm.gui_prototype.services.GlobalPetCleanlinessService;
-import vpm.gui_prototype.services.GlobalPetStatService;
+import vpm.gui_prototype.models.PetStuff.Pet;
+import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
+import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class PetInteractionController {
 
-    private PetManager petManager;
-    int userId = UserSession.getInstance().getUserId();
+    private PetManager petManager;  // Manager for pet-related database operations
+    private IUserDAO userDAO;  // DAO for user-related database operations
+    private Timeline happinessTimeline;  // Timeline for decrementing happiness
+    private Timeline hungerTimeline;  // Timeline for decrementing hunger
+    int userId = UserSession.getInstance().getUserId();  // Retrieve userId from the session
 
     @FXML
     private Label PetName;
@@ -46,27 +54,85 @@ public class PetInteractionController {
     @FXML
     private Label petPersonality;
 
-    private Pet currentPet;
+    private Pet currentPet;  // Holds the current pet object being interacted with
 
     public void setPet(Pet pet) {
         currentPet = pet;
         updatePetDetails();
+        startTimelines();  // Start the decrement logic for happiness and hunger
     }
 
     @FXML
     public void initialize() {
         petManager = new PetManager(new SqlitePetDAO());
-        try {
-            // Set the controller reference in the global service
-            GlobalPetStatService.getInstance().setController(this);
-            startGlobalPetStatService();
-        } catch (Exception e) {
-            System.err.println("Error initializing PetInteractionController: " + e.getMessage());
-            e.printStackTrace();
+        userDAO = new SqliteUserDAO();
+
+        LocalDateTime lastInteractionTime = userDAO.getLastInteractionTime(userId);
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        if (lastInteractionTime != null) {
+            long secondsPassed = ChronoUnit.SECONDS.between(lastInteractionTime, currentTime);
+            long happinessIntervalsPassed = secondsPassed / currentPet.getHappinessDecrementInterval();
+            long hungerIntervalsPassed = secondsPassed / currentPet.getHungerDecrementInterval();
+
+            adjustPetStatsBasedOnTime(happinessIntervalsPassed, hungerIntervalsPassed);
+        }
+
+        // Update the last interaction time to the current time in the database
+        userDAO.setLastInteractionTime(userId, currentTime);
+    }
+
+    private void adjustPetStatsBasedOnTime(long happinessIntervalsPassed, long hungerIntervalsPassed) {
+        if (currentPet != null) {
+            currentPet.DecreaseHappiness(0.1f * happinessIntervalsPassed);
+            currentPet.Feed(-0.1f * hungerIntervalsPassed);
+            petManager.updatePet(currentPet, userId);  // Update the database with the adjusted stats
+            refreshUI();
         }
     }
 
-    // Update the pet details on the interaction view
+    // Start separate Timelines for happiness and hunger based on their individual intervals
+    private void startTimelines() {
+        if (happinessTimeline != null) {
+            happinessTimeline.stop();
+        }
+        if (hungerTimeline != null) {
+            hungerTimeline.stop();
+        }
+
+        // Happiness timeline (based on pet-specific decrement interval)
+        happinessTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHappinessDecrementInterval()), event -> {
+            decrementHappiness();
+        }));
+        happinessTimeline.setCycleCount(Timeline.INDEFINITE);
+        happinessTimeline.play();
+
+        // Hunger timeline (based on pet-specific decrement interval)
+        hungerTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHungerDecrementInterval()), event -> {
+            decrementHunger();
+        }));
+        hungerTimeline.setCycleCount(Timeline.INDEFINITE);
+        hungerTimeline.play();
+    }
+
+    // Decrement the pet's happiness based on the pet's custom happiness interval
+    private void decrementHappiness() {
+        if (currentPet != null) {
+            currentPet.DecreaseHappiness(0.1f);
+            petManager.updatePet(currentPet, userId);  // Update the database with the new stats
+            refreshUI();
+        }
+    }
+
+    // Decrement the pet's hunger based on the pet's custom hunger interval
+    private void decrementHunger() {
+        if (currentPet != null) {
+            currentPet.Feed(-0.1f);
+            petManager.updatePet(currentPet, userId);  // Update the database with the new stats
+            refreshUI();
+        }
+    }
+
     private void updatePetDetails() {
         if (currentPet != null) {
             PetName.setText(currentPet.GetName());
@@ -83,11 +149,12 @@ public class PetInteractionController {
         }
     }
 
-    // Refresh UI manually
+    // Refresh UI manually to reflect any updates
     public void refreshUI() {
-        Platform.runLater(this::updatePetDetails); // Refresh UI on JavaFX Application Thread
+        Platform.runLater(this::updatePetDetails);  // Ensure UI updates happen on the JavaFX Application Thread
     }
 
+    // Set the pet's image based on its type
     private void setImage() {
         String imagePath = getPetImagePath(currentPet.GetType());
         if (imagePath != null) {
@@ -95,13 +162,14 @@ public class PetInteractionController {
             if (imageStream != null) {
                 image.setImage(new Image(imageStream));
             } else {
-                System.err.println("Error: Pet image not found for path: " + imagePath);
+                image.setImage(new Image(getClass().getResourceAsStream("/assets/default.png")));  // Default image
             }
         } else {
-            image.setImage(new Image(getClass().getResourceAsStream("/assets/default.png")));
+            image.setImage(new Image(getClass().getResourceAsStream("/assets/default.png")));  // Default image
         }
     }
 
+    // Return the correct image path based on the pet's type
     private String getPetImagePath(String petType) {
         switch (petType.toLowerCase()) {
             case "cat":
@@ -117,35 +185,48 @@ public class PetInteractionController {
         }
     }
 
+    // Action handler for when the user plays with the pet
     @FXML
     private void onPlay() {
-        currentPet.IncreaseHappiness(1f);
-        petManager.updatePet(currentPet, userId); // Update the database
-        refreshUI(); // Refresh UI fields
+        currentPet.IncreaseHappiness(1f);  // Increase pet happiness
+        petManager.updatePet(currentPet, userId);
+        refreshUI();
     }
 
+    // Action handler for when the user feeds the pet
     @FXML
     private void onFeed() {
-        currentPet.Feed(1f);
-        petManager.updatePet(currentPet, userId); // Update the database
-        refreshUI(); // Refresh UI fields
+        currentPet.Feed(1f);  // Feed the pet (increase food satisfaction)
+        petManager.updatePet(currentPet, userId);
+        refreshUI();
     }
 
+    // Action handler for when the user cleans the pet
     @FXML
     private void onClean() {
-        currentPet.Clean();
-        petManager.updatePet(currentPet, userId); // Update the database
-        refreshUI(); // Refresh UI fields
+        currentPet.Clean();  // Clean the pet (set to clean)
+        petManager.updatePet(currentPet, userId);
+        refreshUI();
+    }
+
+    // Navigate back to the pet collection view
+    @FXML
+    private void onInteraction() {
+        goBackToCollectionView();
+    }
+
+    // Action handler for deleting the current pet
+    @FXML
+    private void onDelete() {
+        if (currentPet != null) {
+            petManager.deletePet(currentPet, userId);
+            goBackToCollectionView();
+        }
     }
 
     @FXML
     private void onEditName() {
         openEditPetFieldView("name");
-    }
-
-    @FXML
-    private void onEditAge() {
-        openEditPetFieldView("age");
     }
 
     @FXML
@@ -165,8 +246,6 @@ public class PetInteractionController {
 
             EditPetFieldController editPetFieldController = loader.getController();
             editPetFieldController.setPetAndField(currentPet, field);
-
-            // Pass a callback to refresh pet details on save
             editPetFieldController.setOnSaveCallback(this::refreshUI);
 
             Stage stage = new Stage();
@@ -178,60 +257,20 @@ public class PetInteractionController {
         }
     }
 
-    @FXML
-    private void onInteraction() {
-        goBackToCollectionView();
-    }
-
-    @FXML
-    private void onDelete() {
-        if (currentPet != null) {
-            petManager.deletePet(currentPet, userId); // Ensure petManager is initialized before calling this
-            goBackToCollectionView();
-        }
-    }
-
+    // Method to navigate back to the pet collection view
     private void goBackToCollectionView() {
         try {
-            stopGlobalPetStatService(); // Stop services when leaving the view
+            userDAO.setLastInteractionTime(userId, LocalDateTime.now());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
             Scene scene = new Scene(loader.load());
 
             CollectionController collectionController = loader.getController();
-            collectionController.initialize(); // Call initialize to refresh the pet collection
+            collectionController.initialize();
 
             Stage stage = (Stage) HappinessField.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Pet Collection");
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Start both global services when the interaction screen is active
-    private void startGlobalPetStatService() {
-        try {
-            GlobalPetStatService statService = GlobalPetStatService.getInstance();
-            GlobalPetCleanlinessService cleanlinessService = GlobalPetCleanlinessService.getInstance();
-
-            statService.startService(); // Start happiness and hunger decrement service
-            cleanlinessService.startService(); // Start cleanliness service
-        } catch (Exception e) {
-            System.err.println("Error starting global services: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // Stop both global services when exiting the interaction screen
-    private void stopGlobalPetStatService() {
-        try {
-            GlobalPetStatService statService = GlobalPetStatService.getInstance();
-            GlobalPetCleanlinessService cleanlinessService = GlobalPetCleanlinessService.getInstance();
-
-            statService.stopService(); // Stop happiness and hunger decrement service
-            cleanlinessService.stopService(); // Stop cleanliness service
-        } catch (Exception e) {
-            System.err.println("Error stopping global services: " + e.getMessage());
             e.printStackTrace();
         }
     }

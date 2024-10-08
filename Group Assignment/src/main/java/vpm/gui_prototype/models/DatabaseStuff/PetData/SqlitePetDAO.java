@@ -1,6 +1,10 @@
 package vpm.gui_prototype.models.DatabaseStuff.PetData;
 
 import vpm.gui_prototype.models.PetStuff.Pet;
+import vpm.gui_prototype.models.PetStuff.Dog;
+import vpm.gui_prototype.models.PetStuff.Cat;
+import vpm.gui_prototype.models.PetStuff.Bird;
+import vpm.gui_prototype.models.PetStuff.Fish;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +25,6 @@ public class SqlitePetDAO implements IPetDAO {
     }
 
     private void createPetTable() {
-        // Create table if not exists
         try {
             Statement statement = connection.createStatement();
             String createPetsTableQuery = "CREATE TABLE IF NOT EXISTS pets ("
@@ -43,11 +46,6 @@ public class SqlitePetDAO implements IPetDAO {
         }
     }
 
-    /**
-     * Method that queries the SQL pets database and inserts a new pet into the database.
-     * @param pet The pet to add.
-     * @param userId The user's id.
-     */
     @Override
     public void addPet(Pet pet, int userId) {
         try {
@@ -55,14 +53,14 @@ public class SqlitePetDAO implements IPetDAO {
             selectAllUsersPets.setInt(1, userId);
             ResultSet rs = selectAllUsersPets.executeQuery();
             int numberOfPets = 0;
-            while( rs.next()){
+            while (rs.next()) {
                 numberOfPets++;
             }
             if (numberOfPets < 8) {
-                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName" +
-                        ", petType, petAge, petColour, petHappiness, petFoodSatisfaction" +
-                        ", petIsDirty, petPersonality, petCustomTrait)" +
-                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName"
+                        + ", petType, petAge, petColour, petHappiness, petFoodSatisfaction"
+                        + ", petIsDirty, petPersonality, petCustomTrait)"
+                        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 insertPet.setInt(1, userId);
                 insertPet.setString(2, pet.GetName());
                 insertPet.setString(3, pet.GetType());
@@ -75,25 +73,20 @@ public class SqlitePetDAO implements IPetDAO {
                 insertPet.setString(10, pet.GetCustomTrait());
                 insertPet.executeUpdate();
             }
-            //Need to add Else statement that lets user know they have reached the maximum number of pets.
+            // Add Else statement to notify user they have reached the maximum number of pets.
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Method that queries the SQL pets database and updates the pets on the database
-     * @param pet The pet to update.
-     * @param userId The user's id.
-     */
     @Override
     public void updatePet(Pet pet, int userId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?" +
-                    ", petType = ?, petAge = ?, petColour = ?, petHappiness = ?" +
-                    ", petFoodSatisfaction = ?, petIsDirty = ?" +
-                    ", petPersonality = ?, petCustomTrait = ?" +
-                    " WHERE userId = ? AND petId = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?"
+                    + ", petType = ?, petAge = ?, petColour = ?, petHappiness = ?"
+                    + ", petFoodSatisfaction = ?, petIsDirty = ?"
+                    + ", petPersonality = ?, petCustomTrait = ?"
+                    + " WHERE userId = ? AND petId = ?");
             statement.setString(1, pet.GetName());
             statement.setString(2, pet.GetType());
             statement.setInt(3, pet.GetAge());
@@ -111,11 +104,6 @@ public class SqlitePetDAO implements IPetDAO {
         }
     }
 
-    /**
-     * Method that queries the SQL pets database and deletes the pet from the database.
-     * @param pet The pet to delete.
-     * @param userId The user's id.
-     */
     @Override
     public void deletePet(Pet pet, int userId) {
         try {
@@ -128,17 +116,10 @@ public class SqlitePetDAO implements IPetDAO {
         }
     }
 
-    /**
-     * Method that queries the SQL pets database and gets a pet using a usersId and petId.
-     * @param userId The id of the user.
-     * @param petId The id of the pet to retrieve.
-     * @return Return the pet if found
-     */
     @Override
     public Pet getPet(int userId, int petId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM contacts " +
-                    "WHERE userId = ? AND petId = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM pets WHERE userId = ? AND petId = ?");
             statement.setInt(1, userId);
             statement.setInt(2, petId);
             ResultSet resultSet = statement.executeQuery();
@@ -152,8 +133,9 @@ public class SqlitePetDAO implements IPetDAO {
                 Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
                 String petPersonality = resultSet.getString("petPersonality");
                 String petCustomTrait = resultSet.getString("petCustomTrait");
-                Pet pet = new Pet(petName, petAge, petType, petColour, petHappiness,
-                        petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+
+                // Create the appropriate subclass of Pet
+                Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
                 pet.SetUserID(userId);
                 pet.SetPetID(petId);
                 return pet;
@@ -164,11 +146,6 @@ public class SqlitePetDAO implements IPetDAO {
         return null;
     }
 
-    /**
-     * Method that queries the SQL pets database and returns all the users pets using userId.
-     * @param userId The id of the user whose pets to retrieve.
-     * @return
-     */
     @Override
     public List<Pet> getAllUsersPets(int userId) {
         List<Pet> pets = new ArrayList<>();
@@ -187,8 +164,8 @@ public class SqlitePetDAO implements IPetDAO {
                 Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
                 String petPersonality = resultSet.getString("petPersonality");
                 String petCustomTrait = resultSet.getString("petCustomTrait");
-                Pet pet = new Pet(petName, petAge, petType, petColour, petHappiness,
-                        petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+
+                Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
                 pet.SetUserID(userId);
                 pet.SetPetID(petId);
                 pets.add(pet);
@@ -199,10 +176,6 @@ public class SqlitePetDAO implements IPetDAO {
         return pets;
     }
 
-    /**
-     * Method that queries the SQL pets database and returns all the pets in the database.
-     * @return
-     */
     @Override
     public List<Pet> getAllPets() {
         List<Pet> pets = new ArrayList<>();
@@ -222,8 +195,8 @@ public class SqlitePetDAO implements IPetDAO {
                 Boolean petIsDirty = resultSet.getBoolean("petIsDirty");
                 String petPersonality = resultSet.getString("petPersonality");
                 String petCustomTrait = resultSet.getString("petCustomTrait");
-                Pet pet = new Pet(petName, petAge, petType, petColour, petHappiness,
-                        petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+
+                Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
                 pet.SetUserID(userId);
                 pet.SetPetID(petId);
                 pets.add(pet);
@@ -232,5 +205,21 @@ public class SqlitePetDAO implements IPetDAO {
             e.printStackTrace();
         }
         return pets;
+    }
+
+    // Helper method to create the appropriate subclass of Pet
+    private Pet createPetSubclass(String petType, String petName, int petAge, String petColour, Float petHappiness, Float petFoodSatisfaction, Boolean petIsDirty, String petPersonality, String petCustomTrait) {
+        switch (petType.toLowerCase()) {
+            case "dog":
+                return new Dog(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+            case "cat":
+                return new Cat(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+            case "bird":
+                return new Bird(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+            case "fish":
+                return new Fish(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+            default:
+                throw new IllegalArgumentException("Unknown pet type: " + petType);
+        }
     }
 }

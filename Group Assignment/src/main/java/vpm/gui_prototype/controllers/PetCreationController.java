@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
-import vpm.gui_prototype.models.PetStuff.Pet;
+import vpm.gui_prototype.models.PetStuff.*;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
@@ -44,18 +44,15 @@ public class PetCreationController {
 
     @FXML
     private void onCreatePet() {
-        // Get values from the fields
         String petName = petNameField.getText();
         String petType = petTypeComboBox.getValue();
         String petAgeText = petAgeField.getText();
 
-        // Validate fields
         if (petName == null || petName.isEmpty() || petType == null || petType.isEmpty() || petAgeText == null || petAgeText.isEmpty()) {
             showErrorMessage("All fields must be filled out.");
-            return; // Stop if validation fails
+            return;
         }
 
-        // Convert age to integer
         int petAge;
         try {
             petAge = Integer.parseInt(petAgeText);
@@ -64,14 +61,29 @@ public class PetCreationController {
             return;
         }
 
-        // Create new Pet object using the custom constructor
-        Pet newPet = new Pet(petName, petType, petAge); // Assuming "Black" as a default color
+        Pet newPet;
+        switch (petType.toLowerCase()) {
+            case "dog":
+                newPet = new Dog(petName, petAge);
+                break;
+            case "cat":
+                newPet = new Cat(petName, petAge);
+                break;
+            case "bird":
+                newPet = new Bird(petName, petAge);
+                break;
+            case "fish":
+                newPet = new Fish(petName, petAge);
+                break;
+            default:
+                showErrorMessage("Invalid pet type selected.");
+                return;
+        }
 
-        // Add pet to database
         try {
-            petManager.addPet(newPet, userId); // Add the new pet to the database
-            showErrorMessage("Pet added successfully: " + newPet.GetName()); // Use custom GetName() method
-            goBackToCollectionView(); // Go back to collection view
+            petManager.addPet(newPet, userId);
+            showErrorMessage("Pet added successfully: " + newPet.GetName());
+            goBackToCollectionView();
         } catch (Exception e) {
             showErrorMessage("Could not add pet to the database.");
             e.printStackTrace();
