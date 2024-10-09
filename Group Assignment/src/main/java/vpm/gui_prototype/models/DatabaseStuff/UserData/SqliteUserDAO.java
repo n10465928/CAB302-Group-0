@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class SqliteUserDAO implements IUserDAO {
-    private Connection connection;
+    public Connection connection;
     public PasswordHashingService hashService;
 
     // DateTimeFormatter to parse string representations of timestamps
@@ -28,7 +28,7 @@ public class SqliteUserDAO implements IUserDAO {
         createTable();
     }
 
-    private void createTable() {
+    public void createTable() {
         try {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE IF NOT EXISTS users ("

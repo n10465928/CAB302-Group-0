@@ -2,6 +2,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.IPetDAO;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
+import vpm.gui_prototype.models.PetStuff.Cat;
+import vpm.gui_prototype.models.PetStuff.Dog;
+import vpm.gui_prototype.models.PetStuff.Fish;
 import vpm.gui_prototype.models.PetStuff.Pet;
 
 import java.util.ArrayList;
@@ -17,9 +20,9 @@ class PetManagerTest {
     @BeforeEach
     void setUp() {
         pets = new ArrayList<>();
-        pets.add(new Pet("Buddy", "Dog", 3));
-        pets.add(new Pet("Mittens", "Cat", 2));
-        pets.add(new Pet("Goldie", "Fish", 1));
+        pets.add(new Dog("Buddy", 3));
+        pets.add(new Cat("Mittens", 2));
+        pets.add(new Fish("Goldie", 1));
 
         IPetDAO petDAO = new IPetDAO() {
             @Override
@@ -83,7 +86,7 @@ class PetManagerTest {
 
     @Test
     void testAddPet() {
-        Pet newPet = new Pet("Charlie", "Dog", 4);
+        Pet newPet = new Dog("Charlie", 4);
         petManager.addPet(newPet, 1);
         assertEquals(4, pets.size());
         assertTrue(pets.contains(newPet));
@@ -99,7 +102,7 @@ class PetManagerTest {
 
     @Test
     void testUpdatePet() {
-        Pet updatedPet = new Pet("Buddy", "Dog", 4);
+        Pet updatedPet = new Dog("Buddy", 4);
         petManager.updatePet(updatedPet, 1);
         assertEquals(3, pets.size());
         assertEquals("Buddy", pets.get(0).GetName());

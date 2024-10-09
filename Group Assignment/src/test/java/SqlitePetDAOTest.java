@@ -2,6 +2,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
+import vpm.gui_prototype.models.PetStuff.Cat;
+import vpm.gui_prototype.models.PetStuff.Dog;
 import vpm.gui_prototype.models.PetStuff.Pet;
 
 import java.sql.Connection;
@@ -40,7 +42,7 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testAddPet() throws Exception {
-        Pet pet = new Pet("Buddy", 3, "Dog", "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
         pet.SetPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -63,7 +65,7 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testUpdatePet() throws Exception {
-        Pet pet = new Pet("Buddy", 3, "Dog", "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
         pet.SetPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -83,7 +85,7 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testDeletePet() throws Exception {
-        Pet pet = new Pet("Buddy", 3, "Dog", "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
         pet.SetPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -99,7 +101,7 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testGetPet() throws Exception {
-        Pet pet = new Pet("Buddy", 3, "Dog", "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
         pet.SetPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -119,8 +121,8 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testGetAllUsersPets() throws Exception {
-        Pet pet1 = new Pet("Buddy", 3, "Dog", "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        Pet pet2 = new Pet("Max", 4, "Cat", "Black", 9.0f, 8.0f, true, "Playful", "Curious");
+        Pet pet1 = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet2 = new Cat("Max", 4, "Black", 9.0f, 8.0f, true, "Playful", "Curious");
         sqlitePetDAO.addPet(pet1, 1);
         sqlitePetDAO.addPet(pet2, 1);
 
@@ -132,8 +134,8 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testGetAllPets() throws Exception {
-        Pet pet1 = new Pet("Buddy", 3, "Dog", "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        Pet pet2 = new Pet("Max", 4, "Cat", "Black", 9.0f, 8.0f, true, "Playful", "Curious");
+        Pet pet1 = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet2 = new Cat("Max", 4, "Black", 9.0f, 8.0f, true, "Playful", "Curious");
         sqlitePetDAO.addPet(pet1, 1);
         sqlitePetDAO.addPet(pet2, 2);
 

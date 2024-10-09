@@ -14,7 +14,7 @@ import java.util.List;
  * Class that queries the SQL database for CRUD operations.
  */
 public class SqlitePetDAO implements IPetDAO {
-    private Connection connection;
+    public Connection connection;
 
     /**
      * Method that creates an instance of the connection to the Pets DAO
@@ -24,7 +24,7 @@ public class SqlitePetDAO implements IPetDAO {
         createPetTable();
     }
 
-    private void createPetTable() {
+    public void createPetTable() {
         try {
             Statement statement = connection.createStatement();
             String createPetsTableQuery = "CREATE TABLE IF NOT EXISTS pets ("

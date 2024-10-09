@@ -148,17 +148,19 @@
     </StackPane>
 
     <!-- Back and Delete Button Section -->
-    <HBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" prefWidth="-Infinity" alignment="CENTER">
-        <JFXButton text="Back" alignment="CENTER" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onInteraction">
-            <effect>
-                <DropShadow radius="10" spread="0.15" color="#004D40" />
-            </effect>
-        </JFXButton>
-        <JFXButton text="Delete" alignment="CENTER" style="-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onDelete">
-            <effect>
-                <DropShadow radius="10" spread="0.15" color="#B71C1C" />
-            </effect>
-        </JFXButton>
-    </HBox>
+    <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" prefWidth="-Infinity" alignment="CENTER" spacing="10">
+        <HBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" prefWidth="-Infinity" alignment="CENTER" spacing="40">
+            <JFXButton text="Back" alignment="CENTER" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onInteraction">
+                <effect>
+                    <DropShadow radius="10" spread="0.15" color="#004D40" />
+                </effect>
+            </JFXButton>
+            <JFXButton text="Delete" alignment="CENTER" style="-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onDelete">
+                <effect>
+                    <DropShadow radius="10" spread="0.15" color="#B71C1C" />
+                </effect>
+            </JFXButton>
+        </HBox>
+    </VBox>
 
 </AnchorPane>
