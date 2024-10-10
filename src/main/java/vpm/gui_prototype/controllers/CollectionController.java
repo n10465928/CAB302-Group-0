@@ -85,7 +85,7 @@ public class CollectionController {
     }
 
     private Text createPetTypeText(Pet pet) {
-        Text petTypeText = new Text(pet.GetType());
+        Text petTypeText = new Text(pet.getType());
         petTypeText.setStyle("-fx-font-size: 18px; -fx-fill: #004D40; -fx-font-weight: bold;");
         return petTypeText;
     }
@@ -95,12 +95,12 @@ public class CollectionController {
         petImageView.setFitWidth(100);
         petImageView.setFitHeight(100);
         petImageView.setPreserveRatio(true);
-        setImage(petImageView, getPetImagePath(pet.GetType()));
+        setImage(petImageView, getPetImagePath(pet.getType()));
         return petImageView;
     }
 
     private Text createPetNameText(Pet pet) {
-        Text petNameText = new Text(pet.GetName());
+        Text petNameText = new Text(pet.getName());
         petNameText.setStyle("-fx-font-size: 16px; -fx-fill: #00796B; -fx-font-weight: bold;");
         return petNameText;
     }
@@ -163,7 +163,7 @@ public class CollectionController {
 
             Stage stage = (Stage) petGrid.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Manage Pet: " + pet.GetName());
+            stage.setTitle("Manage Pet: " + pet.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }

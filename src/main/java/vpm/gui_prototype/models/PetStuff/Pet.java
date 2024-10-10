@@ -1,33 +1,30 @@
 package vpm.gui_prototype.models.PetStuff;
 
 import vpm.gui_prototype.models.Constants.Constants;
-import vpm.gui_prototype.models.FoodStuff.Food;
 
 public abstract class Pet implements IPet {
 
-    Integer userID;
-    Integer petID;
-    String name;
-    Integer age;
-    Float happiness;
-    Float foodSatisfaction;
-    Boolean isDirty;
-    String type;
-    String colour;
-    String personality;
-    String customTrait;
+    private Integer userID;
+    private Integer petID;
+    private String name;
+    private Integer age;
+    private Float happiness;
+    private Float foodSatisfaction;
+    private Boolean isDirty;
+    private String type;
+    private String colour;
+    private String personality;
+    private String customTrait;
 
+    //Constructors for the pet class
     public Pet() {
-        name = "";
-        age = 0;
-        happiness = Constants.MAXHAPPINESS / 2;
-        type = "";
+        this("","",0);
     }
 
-    public Pet(String Name, String Type, Integer petAge) {
-        this.name = Name;
-        this.type = Type;
-        this.age = petAge;
+    public Pet(String name, String type, Integer age) {
+        this.name = name;
+        this.type = type;
+        this.age = age;
         this.colour = null;
         this.happiness = Constants.MAXHAPPINESS / 2;
         this.foodSatisfaction = Constants.MAXFOODSATISFACTION / 2;
@@ -50,51 +47,52 @@ public abstract class Pet implements IPet {
         this.customTrait = customTrait;
     }
 
-    // Getter/Setter methods for Pet properties
-
+    // Abstract methods for custom decrement intervals
     public abstract long getHappinessDecrementInterval();  // Abstract method for custom decrement interval
     public abstract long getHungerDecrementInterval();  // Abstract method for custom decrement interval
 
-    public Integer GetUserID() { return userID; }
-    public void SetUserID(Integer userID) { this.userID = userID; }
+    // Getter/Setter methods for Pet properties
+    public Integer getUserID() { return userID; }
+    public void setUserID(Integer userID) { this.userID = userID; }
 
-    public Integer GetPetID() { return petID; }
-    public void SetPetID(Integer petID) { this.petID = petID; }
+    public Integer getPetID() { return petID; }
+    public void setPetID(Integer petID) { this.petID = petID; }
 
-    public String GetName() { return name; }
-    public void SetName(String name) { this.name = name; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public Integer GetAge() { return age; }
-    public void SetAge(Integer age) { this.age = age; }
+    public Integer getAge() { return age; }
+    public void setAge(Integer age) { this.age = age; }
 
-    public String GetType() { return type; }
-    public void SetType(String type) { this.type = type; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
-    public Float GetHappiness() { return happiness; }
-    public void SetHappiness(Float happiness) { this.happiness = happiness; }
+    public Float getHappiness() { return happiness; }
+    public void setHappiness(Float happiness) { this.happiness = happiness; }
 
-    public Float GetFoodSatisfaction() { return foodSatisfaction; }
-    public void SetFoodSatisfaction(Float foodSatisfaction) { this.foodSatisfaction = foodSatisfaction; }
+    public Float getFoodSatisfaction() { return foodSatisfaction; }
+    public void setFoodSatisfaction(Float foodSatisfaction) { this.foodSatisfaction = foodSatisfaction; }
 
-    public String GetColour() { return colour; }
-    public void SetColour(String colour) { this.colour = colour; }
+    public String getColour() { return colour; }
+    public void setColour(String colour) { this.colour = colour; }
 
-    public Boolean GetIsDirty() { return isDirty; }
-    public void SetIsDirty(Boolean isDirty) { this.isDirty = isDirty; }
+    public Boolean getIsDirty() { return isDirty; }
+    public void setIsDirty(Boolean isDirty) { this.isDirty = isDirty; }
 
-    public String GetPersonality() { return personality; }
-    public void SetPersonality(String personality) { this.personality = personality; }
+    public String getPersonality() { return personality; }
+    public void setPersonality(String personality) { this.personality = personality; }
 
-    public String GetCustomTrait() { return customTrait; }
-    public void SetCustomTrait(String customTrait) { this.customTrait = customTrait; }
+    public String getCustomTrait() { return customTrait; }
+    public void setCustomTrait(String customTrait) { this.customTrait = customTrait; }
 
-    private float roundToTwoDecimalPlaces(float value) {
+    public float roundToTwoDecimalPlaces(float value) {
         return Math.round(value * 100.0f) / 100.0f;
     }
 
-    public String IncreaseHappiness(Float amount) {
+    public String increaseHappiness(Float amount) {
         happiness += amount;
         happiness = roundToTwoDecimalPlaces(happiness);
+
         if (happiness > Constants.MAXHAPPINESS) {
             happiness = Constants.MAXHAPPINESS;
             return "Too happy already, cannot be anymore";
@@ -106,27 +104,14 @@ public abstract class Pet implements IPet {
         return "";
     }
 
-    public String DecreaseHappiness(Float amount) {
-        return IncreaseHappiness(-amount);
+    public String decreaseHappiness(Float amount) {
+        return increaseHappiness(-amount);
     }
 
-    public String Feed(Food food) {
-        foodSatisfaction += food.GetNutritionalValue();
-        foodSatisfaction = roundToTwoDecimalPlaces(foodSatisfaction);
-        if (foodSatisfaction > Constants.MAXFOODSATISFACTION) {
-            foodSatisfaction = Constants.MAXFOODSATISFACTION;
-            return "Too fed already, cannot be anymore";
-        }
-        if (foodSatisfaction < 0f) {
-            foodSatisfaction = 0f;
-            return "Too unfed already, cannot be anymore";
-        }
-        return "";
-    }
-
-    public String Feed(float food) {
+    public String feed(float food) {
         foodSatisfaction += food;
         foodSatisfaction = roundToTwoDecimalPlaces(foodSatisfaction);
+
         if (foodSatisfaction > Constants.MAXFOODSATISFACTION) {
             foodSatisfaction = Constants.MAXFOODSATISFACTION;
             return "Too fed already, cannot be anymore";
@@ -138,11 +123,11 @@ public abstract class Pet implements IPet {
         return "";
     }
 
-    public String Clean() {
+    public String clean() {
         if (isDirty) {
-            isDirty = Boolean.FALSE;
-            return "";
+            isDirty = false;
+            return "Pet Cleaned";
         } else
-            return "already clean";
+            return "Already clean";
     }
 }

@@ -62,15 +62,15 @@ public class SqlitePetDAO implements IPetDAO {
                         + ", petIsDirty, petPersonality, petCustomTrait)"
                         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 insertPet.setInt(1, userId);
-                insertPet.setString(2, pet.GetName());
-                insertPet.setString(3, pet.GetType());
-                insertPet.setInt(4, pet.GetAge());
-                insertPet.setString(5, pet.GetColour());
-                insertPet.setFloat(6, pet.GetHappiness());
-                insertPet.setFloat(7, pet.GetFoodSatisfaction());
-                insertPet.setBoolean(8, pet.GetIsDirty());
-                insertPet.setString(9, pet.GetPersonality());
-                insertPet.setString(10, pet.GetCustomTrait());
+                insertPet.setString(2, pet.getName());
+                insertPet.setString(3, pet.getType());
+                insertPet.setInt(4, pet.getAge());
+                insertPet.setString(5, pet.getColour());
+                insertPet.setFloat(6, pet.getHappiness());
+                insertPet.setFloat(7, pet.getFoodSatisfaction());
+                insertPet.setBoolean(8, pet.getIsDirty());
+                insertPet.setString(9, pet.getPersonality());
+                insertPet.setString(10, pet.getCustomTrait());
                 insertPet.executeUpdate();
             }
             // Add Else statement to notify user they have reached the maximum number of pets.
@@ -87,17 +87,17 @@ public class SqlitePetDAO implements IPetDAO {
                     + ", petFoodSatisfaction = ?, petIsDirty = ?"
                     + ", petPersonality = ?, petCustomTrait = ?"
                     + " WHERE userId = ? AND petId = ?");
-            statement.setString(1, pet.GetName());
-            statement.setString(2, pet.GetType());
-            statement.setInt(3, pet.GetAge());
-            statement.setString(4, pet.GetColour());
-            statement.setFloat(5, pet.GetHappiness());
-            statement.setFloat(6, pet.GetFoodSatisfaction());
-            statement.setBoolean(7, pet.GetIsDirty());
-            statement.setString(8, pet.GetPersonality());
-            statement.setString(9, pet.GetCustomTrait());
+            statement.setString(1, pet.getName());
+            statement.setString(2, pet.getType());
+            statement.setInt(3, pet.getAge());
+            statement.setString(4, pet.getColour());
+            statement.setFloat(5, pet.getHappiness());
+            statement.setFloat(6, pet.getFoodSatisfaction());
+            statement.setBoolean(7, pet.getIsDirty());
+            statement.setString(8, pet.getPersonality());
+            statement.setString(9, pet.getCustomTrait());
             statement.setInt(10, userId);
-            statement.setInt(11, pet.GetPetID());
+            statement.setInt(11, pet.getPetID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +109,7 @@ public class SqlitePetDAO implements IPetDAO {
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM pets WHERE userId = ? AND petId = ?");
             statement.setInt(1, userId);
-            statement.setInt(2, pet.GetPetID());
+            statement.setInt(2, pet.getPetID());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,8 +136,8 @@ public class SqlitePetDAO implements IPetDAO {
 
                 // Create the appropriate subclass of Pet
                 Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
-                pet.SetUserID(userId);
-                pet.SetPetID(petId);
+                pet.setUserID(userId);
+                pet.setPetID(petId);
                 return pet;
             }
         } catch (Exception e) {
@@ -166,8 +166,8 @@ public class SqlitePetDAO implements IPetDAO {
                 String petCustomTrait = resultSet.getString("petCustomTrait");
 
                 Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
-                pet.SetUserID(userId);
-                pet.SetPetID(petId);
+                pet.setUserID(userId);
+                pet.setPetID(petId);
                 pets.add(pet);
             }
         } catch (Exception e) {
@@ -197,8 +197,8 @@ public class SqlitePetDAO implements IPetDAO {
                 String petCustomTrait = resultSet.getString("petCustomTrait");
 
                 Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
-                pet.SetUserID(userId);
-                pet.SetPetID(petId);
+                pet.setUserID(userId);
+                pet.setPetID(petId);
                 pets.add(pet);
             }
         } catch (Exception e) {

@@ -83,8 +83,8 @@ public class PetInteractionController {
 
     private void adjustPetStatsBasedOnTime(long happinessIntervalsPassed, long hungerIntervalsPassed) {
         if (currentPet != null) {
-            currentPet.DecreaseHappiness(0.1f * happinessIntervalsPassed);
-            currentPet.Feed(-0.1f * hungerIntervalsPassed);
+            currentPet.decreaseHappiness(0.1f * happinessIntervalsPassed);
+            currentPet.feed(-0.1f * hungerIntervalsPassed);
             petManager.updatePet(currentPet, userId);  // Update the database with the adjusted stats
             refreshUI();
         }
@@ -117,7 +117,7 @@ public class PetInteractionController {
     // Decrement the pet's happiness based on the pet's custom happiness interval
     private void decrementHappiness() {
         if (currentPet != null) {
-            currentPet.DecreaseHappiness(0.1f);
+            currentPet.decreaseHappiness(0.1f);
             petManager.updatePet(currentPet, userId);  // Update the database with the new stats
             refreshUI();
         }
@@ -126,7 +126,7 @@ public class PetInteractionController {
     // Decrement the pet's hunger based on the pet's custom hunger interval
     private void decrementHunger() {
         if (currentPet != null) {
-            currentPet.Feed(-0.1f);
+            currentPet.feed(-0.1f);
             petManager.updatePet(currentPet, userId);  // Update the database with the new stats
             refreshUI();
         }
@@ -134,15 +134,15 @@ public class PetInteractionController {
 
     private void updatePetDetails() {
         if (currentPet != null) {
-            HappinessField.setText(String.format("%.1f", currentPet.GetHappiness()));
-            HungerField.setText(String.format("%.1f", currentPet.GetFoodSatisfaction()));
-            CleanField.setText(currentPet.GetIsDirty() ? "Dirty" : "Clean");
-            picturePetName.setText(currentPet.GetName());
-            picturePetType.setText(currentPet.GetType());
-            petName.setText(currentPet.GetName());
-            petType.setText(currentPet.GetType());
-            petColour.setText(currentPet.GetColour());
-            petPersonality.setText(currentPet.GetPersonality());
+            HappinessField.setText(String.format("%.1f", currentPet.getHappiness()));
+            HungerField.setText(String.format("%.1f", currentPet.getFoodSatisfaction()));
+            CleanField.setText(currentPet.getIsDirty() ? "Dirty" : "Clean");
+            picturePetName.setText(currentPet.getName());
+            picturePetType.setText(currentPet.getType());
+            petName.setText(currentPet.getName());
+            petType.setText(currentPet.getType());
+            petColour.setText(currentPet.getColour());
+            petPersonality.setText(currentPet.getPersonality());
             setImage();
         }
     }
@@ -154,7 +154,7 @@ public class PetInteractionController {
 
     // Set the pet's image based on its type
     private void setImage() {
-        String imagePath = getPetImagePath(currentPet.GetType());
+        String imagePath = getPetImagePath(currentPet.getType());
         if (imagePath != null) {
             InputStream imageStream = getClass().getResourceAsStream(imagePath);
             if (imageStream != null) {
@@ -186,7 +186,7 @@ public class PetInteractionController {
     // Action handler for when the user plays with the pet
     @FXML
     private void onPlay() {
-        currentPet.IncreaseHappiness(1f);  // Increase pet happiness
+        currentPet.increaseHappiness(1f);  // Increase pet happiness
         petManager.updatePet(currentPet, userId);
         refreshUI();
     }
@@ -194,7 +194,7 @@ public class PetInteractionController {
     // Action handler for when the user feeds the pet
     @FXML
     private void onFeed() {
-        currentPet.Feed(1f);  // Feed the pet (increase food satisfaction)
+        currentPet.feed(1f);  // Feed the pet (increase food satisfaction)
         petManager.updatePet(currentPet, userId);
         refreshUI();
     }
@@ -202,7 +202,7 @@ public class PetInteractionController {
     // Action handler for when the user cleans the pet
     @FXML
     private void onClean() {
-        currentPet.Clean();  // Clean the pet (set to clean)
+        currentPet.clean();  // Clean the pet (set to clean)
         petManager.updatePet(currentPet, userId);
         refreshUI();
     }

@@ -84,22 +84,22 @@ public class EditPetFieldController {
         switch (field.toLowerCase()) {
             case "name":
                 fieldNameLabel.setText("Edit Pet Name");
-                fieldValueTextField.setText(currentPet.GetName());
+                fieldValueTextField.setText(currentPet.getName());
                 addTextLimiter(fieldValueTextField, MAX_NAME_LENGTH);
                 break;
             case "age":
                 fieldNameLabel.setText("Edit Pet Age");
-                fieldValueTextField.setText(currentPet.GetAge().toString());
+                fieldValueTextField.setText(currentPet.getAge().toString());
                 addTextLimiter(fieldValueTextField, MAX_AGE_LENGTH);
                 break;
             case "colour":
                 fieldNameLabel.setText("Edit Pet Colour");
-                fieldValueTextField.setText(currentPet.GetColour());
+                fieldValueTextField.setText(currentPet.getColour());
                 addTextLimiter(fieldValueTextField, MAX_COLOUR_LENGTH);
                 break;
             case "personality":
                 fieldNameLabel.setText("Edit Pet Personality");
-                fieldValueTextField.setText(currentPet.GetPersonality());
+                fieldValueTextField.setText(currentPet.getPersonality());
                 addTextLimiter(fieldValueTextField, MAX_PERSONALITY_LENGTH);
                 break;
             default:
@@ -146,21 +146,21 @@ public class EditPetFieldController {
                     messageLabel.setText(validationMessage);
                     return; // Exit the method if the name is invalid
                 }
-                currentPet.SetName(newValue);
+                currentPet.setName(newValue);
                 break;
             case "age":
                 try {
-                    currentPet.SetAge(Integer.parseInt(newValue));
+                    currentPet.setAge(Integer.parseInt(newValue));
                 } catch (NumberFormatException e) {
                     fieldNameLabel.setText("Age must be a number!");
                     return;
                 }
                 break;
             case "colour":
-                currentPet.SetColour(newValue);
+                currentPet.setColour(newValue);
                 break;
             case "personality":
-                currentPet.SetPersonality(newValue);
+                currentPet.setPersonality(newValue);
                 break;
             default:
                 fieldNameLabel.setText("Unknown Field");

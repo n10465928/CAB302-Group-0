@@ -49,7 +49,7 @@ class PetManagerTest {
             public void updatePet(Pet pet, int userId) {
                 // For simplicity, assume pet names are unique and update based on name
                 for (int i = 0; i < pets.size(); i++) {
-                    if (pets.get(i).GetName().equals(pet.GetName())) {
+                    if (pets.get(i).getName().equals(pet.getName())) {
                         pets.set(i, pet);
                         break;
                     }
@@ -69,19 +69,19 @@ class PetManagerTest {
     void testSearchPets() {
         List<Pet> result = petManager.searchPets("Buddy");
         assertEquals(1, result.size());
-        assertEquals("Buddy", result.get(0).GetName());
+        assertEquals("Buddy", result.get(0).getName());
 
         result = petManager.searchPets("Cat");
         assertEquals(1, result.size());
-        assertEquals("Mittens", result.get(0).GetName());
+        assertEquals("Mittens", result.get(0).getName());
 
         result = petManager.searchPets("Gold");
         assertEquals(1, result.size());
-        assertEquals("Goldie", result.get(0).GetName());
+        assertEquals("Goldie", result.get(0).getName());
 
         result = petManager.searchPets("Dog");
         assertEquals(1, result.size());
-        assertEquals("Buddy", result.get(0).GetName());
+        assertEquals("Buddy", result.get(0).getName());
     }
 
     @Test
@@ -105,9 +105,9 @@ class PetManagerTest {
         Pet updatedPet = new Dog("Buddy", 4);
         petManager.updatePet(updatedPet, 1);
         assertEquals(3, pets.size());
-        assertEquals("Buddy", pets.get(0).GetName());
-        assertEquals("Dog", pets.get(0).GetType());
-        assertEquals(4, pets.get(0).GetAge());
+        assertEquals("Buddy", pets.get(0).getName());
+        assertEquals("Dog", pets.get(0).getType());
+        assertEquals(4, pets.get(0).getAge());
     }
 
     @Test

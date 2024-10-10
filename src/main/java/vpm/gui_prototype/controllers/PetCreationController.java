@@ -107,7 +107,7 @@ public class PetCreationController {
 
         try {
             petManager.addPet(newPet, userId);
-            showErrorMessage("Pet added successfully: " + newPet.GetName());
+            showErrorMessage("Pet added successfully: " + newPet.getName());
             goBackToCollectionView();
         } catch (Exception e) {
             showErrorMessage("Could not add pet to the database.");

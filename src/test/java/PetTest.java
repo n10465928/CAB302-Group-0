@@ -16,90 +16,90 @@ public class PetTest {
     }
     @Test
     public void testSetUserId() {
-        pet.SetUserID(2);
-        assertEquals(2, pet.GetUserID());
+        pet.setUserID(2);
+        assertEquals(2, pet.getUserID());
     }
 
     @Test
     public void testSetPetId() {
-        pet.SetPetID(2);
-        assertEquals(2, pet.GetPetID());
+        pet.setPetID(2);
+        assertEquals(2, pet.getPetID());
     }
 
     @Test
     public void testGetName() {
-        assertEquals("Max", pet.GetName());
+        assertEquals("Max", pet.getName());
     }
 
     @Test
     public void testSetName() {
-        pet.SetName("Felix");
-        assertEquals("Felix", pet.GetName());
+        pet.setName("Felix");
+        assertEquals("Felix", pet.getName());
     }
 
     @Test
     public void testGetType() {
-        assertEquals("Dog", pet.GetType());
+        assertEquals("Dog", pet.getType());
     }
 
     @Test
     public void testSetType() {
-        pet.SetType("Cat");
-        assertEquals("Cat", pet.GetType());
+        pet.setType("Cat");
+        assertEquals("Cat", pet.getType());
     }
 
     @Test
     public void testGetAge() {
-        assertEquals(4, pet.GetAge());
+        assertEquals(4, pet.getAge());
     }
 
     @Test
     public void testSetAge() {
-        pet.SetAge(6);
-        assertEquals(6, pet.GetAge());
+        pet.setAge(6);
+        assertEquals(6, pet.getAge());
     }
 
     @Test
     public void testGetColour() {
-        assertEquals("Black", pet.GetColour());
+        assertEquals("Black", pet.getColour());
     }
 
     @Test
     public void testSetColour() {
-        pet.SetColour("Brown");
-        assertEquals("Brown", pet.GetColour());
+        pet.setColour("Brown");
+        assertEquals("Brown", pet.getColour());
     }
 
     @Test
     public void testGetHappiness(){
-        assertEquals(10f, pet.GetHappiness());
+        assertEquals(10f, pet.getHappiness());
     }
 
     @Test
     public void testSetHappiness(){
-        pet.SetHappiness(5f);
-        assertEquals(5f, pet.GetHappiness());
+        pet.setHappiness(5f);
+        assertEquals(5f, pet.getHappiness());
     }
 
     @Test
     public void testGetFoodSatisfaction(){
-        assertEquals(10f, pet.GetFoodSatisfaction());
+        assertEquals(10f, pet.getFoodSatisfaction());
     }
 
     @Test
     public void testSetFoodSatisfaction(){
-        pet.SetHappiness(5f);
-        assertEquals(5f, pet.GetHappiness());
+        pet.setHappiness(5f);
+        assertEquals(5f, pet.getHappiness());
     }
 
     @Test
     public void testGetIsDirty(){
-        assertEquals(true, pet.GetIsDirty());
+        assertEquals(true, pet.getIsDirty());
     }
 
     @Test
     public void testSetIsDirty(){
-        pet.SetIsDirty(true);
-        assertEquals(true, pet.GetIsDirty());
+        pet.setIsDirty(true);
+        assertEquals(true, pet.getIsDirty());
     }
 }

@@ -29,10 +29,10 @@ public class PetManager {
     private boolean isPetMatched(Pet pet, String query) {
         if (query == null || query.isEmpty()) return true;
         query = query.toLowerCase();
-        String searchString = pet.GetName()
-                + " " + pet.GetAge()
-                + " " + pet.GetType()
-                + " " + pet.GetColour();
+        String searchString = pet.getName()
+                + " " + pet.getAge()
+                + " " + pet.getType()
+                + " " + pet.getColour();
         return searchString.toLowerCase().contains(query);
     }
 

@@ -43,7 +43,7 @@ public class SqlitePetDAOTest {
     @Test
     public void testAddPet() throws Exception {
         Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        pet.SetPetID(1);
+        pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM pets WHERE userId = ? AND petName = ?");
@@ -66,11 +66,11 @@ public class SqlitePetDAOTest {
     @Test
     public void testUpdatePet() throws Exception {
         Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        pet.SetPetID(1);
+        pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
-        pet.SetName("Max");
-        pet.SetAge(4);
+        pet.setName("Max");
+        pet.setAge(4);
         sqlitePetDAO.updatePet(pet, 1);
 
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM pets WHERE userId = ? AND petName = ?");
@@ -86,7 +86,7 @@ public class SqlitePetDAOTest {
     @Test
     public void testDeletePet() throws Exception {
         Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        pet.SetPetID(1);
+        pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
         sqlitePetDAO.deletePet(pet, 1);
@@ -102,21 +102,21 @@ public class SqlitePetDAOTest {
     @Test
     public void testGetPet() throws Exception {
         Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        pet.SetPetID(1);
+        pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
-        Pet retrievedPet = sqlitePetDAO.getPet(1, pet.GetPetID());
+        Pet retrievedPet = sqlitePetDAO.getPet(1, pet.getPetID());
 
         assertNotNull(retrievedPet);
-        assertEquals("Buddy", retrievedPet.GetName());
-        assertEquals("Dog", retrievedPet.GetType());
-        assertEquals(3, retrievedPet.GetAge());
-        assertEquals("Brown", retrievedPet.GetColour());
-        assertEquals(8.5f, retrievedPet.GetHappiness());
-        assertEquals(7.5f, retrievedPet.GetFoodSatisfaction());
-        assertFalse(retrievedPet.GetIsDirty());
-        assertEquals("Friendly", retrievedPet.GetPersonality());
-        assertEquals("Loyal", retrievedPet.GetCustomTrait());
+        assertEquals("Buddy", retrievedPet.getName());
+        assertEquals("Dog", retrievedPet.getType());
+        assertEquals(3, retrievedPet.getAge());
+        assertEquals("Brown", retrievedPet.getColour());
+        assertEquals(8.5f, retrievedPet.getHappiness());
+        assertEquals(7.5f, retrievedPet.getFoodSatisfaction());
+        assertFalse(retrievedPet.getIsDirty());
+        assertEquals("Friendly", retrievedPet.getPersonality());
+        assertEquals("Loyal", retrievedPet.getCustomTrait());
     }
 
     @Test

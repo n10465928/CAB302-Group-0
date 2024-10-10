@@ -1,33 +1,48 @@
 package vpm.gui_prototype.models.PetStuff;
 
-import javafx.scene.paint.Color;
-
 public interface IPet
 {
-    public Integer GetUserID();
-    public void SetUserID(Integer UserID);
 
-    public Integer GetPetID();
-    public void SetPetID(Integer PetID);
+    Integer getUserID();
+    void setUserID(Integer UserID);
 
-    public String GetName();
-    public void SetName(String Name);
+    Integer getPetID();
+    void setPetID(Integer PetID);
 
-    public Integer GetAge();
-    public void SetAge(Integer Age);
+    String getName();
+    void setName(String Name);
 
-    public String GetType();
-    public void SetType(String Type);
+    Integer getAge();
+    void setAge(Integer Age);
 
-    public Float GetHappiness();
-    public void SetHappiness(Float Happiness);
+    String getType();
+    void setType(String Type);
 
-    public Float GetFoodSatisfaction();
-    public void SetFoodSatisfaction(Float FoodSatisfaction);
+    Float getHappiness();
+    void setHappiness(Float Happiness);
 
-    public String GetColour();
-    public void SetColour(String Colour);
+    Float getFoodSatisfaction();
+    void setFoodSatisfaction(Float FoodSatisfaction);
 
-    public Boolean GetIsDirty();
-    public void SetIsDirty(Boolean IsDirty);
+    String getColour();
+    void setColour(String Colour);
+
+    Boolean getIsDirty();
+    void setIsDirty(Boolean IsDirty);
+
+    String getPersonality();
+    void setPersonality(String personality);
+
+    String getCustomTrait();
+    void setCustomTrait(String customTrait);
+
+    float roundToTwoDecimalPlaces(float value);
+
+    String increaseHappiness(Float amount);
+
+    String decreaseHappiness(Float amount);
+
+    String feed(float food);
+
+    String clean();
 }
