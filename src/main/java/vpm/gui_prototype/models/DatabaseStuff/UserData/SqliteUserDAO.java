@@ -172,7 +172,6 @@ public class SqliteUserDAO implements IUserDAO {
                 user.setLastInteractionTime(lastInteractionTime);
                 return user;
             }
-            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }
