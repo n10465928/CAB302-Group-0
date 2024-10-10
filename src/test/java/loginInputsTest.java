@@ -33,39 +33,37 @@ public class loginInputsTest {
 
     @Test
     void testMatchingCredentials() {
-        // Add new users and test
-        String password = null;
-        String storedPassword = null;
-
-        password = "qwerty1";
-        storedPassword = hashService.getHash(password);
+        // User 1
+        String password = "qwerty1";
+        String storedPassword = hashService.getHash(password);
         User user1 = new User("user1", storedPassword, "", "");
         userDAO.addUser(user1);
-        assertTrue(loginController.verifyUser("user1", "qwerty1"));
-        assertFalse(loginController.verifyUser("user1", "qwerty"));
 
+        // Confirm the user was added
+        User retrievedUser1 = userDAO.getUserByUsername("user1");
+        assertNotNull(retrievedUser1, "User1 should exist after being added.");
+        assertEquals(storedPassword, retrievedUser1.getPassword(), "Stored password should match.");
+
+        assertTrue(loginController.verifyUser("user1", password), "User1 should match with correct password.");
+        assertFalse(loginController.verifyUser("user1", "wrongpass"), "User1 should not match with wrong password.");
+
+        // User 2
         password = "qwerty2";
         storedPassword = hashService.getHash(password);
         User user2 = new User("user2", storedPassword, "", "");
         userDAO.addUser(user2);
-        assertTrue(loginController.verifyUser("user2", "qwerty2"));
-        assertFalse(loginController.verifyUser("user2", "qwerty"));
 
-        password = "qwerty3";
-        storedPassword = hashService.getHash(password);
-        User user3 = new User("user3", storedPassword, "", "");
-        userDAO.addUser(user3);
-        assertTrue(loginController.verifyUser("user3", "qwerty3"));
-        assertFalse(loginController.verifyUser("user3", "qwerty"));
+        User retrievedUser2 = userDAO.getUserByUsername("user2");
+        assertNotNull(retrievedUser2, "User2 should exist after being added.");
 
-        // Removes after testing
+        assertTrue(loginController.verifyUser("user2", password), "User2 should match with correct password.");
+        assertFalse(loginController.verifyUser("user2", "wrongpass"), "User2 should not match with wrong password.");
+
+        // Cleanup
         userDAO.deleteUser(user1);
         userDAO.deleteUser(user2);
-        userDAO.deleteUser(user3);
 
         // Test non-existing usernames
-        assertFalse(loginController.verifyUser("empty1", "qwerty"));
-        assertFalse(loginController.verifyUser("empty2", "qwerty"));
-        assertFalse(loginController.verifyUser("empty3", "qwerty"));
+        assertFalse(loginController.verifyUser("empty1", "qwerty"), "Non-existing user should not match.");
     }
 }
