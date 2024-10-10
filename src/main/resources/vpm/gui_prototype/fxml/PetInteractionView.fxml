@@ -17,6 +17,7 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 
+<?import javafx.scene.control.ProgressBar?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color:linear-gradient(to bottom right, #e0f7fa, #80deea);" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.PetInteractionController">
 
     <!-- Title Section -->
@@ -139,11 +140,12 @@
                 </font>
             </Label>
             <ImageView fx:id="image" preserveRatio="true" fitHeight="300" fitWidth="300"/>
-            <Label fx:id="picturePetType" alignment="CENTER">
+            <Label fx:id="moodLabel" alignment="CENTER">
                 <font>
                     <Font size="30"/>
                 </font>
             </Label>
+            <ProgressBar fx:id="moodBar" prefWidth="300" progress="0.5" style="-fx-accent: #00796B;" />
         </VBox>
     </StackPane>
 

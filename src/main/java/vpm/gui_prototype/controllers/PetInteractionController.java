@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -41,8 +42,6 @@ public class PetInteractionController {
     @FXML
     private Label picturePetName;
     @FXML
-    private Label picturePetType;
-    @FXML
     private ImageView image;
     @FXML
     private Label petName;
@@ -52,12 +51,17 @@ public class PetInteractionController {
     private Label petColour;
     @FXML
     private Label petPersonality;
+    @FXML
+    private Label moodLabel;
+    @FXML
+    private ProgressBar moodBar;
 
     private Pet currentPet;  // Holds the current pet object being interacted with
 
     public void setPet(Pet pet) {
         currentPet = pet;
         updatePetDetails();
+        updateMood();
         startTimelines();  // Start the decrement logic for happiness and hunger
     }
 
@@ -138,7 +142,6 @@ public class PetInteractionController {
             HungerField.setText(String.format("%.1f", currentPet.getFoodSatisfaction()));
             CleanField.setText(currentPet.getIsDirty() ? "Dirty" : "Clean");
             picturePetName.setText(currentPet.getName());
-            picturePetType.setText(currentPet.getType());
             petName.setText(currentPet.getName());
             petType.setText(currentPet.getType());
             petColour.setText(currentPet.getColour());
@@ -147,9 +150,38 @@ public class PetInteractionController {
         }
     }
 
+    private void updateMood( ) {
+        double moodValue = currentPet.getHappiness() * 0.4 + currentPet.getFoodSatisfaction() * 0.6;
+
+        System.out.println(moodValue);
+        if(currentPet.getIsDirty()){
+            moodValue /=2;
+        }
+        moodValue /=10;
+        System.out.println(moodValue);
+        String moodText;
+
+        if (moodValue >= 0 && moodValue <= 0.1) {
+            moodText = "Very Sad";
+        } else if (moodValue > 0.1 && moodValue <= 0.3) {
+            moodText = "Sad";
+        } else if (moodValue > 0.4 && moodValue <= 0.7) {
+            moodText = "Neutral";
+        } else if (moodValue > 0.7 && moodValue <= 0.9) {
+            moodText = "Happy";
+        } else if (moodValue > 0.9 && moodValue <= 1.0) {
+            moodText = "Very Happy";
+        } else {
+            moodText = "Unknown";  // For unexpected values
+        }
+        moodBar.setProgress(moodValue); // mood value should be between 0.0 and 1.0
+        moodLabel.setText(moodText);
+    }
+
     // Refresh UI manually to reflect any updates
     public void refreshUI() {
         Platform.runLater(this::updatePetDetails);  // Ensure UI updates happen on the JavaFX Application Thread
+        updateMood();
     }
 
     // Set the pet's image based on its type
