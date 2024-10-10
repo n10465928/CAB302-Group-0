@@ -41,7 +41,6 @@ public class loginInputsTest {
         storedPassword = hashService.getHash(password);
         User user1 = new User("user1", storedPassword, "", "");
         userDAO.addUser(user1);
-        System.out.println(storedPassword);
         assertTrue(loginController.verifyUser("user1", "qwerty1"));
         assertFalse(loginController.verifyUser("user1", "qwerty"));
 
