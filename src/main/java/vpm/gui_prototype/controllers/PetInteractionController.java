@@ -160,10 +160,12 @@ public class PetInteractionController {
         String moodText;
 
         if (moodValue >= 0 && moodValue <= 0.1) {
-            moodText = "Very Sad";
+            moodText = "I'll Run Away!";
         } else if (moodValue > 0.1 && moodValue <= 0.3) {
+            moodText = "Very Sad";
+        } else if (moodValue > 0.3 && moodValue <= 0.5) {
             moodText = "Sad";
-        } else if (moodValue > 0.4 && moodValue <= 0.7) {
+        } else if (moodValue > 0.5 && moodValue <= 0.7) {
             moodText = "Neutral";
         } else if (moodValue > 0.7 && moodValue <= 0.9) {
             moodText = "Happy";
