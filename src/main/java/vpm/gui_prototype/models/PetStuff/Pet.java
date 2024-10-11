@@ -79,14 +79,14 @@ public abstract class Pet implements IPet {
      *
      * @return the interval in milliseconds for happiness decrement
      */
-    public abstract long getHappinessDecrementInterval();
+    public abstract int getHappinessDecrementInterval();
 
     /**
      * Gets the hunger decrement interval specific to the pet.
      *
      * @return the interval in milliseconds for hunger decrement
      */
-    public abstract long getHungerDecrementInterval();
+    public abstract int getHungerDecrementInterval();
 
     // Getter and Setter methods for Pet properties
 

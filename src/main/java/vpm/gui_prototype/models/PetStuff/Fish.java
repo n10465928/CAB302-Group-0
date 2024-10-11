@@ -39,20 +39,20 @@ public class Fish extends Pet {
     /**
      * Returns the happiness decrement interval for the fish.
      *
-     * @return the happiness decrement interval in milliseconds (10 seconds)
+     * @return the happiness decrement interval in seconds
      */
     @Override
-    public long getHappinessDecrementInterval() {
-        return 10_000;  // Fish's happiness decreases every 10 seconds
+    public int getHappinessDecrementInterval() {
+        return 10;  // Fish's happiness decreases every 10 seconds
     }
 
     /**
      * Returns the hunger decrement interval for the fish.
      *
-     * @return the hunger decrement interval in milliseconds (7 seconds)
+     * @return the hunger decrement interval in seconds
      */
     @Override
-    public long getHungerDecrementInterval() {
-        return 7_000;  // Fish's hunger decreases every 7 seconds
+    public int getHungerDecrementInterval() {
+        return 7;  // Fish's hunger decreases every 7 seconds
     }
 }

@@ -39,20 +39,20 @@ public class Bird extends Pet {
     /**
      * Returns the happiness decrement interval for the bird.
      *
-     * @return the happiness decrement interval in milliseconds (10 seconds)
+     * @return the happiness decrement interval in seconds
      */
     @Override
-    public long getHappinessDecrementInterval() {
-        return 10_000;  // Bird's happiness decreases every 10 seconds
+    public int getHappinessDecrementInterval() {
+        return 10;  // Bird's happiness decreases every 10 seconds
     }
 
     /**
      * Returns the hunger decrement interval for the bird.
      *
-     * @return the hunger decrement interval in milliseconds (3 seconds)
+     * @return the hunger decrement interval in seconds
      */
     @Override
-    public long getHungerDecrementInterval() {
-        return 3_000;  // Bird's hunger decreases every 3 seconds
+    public int getHungerDecrementInterval() {
+        return 3;  // Bird's hunger decreases every 3 seconds
     }
 }

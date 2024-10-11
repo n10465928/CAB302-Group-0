@@ -39,20 +39,20 @@ public class Dog extends Pet {
     /**
      * Returns the happiness decrement interval for the dog.
      *
-     * @return the happiness decrement interval in milliseconds (5 seconds)
+     * @return the happiness decrement interval in seconds
      */
     @Override
-    public long getHappinessDecrementInterval() {
-        return 5_000;  // Dog's happiness decreases every 5 seconds
+    public int getHappinessDecrementInterval() {
+        return 5;  // Dog's happiness decreases every 5 seconds
     }
 
     /**
      * Returns the hunger decrement interval for the dog.
      *
-     * @return the hunger decrement interval in milliseconds (5 seconds)
+     * @return the hunger decrement interval in seconds
      */
     @Override
-    public long getHungerDecrementInterval() {
-        return 5_000;  // Dog's hunger decreases every 5 seconds
+    public int getHungerDecrementInterval() {
+        return 5;  // Dog's hunger decreases every 5 seconds
     }
 }
