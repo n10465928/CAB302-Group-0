@@ -15,7 +15,7 @@ import java.util.List;
  * on pets in a SQLite database.
  */
 public class SqlitePetDAO implements IPetDAO {
-    private final Connection connection;
+    public Connection connection;
 
     /**
      * Constructs an instance of SqlitePetDAO and establishes a connection
@@ -29,7 +29,7 @@ public class SqlitePetDAO implements IPetDAO {
     /**
      * Creates the pets table in the database if it does not already exist.
      */
-    private void createPetTable() {
+    public void createPetTable() {
         try (Statement statement = connection.createStatement()) {
             String createPetsTableQuery = "CREATE TABLE IF NOT EXISTS pets (" +
                     "userId INTEGER NOT NULL, " +
