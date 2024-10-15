@@ -7,6 +7,7 @@ import vpm.gui_prototype.models.PetStuff.Bird;
 import vpm.gui_prototype.models.PetStuff.Fish;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,8 @@ public class SqlitePetDAO implements IPetDAO {
                     "petFoodSatisfaction FLOAT NOT NULL, " +
                     "petIsDirty BOOLEAN NOT NULL, " +
                     "petPersonality VARCHAR NULL, " +
-                    "petCustomTrait VARCHAR NULL" +
+                    "petCustomTrait VARCHAR NULL, " +
+                    "lastInteractionTime TIMESTAMP NULL" + // New column to store last interaction time
                     ")";
             statement.execute(createPetsTableQuery);
         } catch (SQLException e) {
@@ -64,7 +66,7 @@ public class SqlitePetDAO implements IPetDAO {
 
             // Allow adding a pet if the limit is not reached
             if (numberOfPets < 8) {
-                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName, petType, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName, petType, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait, lastInteractionTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 insertPet.setInt(1, userId);
                 insertPet.setString(2, pet.getName());
                 insertPet.setString(3, pet.getType());
@@ -75,6 +77,7 @@ public class SqlitePetDAO implements IPetDAO {
                 insertPet.setBoolean(8, pet.getIsDirty());
                 insertPet.setString(9, pet.getPersonality());
                 insertPet.setString(10, pet.getCustomTrait());
+                insertPet.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));  // Save current timestamp as last interaction time
                 insertPet.executeUpdate();
             } else {
                 // Add logic to notify the user about the maximum limit of pets
@@ -88,7 +91,7 @@ public class SqlitePetDAO implements IPetDAO {
     @Override
     public void updatePet(Pet pet, int userId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?, petType = ?, petAge = ?, petColour = ?, petHappiness = ?, petFoodSatisfaction = ?, petIsDirty = ?, petPersonality = ?, petCustomTrait = ? WHERE userId = ? AND petId = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?, petType = ?, petAge = ?, petColour = ?, petHappiness = ?, petFoodSatisfaction = ?, petIsDirty = ?, petPersonality = ?, petCustomTrait = ?, lastInteractionTime = ? WHERE userId = ? AND petId = ?");
             statement.setString(1, pet.getName());
             statement.setString(2, pet.getType());
             statement.setInt(3, pet.getAge());
@@ -98,8 +101,39 @@ public class SqlitePetDAO implements IPetDAO {
             statement.setBoolean(7, pet.getIsDirty());
             statement.setString(8, pet.getPersonality());
             statement.setString(9, pet.getCustomTrait());
-            statement.setInt(10, userId);
-            statement.setInt(11, pet.getPetID());
+            statement.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));  // Update last interaction time
+            statement.setInt(11, userId);
+            statement.setInt(12, pet.getPetID());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to retrieve the last interaction time from the database
+    public LocalDateTime getLastInteractionTime(int petId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT lastInteractionTime FROM pets WHERE petId = ?");
+            statement.setInt(1, petId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Timestamp timestamp = resultSet.getTimestamp("lastInteractionTime");
+                if (timestamp != null) {
+                    return timestamp.toLocalDateTime();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Method to set the last interaction time for a pet
+    public void setLastInteractionTime(int petId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET lastInteractionTime = ? WHERE petId = ?");
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));  // Set current time
+            statement.setInt(2, petId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
