@@ -5,7 +5,9 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -55,6 +57,10 @@ public class PetInteractionController {
     private Label moodLabel;
     @FXML
     private ProgressBar moodBar;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button backButton;
 
     private Pet currentPet;  // Holds the current pet object being interacted with
 
@@ -241,17 +247,14 @@ public class PetInteractionController {
 
     // Navigate back to the pet collection view
     @FXML
-    private void onInteraction() {
+    private void onBack() {
         goBackToCollectionView();
     }
 
     // Action handler for deleting the current pet
     @FXML
-    private void onDelete() {
-        if (currentPet != null) {
-            petManager.deletePet(currentPet, userId);
-            goBackToCollectionView();
-        }
+    private void onDelete() throws IOException {
+        navigateToDeleteConformationView(currentPet);
     }
 
     @FXML
@@ -286,6 +289,26 @@ public class PetInteractionController {
             e.printStackTrace();
         }
     }
+    /**
+     * navigates to register view
+     * @throws IOException
+     */
+    private void navigateToDeleteConformationView(Pet pet) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/DeleteConfirmationView.fxml"));
+        // Load the FXML file to create the UI
+        Parent root = loader.load();
+
+        // Get the controller after loading the FXML
+        DeleteConfirmationController deleteConfirmationController = loader.getController();
+        deleteConfirmationController.setPet(pet);  // Set the pet for deletion confirmation
+
+        // Set up the stage for the confirmation dialog
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Confirm Delete");
+        stage.show();
+    }
+
 
     // Method to navigate back to the pet collection view
     private void goBackToCollectionView() {
