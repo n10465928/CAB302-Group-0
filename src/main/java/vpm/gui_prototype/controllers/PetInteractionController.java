@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
+import vpm.gui_prototype.models.FoodStuff.Food;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
@@ -200,6 +201,7 @@ public class PetInteractionController {
 
         // Determine mood text based on mood value
         String moodText;
+
         if (moodValue >= 0 && moodValue <= 0.1) {
             moodText = "I'll Run Away!";
         } else if (moodValue > 0.1 && moodValue <= 0.3) {
@@ -269,21 +271,59 @@ public class PetInteractionController {
     /**
      * Action handler for when the user plays with the pet.
      */
+    //builder for different pet plays
     @FXML
-    private void onPlay() {
-        currentPet.increaseHappiness(1f);  // Increase pet happiness
-        petManager.updatePet(currentPet, userId);  // Update the database
-        refreshUI();  // Refresh the UI
+    private void onPlay1(){
+        onPlay("Dog");
+    }
+    @FXML
+    private void onPlay2(){
+        onPlay("Cat");
+    }
+    @FXML
+    private void onPlay3(){
+        onPlay("Bird");
+    }
+    @FXML
+    private void onPlay4(){
+        onPlay("Fish");
+    }
+    // Action handler for when the user plays with the pet
+    private void onPlay(String type) {
+        currentPet.playWtihPet(type,1f);  // Increase pet happiness
+        petManager.updatePet(currentPet, userId);
+        refreshUI();
+    }
+    //onfeed builder for each button
+    @FXML
+    private void onFeed1(){
+        Food food = new Food(1.0f, "Dog");
+        onFeed(food);
+    }
+    @FXML
+    private void onFeed2(){
+        Food food = new Food(1.0f, "Cat");
+        onFeed(food);
+    }
+    @FXML
+    private void onFeed3(){
+        Food food = new Food(1.0f, "Bird");
+        onFeed(food);
     }
 
     /**
      * Action handler for when the user feeds the pet.
      */
     @FXML
-    private void onFeed() {
-        currentPet.feed(1f);  // Increase food satisfaction
-        petManager.updatePet(currentPet, userId);  // Update the database
-        refreshUI();  // Refresh the UI
+    private void onFeed4(){
+        Food food = new Food(1.0f, "Fish");
+        onFeed(food);
+    }
+    // Action handler for when the user feeds the pet
+    private void onFeed(Food food) {
+        currentPet.feed(food);  // Feed the pet (increase food satisfaction)
+        petManager.updatePet(currentPet, userId);
+        refreshUI();
     }
 
     /**

@@ -24,4 +24,19 @@ public class FoodTest {
         Food food = new Food(nutritionalValue);
         assertEquals(nutritionalValue, food.GetNutritionalValue());
     }
+
+    @Test
+    public void testFullParameterizedConstructor() {
+        Float nutritionalValue = 10f;
+        Food food = new Food(nutritionalValue);
+        assertEquals(nutritionalValue, food.GetNutritionalValue());
+    }
+
+    @Test
+    public void testGetFoodType() {
+        Float nutritionalValue = 20f;
+        String type = "Dog";
+        Food food = new Food(nutritionalValue, type);
+        assertEquals(type, food.GetFoodType());
+    }
 }

@@ -88,9 +88,10 @@ public class PetTest {
 
     @Test
     public void testSetFoodSatisfaction(){
-        pet.setHappiness(5f);
-        assertEquals(5f, pet.getHappiness());
+        pet.setFoodSatisfaction(5f);
+        assertEquals(5f, pet.getFoodSatisfaction());
     }
+
 
     @Test
     public void testGetIsDirty(){
