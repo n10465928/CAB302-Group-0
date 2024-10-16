@@ -48,6 +48,7 @@ public class CollectionController {
 
     /**
      * Constructs a CollectionController and initializes the pet manager and user ID.
+     * Initializes the pet manager with a SqlitePetDAO to manage pet data.
      */
     public CollectionController() {
         this.petManager = new PetManager(new SqlitePetDAO());
@@ -68,12 +69,13 @@ public class CollectionController {
      * It clears any existing children and populates the grid with pet tiles or empty slots.
      */
     private void setupPetSlots() {
-        petGrid.getChildren().clear();
-        List<Pet> userPets = petManager.getAllUsersPets(userId);
+        petGrid.getChildren().clear();  // Clear existing tiles
+        List<Pet> userPets = petManager.getAllUsersPets(userId);  // Fetch pets owned by the user
 
+        // Populate the grid with pet tiles or empty slots
         for (int i = 0; i < NUM_SLOTS; i++) {
             VBox tile = (i < userPets.size()) ? createPetTile(userPets.get(i)) : createEmptyPetTile();
-            petGrid.add(tile, i % 4, i / 4);
+            petGrid.add(tile, i % 4, i / 4);  // Add the tile to the grid
         }
     }
 
@@ -84,9 +86,9 @@ public class CollectionController {
      * @return A VBox containing the pet's information.
      */
     private VBox createPetTile(Pet pet) {
-        VBox tile = createTileLayout();
+        VBox tile = createTileLayout();  // Create tile layout
         tile.getChildren().addAll(createPetTypeText(pet), createPetImageView(pet), createPetNameText(pet));
-        tile.setOnMouseClicked(e -> openPetInteraction(pet));
+        tile.setOnMouseClicked(e -> openPetInteraction(pet));  // Set click event for the pet tile
         return tile;
     }
 
@@ -96,22 +98,22 @@ public class CollectionController {
      * @return A VBox indicating the slot is empty.
      */
     private VBox createEmptyPetTile() {
-        VBox tile = createTileLayout();
+        VBox tile = createTileLayout();  // Create tile layout
         tile.getChildren().addAll(createDefaultImageView(), createEmptySlotText());
-        tile.setOnMouseClicked(e -> showErrorMessage("Error: This tile does not contain a pet!"));
+        tile.setOnMouseClicked(e -> showErrorMessage("Error: This tile does not contain a pet!"));  // Show error on click
         return tile;
     }
 
     /**
-     * Creates a layout for a pet tile.
+     * Creates a layout for a pet tile with specific styles.
      *
-     * @return A VBox with the specified styles for a pet tile.
+     * @return A VBox styled for a pet tile.
      */
     private VBox createTileLayout() {
         VBox tile = new VBox();
         tile.setStyle("-fx-border-color: #00796B; -fx-border-width: 2; -fx-background-color: #B2DFDB; -fx-alignment: center; -fx-pref-width: 200; -fx-pref-height: 200; -fx-border-radius: 10; -fx-background-radius: 10;");
         tile.setPrefSize(200, 200);
-        tile.setSpacing(5);
+        tile.setSpacing(5);  // Space between children
         return tile;
     }
 
@@ -137,8 +139,8 @@ public class CollectionController {
         ImageView petImageView = new ImageView();
         petImageView.setFitWidth(100);
         petImageView.setFitHeight(100);
-        petImageView.setPreserveRatio(true);
-        setImage(petImageView, getPetImagePath(pet.getType()));
+        petImageView.setPreserveRatio(true);  // Preserve aspect ratio
+        setImage(petImageView, getPetImagePath(pet.getType()));  // Set pet image
         return petImageView;
     }
 
@@ -163,8 +165,8 @@ public class CollectionController {
         ImageView defaultImageView = new ImageView();
         defaultImageView.setFitWidth(100);
         defaultImageView.setFitHeight(100);
-        defaultImageView.setPreserveRatio(true);
-        setImage(defaultImageView, DEFAULT_IMAGE_PATH);
+        defaultImageView.setPreserveRatio(true);  // Preserve aspect ratio
+        setImage(defaultImageView, DEFAULT_IMAGE_PATH);  // Set default image
         return defaultImageView;
     }
 
@@ -189,10 +191,10 @@ public class CollectionController {
     private void setImage(ImageView imageView, String imagePath) {
         try (InputStream imageStream = getClass().getResourceAsStream(imagePath)) {
             if (imageStream != null) {
-                imageView.setImage(new Image(imageStream));
+                imageView.setImage(new Image(imageStream));  // Load image
             } else {
                 System.err.println("Error: Image not found for path: " + imagePath);
-                imageView.setImage(new Image(getClass().getResourceAsStream(DEFAULT_IMAGE_PATH)));
+                imageView.setImage(new Image(getClass().getResourceAsStream(DEFAULT_IMAGE_PATH)));  // Set default if not found
             }
         } catch (Exception e) {
             System.err.println("Error loading image: " + e.getMessage());
@@ -211,9 +213,9 @@ public class CollectionController {
             case "dog":
             case "fish":
             case "bird":
-                return String.format(PET_IMAGE_PATH_FORMAT, petType.toLowerCase());
+                return String.format(PET_IMAGE_PATH_FORMAT, petType.toLowerCase());  // Return formatted path
             default:
-                return null;
+                return null;  // Unrecognized type
         }
     }
 
@@ -223,10 +225,10 @@ public class CollectionController {
      * @param message The error message to display.
      */
     private void showErrorMessage(String message) {
-        messageLabel.setText(message);
+        messageLabel.setText(message);  // Set the error message
         messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;");
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(e -> messageLabel.setText(""));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));  // Pause for 3 seconds
+        pause.setOnFinished(e -> messageLabel.setText(""));  // Clear message after pause
         pause.play();
     }
 
@@ -241,11 +243,11 @@ public class CollectionController {
             Scene scene = new Scene(loader.load());
 
             PetInteractionController petInteractionController = loader.getController();
-            petInteractionController.setPet(pet);
+            petInteractionController.setPet(pet);  // Pass the pet to the interaction controller
 
             Stage stage = (Stage) petGrid.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Manage Pet: " + pet.getName());
+            stage.setTitle("Manage Pet: " + pet.getName());  // Set stage title
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -284,7 +286,7 @@ public class CollectionController {
      * @param title The title for the new stage.
      */
     private void changeScene(String fxmlPath, String title) {
-        changeScene(fxmlPath, title, false);
+        changeScene(fxmlPath, title, false);  // Call overloaded method without newStage flag
     }
 
     /**
@@ -301,13 +303,13 @@ public class CollectionController {
 
             Stage stage = newStage ? new Stage() : (Stage) createPetButton.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle(title);
+            stage.setTitle(title);  // Set the title for the new scene
             if (newStage) {
-                stage.show();
+                stage.show();  // Show new stage if created
             }
         } catch (IOException e) {
             e.printStackTrace();
-            showErrorMessage("Error: Could not open " + title + " view.");
+            showErrorMessage("Error: Could not open " + title + " view.");  // Show error if scene change fails
         }
     }
 }
