@@ -4,12 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
-import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
-import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
 import vpm.gui_prototype.models.PetStuff.Pet;
-import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
-import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.util.function.Consumer;
 
