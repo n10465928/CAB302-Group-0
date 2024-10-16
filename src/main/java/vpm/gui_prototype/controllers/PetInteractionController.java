@@ -222,11 +222,26 @@ public class PetInteractionController {
                 return null;
         }
     }
-
-    // Action handler for when the user plays with the pet
+    //builder for different pet plays
     @FXML
-    private void onPlay() {
-        currentPet.increaseHappiness(1f);  // Increase pet happiness
+    private void onPlay1(){
+        onPlay("Dog");
+    }
+    @FXML
+    private void onPlay2(){
+        onPlay("Cat");
+    }
+    @FXML
+    private void onPlay3(){
+        onPlay("Bird");
+    }
+    @FXML
+    private void onPlay4(){
+        onPlay("Fish");
+    }
+    // Action handler for when the user plays with the pet
+    private void onPlay(String type) {
+        currentPet.playWtihPet(type,1f);  // Increase pet happiness
         petManager.updatePet(currentPet, userId);
         refreshUI();
     }

@@ -158,6 +158,33 @@ public abstract class Pet implements IPet {
     }
 
     /**
+     * Increases the happiness of the pet by a specified amount.
+     *
+     * @param amount the amount to increase happiness by
+     * @return a message indicating the result of the operation
+     */
+    public String playWtihPet(String type, Float amount) {
+        if(Objects.equals(type, this.type)){
+            happiness += amount;
+        }else{
+            happiness -= amount;
+        }
+        happiness = roundToTwoDecimalPlaces(happiness);
+
+        if (happiness > Constants.MAXHAPPINESS) {
+            happiness = Constants.MAXHAPPINESS;
+            return "Too happy already, cannot be anymore";
+        }
+        if (happiness < 0f) {
+            happiness = 0f;
+            return "Too unhappy already, cannot be anymore";
+        }
+        return "";
+    }
+
+
+
+    /**
      * Decreases the happiness of the pet by a specified amount.
      *
      * @param amount the amount to decrease happiness by
