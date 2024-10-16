@@ -32,13 +32,13 @@
 
     <!-- Details Section -->
     <StackPane AnchorPane.topAnchor="180" AnchorPane.leftAnchor="40">
-        <VBox spacing="20" prefWidth="452" prefHeight="500" alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
+        <VBox spacing="20" prefWidth="652" prefHeight="500" alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
             <Label text="Details" alignment="CENTER" style="-fx-font-weight: bold;">
                 <font>
                     <Font size="30"/>
                 </font>
             </Label>
-            <GridPane alignment="TOP_LEFT" hgap="10" maxWidth="452.0" maxHeight="350.0" prefHeight="350.0" prefWidth="452.0" vgap="15">
+            <GridPane alignment="TOP_LEFT" hgap="10" maxWidth="652.0" maxHeight="350.0" prefHeight="350.0" prefWidth="652.0" vgap="15">
                 <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
@@ -93,7 +93,7 @@
                     <Font size="30"/>
                 </font>
             </Label>
-            <GridPane alignment="TOP_LEFT" hgap="15" maxWidth="452.0" maxHeight="150.0" prefHeight="150.0" prefWidth="452.0" vgap="15">
+            <GridPane alignment="TOP_LEFT" hgap="15" maxWidth="652.0" maxHeight="150.0" prefHeight="150.0" prefWidth="652.0" vgap="15">
                 <Label text="Happiness:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
@@ -115,7 +115,10 @@
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="feedButton" text="Feed" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed"/>
+                <JFXButton fx:id="feedButton" text="Give bone" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed1"/>
+                <JFXButton fx:id="feedButton2" text="Give milk" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="4" GridPane.rowIndex="1" onAction="#onFeed2"/>
+                <JFXButton fx:id="feedButton3" text="Give seeds" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="5" GridPane.rowIndex="1" onAction="#onFeed3"/>
+                <JFXButton fx:id="feedButton4" text="Give pellets" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="6" GridPane.rowIndex="1" onAction="#onFeed4"/>
                 <Label text="Cleanliness:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
@@ -132,20 +135,20 @@
     </StackPane>
 
     <!-- Image Section -->
-    <StackPane AnchorPane.rightAnchor="40" AnchorPane.topAnchor="180" maxWidth="452.0" prefWidth="452" minHeight="500.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
+    <StackPane AnchorPane.rightAnchor="40" AnchorPane.topAnchor="180" maxWidth="200.0" prefWidth="200" minHeight="500.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
         <VBox alignment="CENTER">
             <Label fx:id="picturePetName" alignment="CENTER">
                 <font>
                     <Font size="50"/>
                 </font>
             </Label>
-            <ImageView fx:id="image" preserveRatio="true" fitHeight="300" fitWidth="300"/>
+            <ImageView fx:id="image" preserveRatio="true" fitHeight="300" fitWidth="200"/>
             <Label fx:id="moodLabel" alignment="CENTER">
                 <font>
                     <Font size="30"/>
                 </font>
             </Label>
-            <ProgressBar fx:id="moodBar" prefWidth="300" progress="0.5" style="-fx-accent: #00796B;" />
+            <ProgressBar fx:id="moodBar" prefWidth="200" progress="0.5" style="-fx-accent: #00796B;" />
         </VBox>
     </StackPane>
 

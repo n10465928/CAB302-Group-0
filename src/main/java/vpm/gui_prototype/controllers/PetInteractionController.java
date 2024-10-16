@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
+import vpm.gui_prototype.models.FoodStuff.Food;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
@@ -229,11 +230,30 @@ public class PetInteractionController {
         petManager.updatePet(currentPet, userId);
         refreshUI();
     }
-
-    // Action handler for when the user feeds the pet
+    //onfeed builder for each button
     @FXML
-    private void onFeed() {
-        currentPet.feed(1f);  // Feed the pet (increase food satisfaction)
+    private void onFeed1(){
+        Food food = new Food(1.0f, "Dog");
+        onFeed(food);
+    }
+    @FXML
+    private void onFeed2(){
+        Food food = new Food(1.0f, "Cat");
+        onFeed(food);
+    }
+    @FXML
+    private void onFeed3(){
+        Food food = new Food(1.0f, "Bird");
+        onFeed(food);
+    }
+    @FXML
+    private void onFeed4(){
+        Food food = new Food(1.0f, "Fish");
+        onFeed(food);
+    }
+    // Action handler for when the user feeds the pet
+    private void onFeed(Food food) {
+        currentPet.feed(food);  // Feed the pet (increase food satisfaction)
         petManager.updatePet(currentPet, userId);
         refreshUI();
     }
