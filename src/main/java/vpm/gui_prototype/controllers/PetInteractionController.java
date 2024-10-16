@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.function.Consumer;
 
 public class PetInteractionController {
 
@@ -254,7 +255,16 @@ public class PetInteractionController {
     // Action handler for deleting the current pet
     @FXML
     private void onDelete() throws IOException {
-        navigateToDeleteConformationView(currentPet);
+        navigateToDeleteConformationView(currentPet, this::onDeleteConfirmed);
+    }
+
+    private void onDeleteConfirmed(boolean confirmed) {
+        if (confirmed) {
+            // Perform the deletion logic here if confirmed
+            petManager.deletePet(currentPet, userId);  // Assuming you have a method to delete the pet
+            refreshUI();
+            goBackToCollectionView();
+        }
     }
 
     @FXML
@@ -289,18 +299,14 @@ public class PetInteractionController {
             e.printStackTrace();
         }
     }
-    /**
-     * navigates to register view
-     * @throws IOException
-     */
-    private void navigateToDeleteConformationView(Pet pet) throws IOException {
+
+    private void navigateToDeleteConformationView(Pet pet, Consumer<Boolean> callback) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/DeleteConfirmationView.fxml"));
-        // Load the FXML file to create the UI
         Parent root = loader.load();
 
-        // Get the controller after loading the FXML
         DeleteConfirmationController deleteConfirmationController = loader.getController();
         deleteConfirmationController.setPet(pet);  // Set the pet for deletion confirmation
+        deleteConfirmationController.setOnConfirmationCallback(callback); // Set the callback
 
         // Set up the stage for the confirmation dialog
         Stage stage = new Stage();

@@ -15,6 +15,7 @@ import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.function.Consumer;
 
 public class DeleteConfirmationController {
 
@@ -22,6 +23,7 @@ public class DeleteConfirmationController {
     private PetManager petManager;
     private IUserDAO userDAO;
     int userId = UserSession.getInstance().getUserId(); // Manager for pet-related database operations
+    private Consumer<Boolean> onConfirmationCallback;
 
     @FXML
     private Label confirmationMessage;
@@ -30,48 +32,37 @@ public class DeleteConfirmationController {
     @FXML
     private Button cancelButton;
 
-    public DeleteConfirmationController() {
-        petManager = new PetManager(new SqlitePetDAO());
-        this.userDAO = new SqliteUserDAO();
-    }
-
     public void setPet(Pet pet) {
         this.pet = pet;
         confirmationMessage.setText("Are you sure you want to delete " + pet.getName() + "?");
     }
 
     @FXML
-    private void onConfirmDelete() {
-        if (pet != null) {
-            petManager.deletePet(pet, userId); // Delete the pet from the database
-            goBackToCollectionView();  // Navigate back to the collection view
+    private void onConfirm() {
+        if (onConfirmationCallback != null) {
+            onConfirmationCallback.accept(true); // Notify that the user confirmed
         }
+        // Close the dialog
+        Stage stage = (Stage) confirmButton.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void onCancel() {
-        closeWindow();  // Simply close the dialog
-    }
-
-    private void closeWindow() {
-        Stage stage = (Stage) confirmationMessage.getScene().getWindow();
+        if (onConfirmationCallback != null) {
+            onConfirmationCallback.accept(false); // Notify that the user cancelled
+        }
+        // Close the dialog
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
-    private void goBackToCollectionView() {
-        try {
-            userDAO.setLastInteractionTime(userId, LocalDateTime.now());
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
-            Scene scene = new Scene(loader.load());
+    public void setOnConfirmationCallback(Consumer<Boolean> callback) {
+        this.onConfirmationCallback = callback;
+    }
 
-            CollectionController collectionController = loader.getController();
-            collectionController.initialize(); // Make sure to initialize the collection view
-
-            Stage stage = (Stage) confirmButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Pet Collection");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public DeleteConfirmationController() {
+        petManager = new PetManager(new SqlitePetDAO());
+        this.userDAO = new SqliteUserDAO();
     }
 }
