@@ -16,76 +16,95 @@ import vpm.gui_prototype.models.UserStuff.UserSession;
 
 import java.io.IOException;
 
+/**
+ * Controller for the PetCreationView.
+ * Handles the creation of new pet entries by managing user inputs and interactions.
+ */
 public class PetCreationController {
 
-    private PetManager petManager;
-    int userId = UserSession.getInstance().getUserId();
+    private PetManager petManager; // Manager for pet-related database operations
+    private int userId = UserSession.getInstance().getUserId(); // Current user ID
 
     @FXML
-    private TextField petNameField;
+    private TextField petNameField; // Text field for entering pet name
 
     @FXML
-    private ComboBox<String> petTypeComboBox;
+    private ComboBox<String> petTypeComboBox; // ComboBox for selecting pet type
 
     @FXML
-    private TextField petAgeField; // Make sure this matches your FXML
+    private TextField petAgeField; // Text field for entering pet age
 
     @FXML
     private Label messageLabel; // Label for showing error messages
 
+    /**
+     * Constructor for PetCreationController. Initializes the PetManager.
+     */
     public PetCreationController() {
-        petManager = new PetManager(new SqlitePetDAO());
-    }
-
-    @FXML
-    public void initialize() {
-        petTypeComboBox.getItems().addAll("Dog", "Cat", "Bird", "Fish");
+        petManager = new PetManager(new SqlitePetDAO()); // Initialize PetManager with SQLite DAO
     }
 
     /**
-     * Evaluates if the pets name meets the conditions:
-     *      -range of 2 to 12 characters
-     *      -no special characters
-     * @param petName the users username input string
-     * @return String message
+     * Initializes the pet type ComboBox with available pet types.
+     */
+    @FXML
+    public void initialize() {
+        petTypeComboBox.getItems().addAll("Dog", "Cat", "Bird", "Fish"); // Add pet types to ComboBox
+    }
+
+    /**
+     * Evaluates if the pet's name meets specified conditions:
+     * - Length between 2 and 12 characters
+     * - No special characters allowed
+     *
+     * @param petName the pet name input string
+     * @return a validation message indicating success or failure
      */
     public String evaluatePetName(String petName) {
         if (petName.length() < 2 || petName.length() > 12) {
-            return "Your pets name must be from 2 to 12 characters long";
+            return "Your pet's name must be from 2 to 12 characters long"; // Length error
         }
-        for (int i = 0; i < petName.length(); i ++) {
+        for (int i = 0; i < petName.length(); i++) {
             char c = petName.charAt(i);
             if (!Character.isDigit(c) && !Character.isAlphabetic(c) && c != ' ') {
-                return "Your pets name must not contain special characters";
+                return "Your pet's name must not contain special characters"; // Special character error
             }
         }
-        return "Good";
+        return "Good"; // Validation successful
     }
 
+    /**
+     * Handles the pet creation process when the "Create Pet" button is pressed.
+     * Validates inputs and adds the new pet to the database.
+     */
     @FXML
     private void onCreatePet() {
         String petName = petNameField.getText();
         String petType = petTypeComboBox.getValue();
         String petAgeText = petAgeField.getText();
 
+        // Check for empty fields
         if (petName == null || petName.isEmpty() || petType == null || petType.isEmpty() || petAgeText == null || petAgeText.isEmpty()) {
-            showErrorMessage("All fields must be filled out.");
+            showErrorMessage("All fields must be filled out."); // Show error for empty fields
             return;
         }
 
         int petAge;
+        // Validate pet age input
         try {
             petAge = Integer.parseInt(petAgeText);
         } catch (NumberFormatException e) {
-            showErrorMessage("Pet age must be a valid number.");
+            showErrorMessage("Pet age must be a valid number."); // Error for invalid age
             return;
         }
 
+        // Validate pet name
         if (!evaluatePetName(petName).equals("Good")) {
-            messageLabel.setText(evaluatePetName(petName));
+            messageLabel.setText(evaluatePetName(petName)); // Show validation message
             return;
         }
 
+        // Create new pet based on selected type
         Pet newPet;
         switch (petType.toLowerCase()) {
             case "dog":
@@ -101,48 +120,56 @@ public class PetCreationController {
                 newPet = new Fish(petName, petAge);
                 break;
             default:
-                showErrorMessage("Invalid pet type selected.");
+                showErrorMessage("Invalid pet type selected."); // Error for invalid pet type
                 return;
         }
 
+        // Add the new pet to the database
         try {
-            petManager.addPet(newPet, userId);
-            showErrorMessage("Pet added successfully: " + newPet.getName());
-            goBackToCollectionView();
+            petManager.addPet(newPet, userId); // Add pet using PetManager
+            showErrorMessage("Pet added successfully: " + newPet.getName()); // Success message
+            goBackToCollectionView(); // Navigate back to collection view
         } catch (Exception e) {
-            showErrorMessage("Could not add pet to the database.");
+            showErrorMessage("Could not add pet to the database."); // Database error
             e.printStackTrace();
         }
     }
 
+    /**
+     * Handles the back button press. Navigates back to the collection view.
+     */
     @FXML
     private void onBack() {
-        goBackToCollectionView();
+        goBackToCollectionView(); // Navigate back to collection view
     }
 
-    // Navigate back to CollectionView
+    /**
+     * Navigates back to the CollectionView.
+     */
     private void goBackToCollectionView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
             Scene scene = new Scene(loader.load());
 
-            Stage stage = (Stage) petNameField.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Your Pets");
+            Stage stage = (Stage) petNameField.getScene().getWindow(); // Get the current stage
+            stage.setScene(scene); // Set the new scene
+            stage.setTitle("Your Pets"); // Set the window title
         } catch (IOException e) {
-            showErrorMessage("Error: Could not load the Collection view.");
+            showErrorMessage("Error: Could not load the Collection view."); // Error for loading view
             e.printStackTrace();
         }
     }
 
-    // Show an error message in the label for 3 seconds
+    /**
+     * Displays an error message in the label for 3 seconds.
+     *
+     * @param message the error message to display
+     */
     private void showErrorMessage(String message) {
-        messageLabel.setText(message);
+        messageLabel.setText(message); // Set error message
         messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px; -fx-font-weight: bold;"); // Set error message style
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3)); // Create a pause transition for 3 seconds
         pause.setOnFinished(e -> messageLabel.setText("")); // Clear the message after 3 seconds
-        pause.play();
+        pause.play(); // Start the pause transition
     }
-
 }
-
