@@ -74,7 +74,7 @@
                 </Label>
                 <JFXButton fx:id="editColourButton" text="Edit" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="6" GridPane.rowIndex="0" onAction="#onEditColour"/>
 
-                <Label text="Personality Trait:" GridPane.columnIndex="4" GridPane.rowIndex="1" style="-fx-font-weight: bold;">
+                <Label text="Personality:" GridPane.columnIndex="4" GridPane.rowIndex="1" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
                     </font>

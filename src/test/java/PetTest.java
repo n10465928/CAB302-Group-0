@@ -12,7 +12,7 @@ public class PetTest {
     public void setUp() {
         pet = new Dog("Max", 4, "Black",
                 10f, 10f, true,
-                "Friendly", "A Good Boy");
+                "Playful");
     }
     @Test
     public void testSetUserId() {
@@ -102,5 +102,16 @@ public class PetTest {
     public void testSetIsDirty(){
         pet.setIsDirty(true);
         assertEquals(true, pet.getIsDirty());
+    }
+
+    @Test
+    public void testGetPersonality(){
+        assertEquals("Playful", pet.getPersonality());
+    }
+
+    @Test
+    public void testSetPersonality(){
+        pet.setPersonality("Loyal");
+        assertEquals("Loyal", pet.getPersonality());
     }
 }

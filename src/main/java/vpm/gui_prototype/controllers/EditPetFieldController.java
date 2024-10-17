@@ -27,6 +27,9 @@ public class EditPetFieldController {
     private ComboBox<String> colourComboBox; // ComboBox for color selection
 
     @FXML
+    private ComboBox<String> personalityComboBox; // ComboBox for personality selection
+
+    @FXML
     private Button saveButton; // Button to save changes
 
     @FXML
@@ -44,11 +47,10 @@ public class EditPetFieldController {
     // Constants for input constraints
     private final int MAX_NAME_LENGTH = 20; // Maximum length for pet name
     private final int MAX_AGE_LENGTH = 3; // Maximum digits for age
-    private final int MAX_PERSONALITY_LENGTH = 30; // Maximum length for personality
 
     /**
      * Initializes the controller.
-     * Sets up the pet manager and initializes the color ComboBox.
+     * Sets up the pet manager and initializes the color and personality ComboBoxes.
      */
     @FXML
     public void initialize() {
@@ -57,6 +59,9 @@ public class EditPetFieldController {
 
         // Initialize color ComboBox with options
         colourComboBox.getItems().addAll("Orange", "Black", "Grey", "White");
+
+        // Initialize personality ComboBox with options
+        personalityComboBox.getItems().addAll("Affectionate", "Playful", "Independent", "Loyal");
     }
 
     /**
@@ -98,6 +103,7 @@ public class EditPetFieldController {
                 addTextLimiter(fieldValueTextField, MAX_NAME_LENGTH);
                 fieldValueTextField.setVisible(true);
                 colourComboBox.setVisible(false);
+                personalityComboBox.setVisible(false);
                 break;
             case "age":
                 fieldNameLabel.setText("Edit Pet Age");
@@ -105,24 +111,27 @@ public class EditPetFieldController {
                 addTextLimiter(fieldValueTextField, MAX_AGE_LENGTH);
                 fieldValueTextField.setVisible(true);
                 colourComboBox.setVisible(false);
+                personalityComboBox.setVisible(false);
                 break;
             case "colour":
                 fieldNameLabel.setText("Edit Pet Colour");
                 colourComboBox.setValue(currentPet.getColour());
                 fieldValueTextField.setVisible(false);
                 colourComboBox.setVisible(true);
+                personalityComboBox.setVisible(false);
                 break;
             case "personality":
                 fieldNameLabel.setText("Edit Pet Personality");
-                fieldValueTextField.setText(currentPet.getPersonality());
-                addTextLimiter(fieldValueTextField, MAX_PERSONALITY_LENGTH);
-                fieldValueTextField.setVisible(true);
+                personalityComboBox.setValue(currentPet.getPersonality());
+                fieldValueTextField.setVisible(false);
                 colourComboBox.setVisible(false);
+                personalityComboBox.setVisible(true);
                 break;
             default:
                 fieldNameLabel.setText("Unknown Field");
                 fieldValueTextField.setDisable(true); // Disable text field for unknown fields
                 colourComboBox.setDisable(true); // Disable ComboBox
+                personalityComboBox.setDisable(true); // Disable personality ComboBox
                 saveButton.setDisable(true); // Disable save button
         }
     }
@@ -191,9 +200,9 @@ public class EditPetFieldController {
             }
             currentPet.setColour(newValue);
         } else if (field.equalsIgnoreCase("personality")) {
-            String newValue = fieldValueTextField.getText().trim();
-            if (newValue.isEmpty()) {
-                fieldNameLabel.setText("Field value cannot be empty!");
+            String newValue = personalityComboBox.getValue();
+            if (newValue == null) {
+                fieldNameLabel.setText("Please select a personality!");
                 return;
             }
             currentPet.setPersonality(newValue);

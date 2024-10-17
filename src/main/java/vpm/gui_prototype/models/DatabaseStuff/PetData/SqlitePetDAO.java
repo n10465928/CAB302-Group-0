@@ -41,8 +41,7 @@ public class SqlitePetDAO implements IPetDAO {
                     "petHappiness FLOAT NOT NULL, " +
                     "petFoodSatisfaction FLOAT NOT NULL, " +
                     "petIsDirty BOOLEAN NOT NULL, " +
-                    "petPersonality VARCHAR NULL, " +
-                    "petCustomTrait VARCHAR NULL" +
+                    "petPersonality VARCHAR NULL" +
                     ")";
             statement.execute(createPetsTableQuery);
         } catch (SQLException e) {
@@ -64,7 +63,8 @@ public class SqlitePetDAO implements IPetDAO {
 
             // Allow adding a pet if the limit is not reached
             if (numberOfPets < 8) {
-                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName, petType, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName, petType, petAge, petColour, " +
+                        "petHappiness, petFoodSatisfaction, petIsDirty, petPersonality) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 insertPet.setInt(1, userId);
                 insertPet.setString(2, pet.getName());
                 insertPet.setString(3, pet.getType());
@@ -74,7 +74,6 @@ public class SqlitePetDAO implements IPetDAO {
                 insertPet.setFloat(7, pet.getFoodSatisfaction());
                 insertPet.setBoolean(8, pet.getIsDirty());
                 insertPet.setString(9, pet.getPersonality());
-                insertPet.setString(10, pet.getCustomTrait());
                 insertPet.executeUpdate();
             } else {
                 // Add logic to notify the user about the maximum limit of pets
@@ -88,7 +87,8 @@ public class SqlitePetDAO implements IPetDAO {
     @Override
     public void updatePet(Pet pet, int userId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?, petType = ?, petAge = ?, petColour = ?, petHappiness = ?, petFoodSatisfaction = ?, petIsDirty = ?, petPersonality = ?, petCustomTrait = ? WHERE userId = ? AND petId = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?, petType = ?, petAge = ?, petColour = ?, " +
+                    "petHappiness = ?, petFoodSatisfaction = ?, petIsDirty = ?, petPersonality = ? WHERE userId = ? AND petId = ?");
             statement.setString(1, pet.getName());
             statement.setString(2, pet.getType());
             statement.setInt(3, pet.getAge());
@@ -97,9 +97,8 @@ public class SqlitePetDAO implements IPetDAO {
             statement.setFloat(6, pet.getFoodSatisfaction());
             statement.setBoolean(7, pet.getIsDirty());
             statement.setString(8, pet.getPersonality());
-            statement.setString(9, pet.getCustomTrait());
-            statement.setInt(10, userId);
-            statement.setInt(11, pet.getPetID());
+            statement.setInt(9, userId);
+            statement.setInt(10, pet.getPetID());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,9 +181,8 @@ public class SqlitePetDAO implements IPetDAO {
         float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
         boolean petIsDirty = resultSet.getBoolean("petIsDirty");
         String petPersonality = resultSet.getString("petPersonality");
-        String petCustomTrait = resultSet.getString("petCustomTrait");
 
-        Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+        Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
         pet.setUserID(userId);
         pet.setPetID(petId);
         return pet;
@@ -193,28 +191,27 @@ public class SqlitePetDAO implements IPetDAO {
     /**
      * Creates the appropriate subclass of Pet based on the pet type.
      *
-     * @param petType The type of the pet (e.g., "dog", "cat").
-     * @param petName The name of the pet.
-     * @param petAge The age of the pet.
-     * @param petColour The colour of the pet.
-     * @param petHappiness The happiness level of the pet.
+     * @param petType             The type of the pet (e.g., "dog", "cat").
+     * @param petName             The name of the pet.
+     * @param petAge              The age of the pet.
+     * @param petColour           The colour of the pet.
+     * @param petHappiness        The happiness level of the pet.
      * @param petFoodSatisfaction The food satisfaction level of the pet.
-     * @param petIsDirty The dirty status of the pet.
-     * @param petPersonality The personality of the pet.
-     * @param petCustomTrait Any custom trait of the pet.
+     * @param petIsDirty          The dirty status of the pet.
+     * @param petPersonality      The personality of the pet.
      * @return A Pet object of the appropriate subclass.
      * @throws IllegalArgumentException if the pet type is unknown.
      */
-    private Pet createPetSubclass(String petType, String petName, int petAge, String petColour, float petHappiness, float petFoodSatisfaction, boolean petIsDirty, String petPersonality, String petCustomTrait) {
+    private Pet createPetSubclass(String petType, String petName, int petAge, String petColour, float petHappiness, float petFoodSatisfaction, boolean petIsDirty, String petPersonality) {
         switch (petType.toLowerCase()) {
             case "dog":
-                return new Dog(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Dog(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             case "cat":
-                return new Cat(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Cat(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             case "bird":
-                return new Bird(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Bird(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             case "fish":
-                return new Fish(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Fish(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             default:
                 throw new IllegalArgumentException("Unknown pet type: " + petType);
         }

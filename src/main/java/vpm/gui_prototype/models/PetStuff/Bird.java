@@ -27,13 +27,11 @@ public class Bird extends Pet {
      * @param foodSatisfaction the current food satisfaction level of the bird
      * @param isDirty indicates if the bird is dirty
      * @param personality the personality trait of the bird
-     * @param customTrait a custom trait for the bird
      */
     public Bird(String name, Integer age, String colour,
                 Float happiness, Float foodSatisfaction,
-                Boolean isDirty, String personality,
-                String customTrait) {
-        super(name, age, "Bird", colour, happiness, foodSatisfaction, isDirty, personality, customTrait);
+                Boolean isDirty, String personality) {
+        super(name, age, "Bird", colour, happiness, foodSatisfaction, isDirty, personality);
     }
 
     /**

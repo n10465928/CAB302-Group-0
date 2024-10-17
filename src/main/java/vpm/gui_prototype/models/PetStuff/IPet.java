@@ -147,20 +147,6 @@ public interface IPet {
     void setPersonality(String personality);
 
     /**
-     * Gets the custom trait of the pet.
-     *
-     * @return the custom trait of the pet
-     */
-    String getCustomTrait();
-
-    /**
-     * Sets the custom trait of the pet.
-     *
-     * @param customTrait the custom trait to set
-     */
-    void setCustomTrait(String customTrait);
-
-    /**
      * Rounds a float value to two decimal places.
      *
      * @param value the float value to round

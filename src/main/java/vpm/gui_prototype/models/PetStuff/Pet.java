@@ -21,7 +21,6 @@ public abstract class Pet implements IPet {
     private String type;
     private String colour;
     private String personality;
-    private String customTrait;
 
     /**
      * Default constructor for the Pet class.
@@ -47,7 +46,6 @@ public abstract class Pet implements IPet {
         this.foodSatisfaction = Constants.MAXFOODSATISFACTION / 2;
         this.isDirty = true;
         this.personality = null;
-        this.customTrait = null;
     }
 
     /**
@@ -61,11 +59,10 @@ public abstract class Pet implements IPet {
      * @param foodSatisfaction the current food satisfaction level of the pet
      * @param isDirty indicates if the pet is dirty
      * @param personality the personality trait of the pet
-     * @param customTrait a custom trait for the pet
      */
     public Pet(String name, Integer age, String type, String colour,
                Float happiness, Float foodSatisfaction, Boolean isDirty,
-               String personality, String customTrait) {
+               String personality) {
         this.name = name;
         this.age = age;
         this.type = type;
@@ -74,7 +71,6 @@ public abstract class Pet implements IPet {
         this.foodSatisfaction = foodSatisfaction;
         this.isDirty = isDirty;
         this.personality = personality;
-        this.customTrait = customTrait;
     }
 
     /**
@@ -122,9 +118,6 @@ public abstract class Pet implements IPet {
 
     public String getPersonality() { return personality; }
     public void setPersonality(String personality) { this.personality = personality; }
-
-    public String getCustomTrait() { return customTrait; }
-    public void setCustomTrait(String customTrait) { this.customTrait = customTrait; }
 
     /**
      * Rounds a float value to two decimal places.

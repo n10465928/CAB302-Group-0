@@ -27,13 +27,11 @@ public class Cat extends Pet {
      * @param foodSatisfaction the current food satisfaction level of the cat
      * @param isDirty indicates if the cat is dirty
      * @param personality the personality trait of the cat
-     * @param customTrait a custom trait for the cat
      */
     public Cat(String name, Integer age, String colour,
                Float happiness, Float foodSatisfaction,
-               Boolean isDirty, String personality,
-               String customTrait) {
-        super(name, age, "Cat", colour, happiness, foodSatisfaction, isDirty, personality, customTrait);
+               Boolean isDirty, String personality) {
+        super(name, age, "Cat", colour, happiness, foodSatisfaction, isDirty, personality);
     }
 
     /**

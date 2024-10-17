@@ -42,7 +42,7 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testAddPet() throws Exception {
-        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Playful");
         pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -59,13 +59,12 @@ public class SqlitePetDAOTest {
         assertEquals(8.5f, resultSet.getFloat("petHappiness"));
         assertEquals(7.5f, resultSet.getFloat("petFoodSatisfaction"));
         assertFalse(resultSet.getBoolean("petIsDirty"));
-        assertEquals("Friendly", resultSet.getString("petPersonality"));
-        assertEquals("Loyal", resultSet.getString("petCustomTrait"));
+        assertEquals("Playful", resultSet.getString("petPersonality"));
     }
 
     @Test
     public void testUpdatePet() throws Exception {
-        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Playful");
         pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -85,7 +84,7 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testDeletePet() throws Exception {
-        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Playful");
         pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -101,7 +100,7 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testGetPet() throws Exception {
-        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
+        Pet pet = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Playful");
         pet.setPetID(1);
         sqlitePetDAO.addPet(pet, 1);
 
@@ -115,14 +114,13 @@ public class SqlitePetDAOTest {
         assertEquals(8.5f, retrievedPet.getHappiness());
         assertEquals(7.5f, retrievedPet.getFoodSatisfaction());
         assertFalse(retrievedPet.getIsDirty());
-        assertEquals("Friendly", retrievedPet.getPersonality());
-        assertEquals("Loyal", retrievedPet.getCustomTrait());
+        assertEquals("Playful", retrievedPet.getPersonality());
     }
 
     @Test
     public void testGetAllUsersPets() throws Exception {
-        Pet pet1 = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        Pet pet2 = new Cat("Max", 4, "Black", 9.0f, 8.0f, true, "Playful", "Curious");
+        Pet pet1 = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Playful");
+        Pet pet2 = new Cat("Max", 4, "Black", 9.0f, 8.0f, true, "Affectionate");
         sqlitePetDAO.addPet(pet1, 1);
         sqlitePetDAO.addPet(pet2, 1);
 
@@ -134,8 +132,8 @@ public class SqlitePetDAOTest {
 
     @Test
     public void testGetAllPets() throws Exception {
-        Pet pet1 = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Friendly", "Loyal");
-        Pet pet2 = new Cat("Max", 4, "Black", 9.0f, 8.0f, true, "Playful", "Curious");
+        Pet pet1 = new Dog("Buddy", 3, "Brown", 8.5f, 7.5f, false, "Playful");
+        Pet pet2 = new Cat("Max", 4, "Black", 9.0f, 8.0f, true, "Affectionate");
         sqlitePetDAO.addPet(pet1, 1);
         sqlitePetDAO.addPet(pet2, 2);
 
