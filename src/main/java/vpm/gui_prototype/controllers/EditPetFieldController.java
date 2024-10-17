@@ -2,6 +2,7 @@ package vpm.gui_prototype.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox; // Import ComboBox
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -23,6 +24,9 @@ public class EditPetFieldController {
     private TextField fieldValueTextField; // Text field for entering the new value
 
     @FXML
+    private ComboBox<String> colourComboBox; // ComboBox for color selection
+
+    @FXML
     private Button saveButton; // Button to save changes
 
     @FXML
@@ -40,17 +44,19 @@ public class EditPetFieldController {
     // Constants for input constraints
     private final int MAX_NAME_LENGTH = 20; // Maximum length for pet name
     private final int MAX_AGE_LENGTH = 3; // Maximum digits for age
-    private final int MAX_COLOUR_LENGTH = 15; // Maximum length for colour
     private final int MAX_PERSONALITY_LENGTH = 30; // Maximum length for personality
 
     /**
      * Initializes the controller.
-     * Sets up the pet manager and applies text length limits.
+     * Sets up the pet manager and initializes the color ComboBox.
      */
     @FXML
     public void initialize() {
         petManager = new PetManager(new vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO());
         addTextLimiter(fieldValueTextField, MAX_NAME_LENGTH);
+
+        // Initialize color ComboBox with options
+        colourComboBox.getItems().addAll("Orange", "Black", "Grey", "White");
     }
 
     /**
@@ -90,25 +96,33 @@ public class EditPetFieldController {
                 fieldNameLabel.setText("Edit Pet Name");
                 fieldValueTextField.setText(currentPet.getName());
                 addTextLimiter(fieldValueTextField, MAX_NAME_LENGTH);
+                fieldValueTextField.setVisible(true);
+                colourComboBox.setVisible(false);
                 break;
             case "age":
                 fieldNameLabel.setText("Edit Pet Age");
                 fieldValueTextField.setText(currentPet.getAge().toString());
                 addTextLimiter(fieldValueTextField, MAX_AGE_LENGTH);
+                fieldValueTextField.setVisible(true);
+                colourComboBox.setVisible(false);
                 break;
             case "colour":
                 fieldNameLabel.setText("Edit Pet Colour");
-                fieldValueTextField.setText(currentPet.getColour());
-                addTextLimiter(fieldValueTextField, MAX_COLOUR_LENGTH);
+                colourComboBox.setValue(currentPet.getColour());
+                fieldValueTextField.setVisible(false);
+                colourComboBox.setVisible(true);
                 break;
             case "personality":
                 fieldNameLabel.setText("Edit Pet Personality");
                 fieldValueTextField.setText(currentPet.getPersonality());
                 addTextLimiter(fieldValueTextField, MAX_PERSONALITY_LENGTH);
+                fieldValueTextField.setVisible(true);
+                colourComboBox.setVisible(false);
                 break;
             default:
                 fieldNameLabel.setText("Unknown Field");
                 fieldValueTextField.setDisable(true); // Disable text field for unknown fields
+                colourComboBox.setDisable(true); // Disable ComboBox
                 saveButton.setDisable(true); // Disable save button
         }
     }
@@ -142,42 +156,50 @@ public class EditPetFieldController {
      */
     @FXML
     private void onSavePress() {
-        String newValue = fieldValueTextField.getText().trim(); // Trim whitespace from input
         String validationMessage = "Good";
 
-        // Check for empty input
-        if (newValue.isEmpty()) {
-            fieldNameLabel.setText("Field value cannot be empty!");
-            return;
-        }
-
-        // Validate and update the appropriate field
-        switch (field.toLowerCase()) {
-            case "name":
-                validationMessage = evaluatePetName(newValue);
-                if (!validationMessage.equals("Good")) {
-                    messageLabel.setText(validationMessage);
-                    return; // Exit if the name is invalid
-                }
-                currentPet.setName(newValue);
-                break;
-            case "age":
-                try {
-                    currentPet.setAge(Integer.parseInt(newValue));
-                } catch (NumberFormatException e) {
-                    fieldNameLabel.setText("Age must be a number!");
-                    return;
-                }
-                break;
-            case "colour":
-                currentPet.setColour(newValue);
-                break;
-            case "personality":
-                currentPet.setPersonality(newValue);
-                break;
-            default:
-                fieldNameLabel.setText("Unknown Field");
+        // Check for empty input and validate based on the field
+        if (field.equalsIgnoreCase("name")) {
+            String newValue = fieldValueTextField.getText().trim();
+            if (newValue.isEmpty()) {
+                fieldNameLabel.setText("Field value cannot be empty!");
                 return;
+            }
+            validationMessage = evaluatePetName(newValue);
+            if (!validationMessage.equals("Good")) {
+                messageLabel.setText(validationMessage);
+                return; // Exit if the name is invalid
+            }
+            currentPet.setName(newValue);
+        } else if (field.equalsIgnoreCase("age")) {
+            String newValue = fieldValueTextField.getText().trim();
+            if (newValue.isEmpty()) {
+                fieldNameLabel.setText("Field value cannot be empty!");
+                return;
+            }
+            try {
+                currentPet.setAge(Integer.parseInt(newValue));
+            } catch (NumberFormatException e) {
+                fieldNameLabel.setText("Age must be a number!");
+                return;
+            }
+        } else if (field.equalsIgnoreCase("colour")) {
+            String newValue = colourComboBox.getValue();
+            if (newValue == null) {
+                fieldNameLabel.setText("Please select a colour!");
+                return;
+            }
+            currentPet.setColour(newValue);
+        } else if (field.equalsIgnoreCase("personality")) {
+            String newValue = fieldValueTextField.getText().trim();
+            if (newValue.isEmpty()) {
+                fieldNameLabel.setText("Field value cannot be empty!");
+                return;
+            }
+            currentPet.setPersonality(newValue);
+        } else {
+            fieldNameLabel.setText("Unknown Field");
+            return;
         }
 
         // Save the updated pet to the database
