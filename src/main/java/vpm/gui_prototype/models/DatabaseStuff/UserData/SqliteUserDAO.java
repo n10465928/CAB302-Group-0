@@ -193,7 +193,7 @@ public class SqliteUserDAO implements IUserDAO {
                     "SELECT id FROM users WHERE username = ? AND password = ?"
             );
             statement.setString(1, username);
-            statement.setString(2, password);
+            statement.setString(2, hashService.getHash(password));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 userId = resultSet.getInt("id");
