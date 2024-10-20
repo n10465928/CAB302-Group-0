@@ -1,0 +1,9 @@
+module:vpm.gui_prototype
+vpm.gui_prototype
+vpm.gui_prototype.controllers
+vpm.gui_prototype.models.DatabaseStuff.PetData
+vpm.gui_prototype.models.DatabaseStuff.UserData
+vpm.gui_prototype.models.FoodStuff
+vpm.gui_prototype.models.PetStuff
+vpm.gui_prototype.models.UserStuff
+vpm.gui_prototype.services
