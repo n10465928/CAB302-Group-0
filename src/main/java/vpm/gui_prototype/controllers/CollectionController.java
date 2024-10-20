@@ -61,8 +61,11 @@ public class CollectionController {
      */
     @FXML
     public void initialize() {
-        setupPetSlots();
+        setupPetSlots();  // Setup pet slots for display
+        petManager.adjustStatsAfterLogin(userId);  // Adjust stats based on time passed since the last login
+        petManager.initializePetTimers();  // Start the timers for all pets
     }
+
 
     /**
      * Sets up the slots for displaying pets in the grid.
@@ -276,8 +279,10 @@ public class CollectionController {
      */
     @FXML
     private void onLogoutPress() {
+        petManager.stopAllTimersOnLogout(userId);  // Stop all pet timers and save the logout timestamp
         changeScene("/vpm/gui_prototype/fxml/LoginView.fxml", "Logout");
     }
+
 
     /**
      * Changes the current scene to a new one specified by the FXML path and title.

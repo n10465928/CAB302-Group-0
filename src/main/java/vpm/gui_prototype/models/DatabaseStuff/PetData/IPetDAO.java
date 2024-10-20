@@ -2,6 +2,7 @@ package vpm.gui_prototype.models.DatabaseStuff.PetData;
 
 import vpm.gui_prototype.models.PetStuff.Pet;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -58,4 +59,20 @@ public interface IPetDAO {
      * @return A list of all pets in the database. If there are no pets, returns an empty list.
      */
     List<Pet> getAllPets();
+
+    /**
+     * Saves the last interaction time of a user in the database.
+     *
+     * @param userId The user's ID.
+     * @param time The time to save.
+     */
+    void setLastInteractionTime(int userId, LocalDateTime time);
+
+    /**
+     * Retrieves the last interaction time of a user from the database.
+     *
+     * @param userId The user's ID.
+     * @return The last interaction time, or null if not found.
+     */
+    LocalDateTime getLastInteractionTime(int userId);
 }

@@ -1,7 +1,10 @@
 package vpm.gui_prototype.models.DatabaseStuff.PetData;
 
 import vpm.gui_prototype.models.PetStuff.Pet;
+import vpm.gui_prototype.services.TimelineService;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -18,6 +21,56 @@ public class PetManager {
      */
     public PetManager(IPetDAO petDAO) {
         this.petDAO = petDAO;
+        TimelineService.getInstance().initialize(this);  // Initialize the timeline service
+    }
+
+    /**
+     * Initializes the timers for all pets after login.
+     */
+    public void initializePetTimers() {
+        List<Pet> allPets = petDAO.getAllPets();
+        for (Pet pet : allPets) {
+            TimelineService.getInstance().startPetTimers(pet);
+        }
+    }
+
+    /**
+     * Adjusts the pet stats based on time since the last login.
+     *
+     * @param userId The user's ID.
+     */
+    public void adjustStatsAfterLogin(int userId) {
+        LocalDateTime lastInteractionTime = petDAO.getLastInteractionTime(userId);
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        if (lastInteractionTime != null) {
+            long secondsPassed = ChronoUnit.SECONDS.between(lastInteractionTime, currentTime);
+            List<Pet> userPets = petDAO.getAllUsersPets(userId);
+            for (Pet pet : userPets) {
+                adjustPetStatsBasedOnTime(pet, secondsPassed);
+                TimelineService.getInstance().startPetTimers(pet);  // Start timers for each pet
+            }
+        }
+    }
+
+    private void adjustPetStatsBasedOnTime(Pet pet, long secondsPassed) {
+        long happinessDecrements = secondsPassed / pet.getHappinessDecrementInterval();
+        long hungerDecrements = secondsPassed / pet.getHungerDecrementInterval();
+
+        pet.decreaseHappiness(0.1f * happinessDecrements);
+        pet.feed(-0.1f * hungerDecrements);
+        petDAO.updatePet(pet, pet.getUserID());
+    }
+
+    /**
+     * Stops all timers and saves the logout time.
+     *
+     * @param userId The user's ID.
+     */
+    public void stopAllTimersOnLogout(int userId) {
+        LocalDateTime logoutTime = LocalDateTime.now();
+        petDAO.setLastInteractionTime(userId, logoutTime);
+        TimelineService.getInstance().stopAllTimers();  // Stop all timers
     }
 
     /**

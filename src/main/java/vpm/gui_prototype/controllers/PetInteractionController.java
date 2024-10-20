@@ -1,11 +1,8 @@
 package vpm.gui_prototype.controllers;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,19 +10,17 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.FoodStuff.Food;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 import vpm.gui_prototype.models.PetStuff.Pet;
-import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
-import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
+import vpm.gui_prototype.services.TimelineService;
+import javafx.scene.Parent;
+
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.function.Consumer;
 
 /**
@@ -35,9 +30,6 @@ import java.util.function.Consumer;
 public class PetInteractionController {
 
     private PetManager petManager;  // Manager for pet-related database operations
-    private IUserDAO userDAO;  // DAO for user-related database operations
-    private Timeline happinessTimeline;  // Timeline for decrementing happiness
-    private Timeline hungerTimeline;  // Timeline for decrementing hunger
     private int userId = UserSession.getInstance().getUserId();  // Retrieve userId from the session
 
     // UI Elements
@@ -79,97 +71,15 @@ public class PetInteractionController {
         currentPet = pet;  // Store the current pet
         updatePetDetails();  // Update the UI with pet details
         updateMood();  // Update the mood display
-        startTimelines();  // Start the decrement logic for happiness and hunger
+        refreshUI();  // Refresh the UI to reflect ongoing decrements
     }
 
     /**
-     * Initializes the controller and updates the pet stats based on the last interaction time.
+     * Initializes the controller.
      */
     @FXML
     public void initialize() {
         petManager = new PetManager(new SqlitePetDAO());
-        userDAO = new SqliteUserDAO();
-
-        // Get the last interaction time and calculate time since then
-        LocalDateTime lastInteractionTime = userDAO.getLastInteractionTime(userId);
-        LocalDateTime currentTime = LocalDateTime.now();
-
-        if (lastInteractionTime != null) {
-            long secondsPassed = ChronoUnit.SECONDS.between(lastInteractionTime, currentTime);
-            long happinessIntervalsPassed = secondsPassed / currentPet.getHappinessDecrementInterval();
-            long hungerIntervalsPassed = secondsPassed / currentPet.getHungerDecrementInterval();
-
-            // Adjust pet stats based on the time passed
-            adjustPetStatsBasedOnTime(happinessIntervalsPassed, hungerIntervalsPassed);
-        }
-
-        // Update the last interaction time to the current time in the database
-        userDAO.setLastInteractionTime(userId, currentTime);
-    }
-
-    /**
-     * Adjusts the pet's happiness and hunger based on the time intervals passed since the last interaction.
-     *
-     * @param happinessIntervalsPassed The number of happiness intervals that have passed.
-     * @param hungerIntervalsPassed The number of hunger intervals that have passed.
-     */
-    private void adjustPetStatsBasedOnTime(long happinessIntervalsPassed, long hungerIntervalsPassed) {
-        if (currentPet != null) {
-            // Decrease happiness and hunger based on time passed
-            currentPet.decreaseHappiness(0.1f * happinessIntervalsPassed);
-            currentPet.feed(-0.1f * hungerIntervalsPassed);
-            petManager.updatePet(currentPet, userId);  // Update the database with the adjusted stats
-            refreshUI();  // Refresh the UI to reflect changes
-        }
-    }
-
-    /**
-     * Starts separate Timelines for decrementing happiness and hunger based on their specific intervals.
-     */
-    private void startTimelines() {
-        // Stop any existing timelines to prevent overlap
-        if (happinessTimeline != null) {
-            happinessTimeline.stop();
-        }
-        if (hungerTimeline != null) {
-            hungerTimeline.stop();
-        }
-
-        // Create and start the happiness timeline
-        happinessTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHappinessDecrementInterval()), event -> {
-            decrementHappiness();  // Decrement happiness at specified intervals
-        }));
-        happinessTimeline.setCycleCount(Timeline.INDEFINITE);
-        happinessTimeline.play();  // Start the timeline
-
-        // Create and start the hunger timeline
-        hungerTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHungerDecrementInterval()), event -> {
-            decrementHunger();  // Decrement hunger at specified intervals
-        }));
-        hungerTimeline.setCycleCount(Timeline.INDEFINITE);
-        hungerTimeline.play();  // Start the timeline
-    }
-
-    /**
-     * Decrements the pet's happiness and updates the UI and database accordingly.
-     */
-    private void decrementHappiness() {
-        if (currentPet != null) {
-            currentPet.decreaseHappiness(0.1f);  // Decrease happiness
-            petManager.updatePet(currentPet, userId);  // Update the database with the new stats
-            refreshUI();  // Refresh the UI
-        }
-    }
-
-    /**
-     * Decrements the pet's hunger and updates the UI and database accordingly.
-     */
-    private void decrementHunger() {
-        if (currentPet != null) {
-            currentPet.feed(-0.1f);  // Decrease hunger
-            petManager.updatePet(currentPet, userId);  // Update the database with the new stats
-            refreshUI();  // Refresh the UI
-        }
     }
 
     /**
@@ -458,7 +368,6 @@ public class PetInteractionController {
      */
     private void goBackToCollectionView() {
         try {
-            userDAO.setLastInteractionTime(userId, LocalDateTime.now());  // Update last interaction time
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
             Scene scene = new Scene(loader.load());
 
