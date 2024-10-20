@@ -1,5 +1,6 @@
 package vpm.gui_prototype.models.PetStuff;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import vpm.gui_prototype.models.Constants.Constants;
 import vpm.gui_prototype.models.FoodStuff.Food;
 
@@ -209,7 +210,9 @@ public abstract class Pet implements IPet {
     }
 
     public String feed(Food food){
-        if(Objects.equals(food.GetFoodType(), this.type)){
+        System.out.println(food.GetNutritionalValue());
+        System.out.println(food.GetCompatiblePet() + " and " + this.type);
+        if(food.GetCompatiblePet().contains(this.type)){
             foodSatisfaction += food.GetNutritionalValue();
         }
         else{
