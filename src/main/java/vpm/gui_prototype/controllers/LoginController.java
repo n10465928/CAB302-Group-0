@@ -15,68 +15,66 @@ import vpm.gui_prototype.services.LoginService;
 import java.io.IOException;
 
 /**
- * A controller for the LoginView, handles user inputs and navigation in this page
+ * Controller for the LoginView.
+ * Manages user inputs and navigation on the login page.
  */
 public class LoginController {
-    //UI elements
-    @FXML
-    private Button LoginButton;
 
-
+    // UI elements
     @FXML
-    private Button ExitButton;
+    private Button LoginButton; // Button to log in
 
     @FXML
-    private TextField usernameField;
+    private Button ExitButton; // Button to exit the application
 
     @FXML
-    private PasswordField passwordField;
+    private TextField usernameField; // Text field for username input
 
     @FXML
-    private Label errorMessageLabel;
-    //database variable
+    private PasswordField passwordField; // Password field for password input
+
+    @FXML
+    private Label errorMessageLabel; // Label to display error messages
+
+    // Database variable for user data access
     private IUserDAO userDAO;
 
     /**
-     * Constructor for LoginController, initialises a user DAO
+     * Constructor for LoginController. Initializes the user DAO.
      */
     public LoginController() {
-        // Initialize the user DAO to interact with the user database.
+        // Initialize the user DAO to interact with the user database
         userDAO = new SqliteUserDAO();
     }
 
-    // Validates that the input fields have values.
-
     /**
-     * Method to check  if the users inputs are valid before sending to database
-     * @param username the users username input string
-     * @param password the users passsword input string
-     * @return true if inputs are valid, otherwise false
+     * Validates that the input fields are not empty.
+     *
+     * @param username the user's username input string
+     * @param password the user's password input string
+     * @return a message indicating if inputs are valid or an error message
      */
     public String validInputs(String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
-            return "Good";
+            return "Good"; // Inputs are valid
         }
-        return "Please input all credentials";
+        return "Please input all credentials"; // Error message
     }
 
-    // Verifies that the user exists with the given username and password.
-
     /**
-     * verifies that the username and password inputs match an existing user in te database
-     * @param username users username input string
-     * @param password users password input string
-     * @return
+     * Verifies that the username and password match an existing user in the database.
+     *
+     * @param username the user's username input string
+     * @param password the user's password input string
+     * @return true if the user exists, otherwise false
      */
     public boolean verifyUser(String username, String password) {
-        return userDAO.verifyUser(username, password);
+        return userDAO.verifyUser(username, password); // Verify credentials using DAO
     }
 
-    // Handles login button press.
-
     /**
-     * handles login press, checks if inputs are valid then checks if they match a user in the database
-     * giving an error message or logging in appropriately
+     * Handles the login button press event.
+     * Validates user inputs, verifies user credentials, and navigates to the collection view if successful.
      */
     @FXML
     void onLoginPress() {
@@ -84,74 +82,72 @@ public class LoginController {
         String password = passwordField.getText();
 
         // Validate inputs
-        if (!validInputs(username, password).equals("Good")) {
-            errorMessageLabel.setText(validInputs(username, password));
+        String validationMessage = validInputs(username, password);
+        if (!validationMessage.equals("Good")) {
+            errorMessageLabel.setText(validationMessage); // Display validation error
             return;
         }
 
         // Verify user credentials
         if (!verifyUser(username, password)) {
-            errorMessageLabel.setText("Username or password is incorrect");
+            errorMessageLabel.setText("Username or password is incorrect"); // Display login error
             return;
         }
 
-        // Successful login - set user session and navigate to CollectionView.
+        // Successful login - set user session and navigate to CollectionView
         try {
             LoginService loginService = new LoginService();
-            loginService.login(userDAO.getUserID(username, password));
-            navigateToCollectionView();
+            loginService.login(userDAO.getUserID(username, password)); // Set user session
+            navigateToCollectionView(); // Navigate to the collection view
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Print stack trace for any exceptions
         }
     }
 
-    // Handles registration button press.
-
     /**
-     * Takes the user to the register screen
+     * Handles the registration button press event.
+     * Navigates to the registration screen.
      */
     @FXML
     void onRegisterPress() {
         try {
-            navigateToRegisterView();
+            navigateToRegisterView(); // Navigate to the register view
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Print stack trace for any exceptions
         }
     }
 
-    // Navigate to CollectionView after successful login.
-
     /**
-     * Navigates to the collection view if login is successful
-     * @throws IOException
+     * Navigates to the collection view after a successful login.
+     *
+     * @throws IOException if the FXML file cannot be loaded
      */
     private void navigateToCollectionView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
-        Stage stage = (Stage) LoginButton.getScene().getWindow();
-        stage.setScene(new Scene(loader.load()));
-        stage.setTitle("Pet Collection");
+        Stage stage = (Stage) LoginButton.getScene().getWindow(); // Get the current stage
+        stage.setScene(new Scene(loader.load())); // Load the new scene
+        stage.setTitle("Pet Collection"); // Set the window title
     }
 
-    // Navigate to RegisterView for new user registration.
-
     /**
-     * navigates to register view
-     * @throws IOException
+     * Navigates to the registration view for new user registration.
+     *
+     * @throws IOException if the FXML file cannot be loaded
      */
     private void navigateToRegisterView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/RegisterView.fxml"));
-        Stage stage = (Stage) LoginButton.getScene().getWindow();
-        stage.setScene(new Scene(loader.load()));
-        stage.setTitle("Register");
+        Stage stage = (Stage) LoginButton.getScene().getWindow(); // Get the current stage
+        stage.setScene(new Scene(loader.load())); // Load the new scene
+        stage.setTitle("Register"); // Set the window title
     }
 
     /**
-     * closes the application
+     * Handles the exit button press event.
+     * Closes the application.
      */
     @FXML
     void onExitPress() {
-        // Close application
-        Stage stage = (Stage) ExitButton.getScene().getWindow();
-        stage.close();
+        Stage stage = (Stage) ExitButton.getScene().getWindow(); // Get the current stage
+        stage.close(); // Close the application
     }
 }

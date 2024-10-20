@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.effect.DropShadow?>
 
 <VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vpm.gui_prototype.controllers.EditPetFieldController"
-      style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 15;" prefWidth="400" prefHeight="300">
+      style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 15;" prefWidth="400" prefHeight="400">
     <!-- Title Label indicating the field being edited -->
-    <Label fx:id="fieldNameLabel" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #00796B;">
-        <effect>
-            <DropShadow radius="10" color="#004D40"/>
-        </effect>
-    </Label>
+    <Label fx:id="fieldNameLabel" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #00796B;"/>
 
     <!-- TextField to input the new value for the field -->
-    <TextField fx:id="fieldValueTextField" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 8;"/>
+    <TextField fx:id="fieldValueTextField" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 8;" visible="false"/>
 
-    <!-- Error Message Label Moved Above the Button -->
-    <Label fx:id="messageLabel" text="" style="-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+    <!-- ComboBox for color selection -->
+    <ComboBox fx:id="colourComboBox" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 8;" visible="false"/>
+
+    <!-- ComboBox for personality selection -->
+    <ComboBox fx:id="personalityComboBox" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 8;" visible="false"/>
+
+    <!-- Error Message Label -->
+    <Label fx:id="messageLabel" text="" style="-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold; -fx-wrap-text: true;" />
 
     <!-- Save Button to save the new value -->
-    <Button fx:id="saveButton" text="Save" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20px; -fx-padding: 8 24;" onAction="#onSavePress">
-        <effect>
-            <DropShadow radius="10" spread="0.15" color="#004D40"/>
-        </effect>
-    </Button>
+    <Button fx:id="saveButton" text="Save" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20px; -fx-padding: 8 24;" onAction="#onSavePress"/>
 
     <!-- Cancel Button to exit without saving -->
-    <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #c62828; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20px; -fx-padding: 8 24;" onAction="#onCancelPress">
-        <effect>
-            <DropShadow radius="10" spread="0.15" color="#B71C1C"/>
-        </effect>
-    </Button>
+    <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #c62828; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20px; -fx-padding: 8 24;" onAction="#onCancelPress"/>
 </VBox>

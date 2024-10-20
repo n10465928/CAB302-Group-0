@@ -32,13 +32,13 @@
 
     <!-- Details Section -->
     <StackPane AnchorPane.topAnchor="180" AnchorPane.leftAnchor="40">
-        <VBox spacing="20" prefWidth="452" prefHeight="500" alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
+        <VBox spacing="20" prefWidth="652" prefHeight="500" alignment="CENTER" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
             <Label text="Details" alignment="CENTER" style="-fx-font-weight: bold;">
                 <font>
                     <Font size="30"/>
                 </font>
             </Label>
-            <GridPane alignment="TOP_LEFT" hgap="10" maxWidth="452.0" maxHeight="350.0" prefHeight="350.0" prefWidth="452.0" vgap="15">
+            <GridPane alignment="TOP_LEFT" hgap="10" maxWidth="652.0" maxHeight="100.0" prefHeight="200.0" prefWidth="652.0" vgap="15">
                 <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
@@ -62,29 +62,29 @@
                     </font>
                 </Label>
 
-                <Label text="Colour:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;">
+                <Label text="Colour:" GridPane.columnIndex="4" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Label fx:id="petColour" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Label fx:id="petColour" GridPane.columnIndex="5" GridPane.rowIndex="0">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="editColourButton" text="Edit" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#onEditColour"/>
+                <JFXButton fx:id="editColourButton" text="Edit" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="6" GridPane.rowIndex="0" onAction="#onEditColour"/>
 
-                <Label text="Personality Trait:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;">
+                <Label text="Personality:" GridPane.columnIndex="4" GridPane.rowIndex="1" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Label fx:id="petPersonality" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Label fx:id="petPersonality" GridPane.columnIndex="5" GridPane.rowIndex="1">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="editPersonalityButton" text="Edit" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="3" onAction="#onEditPersonality"/>
+                <JFXButton fx:id="editPersonalityButton" text="Edit" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="6" GridPane.rowIndex="1" onAction="#onEditPersonality"/>
             </GridPane>
 
             <!-- Stats Section -->
@@ -93,8 +93,8 @@
                     <Font size="30"/>
                 </font>
             </Label>
-            <GridPane alignment="TOP_LEFT" hgap="15" maxWidth="452.0" maxHeight="150.0" prefHeight="150.0" prefWidth="452.0" vgap="15">
-                <Label text="Happiness:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
+            <GridPane alignment="TOP_LEFT" hgap="15" maxWidth="652.0" maxHeight="250.0" prefHeight="250.0" prefWidth="652.0" vgap="15">
+                <Label text="Enrichment:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
                     </font>
@@ -104,60 +104,66 @@
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="playButton" text="Play" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="3" GridPane.rowIndex="0" onAction="#onPlay"/>
-                <Label text="Hunger:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;">
+                <JFXButton fx:id="playButton1" text="Fetch" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#onPlay1"/>
+                <JFXButton fx:id="playButton2" text="Laser Pointer" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="0" GridPane.rowIndex="2" onAction="#onPlay2"/>
+                <JFXButton fx:id="playButton3" text="Sing" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="0" GridPane.rowIndex="3" onAction="#onPlay3"/>
+                <JFXButton fx:id="playButton4" text="Blow Bubbles" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="0" GridPane.rowIndex="4" onAction="#onPlay4"/>
+                <Label text="Hunger:" GridPane.columnIndex="2" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Label fx:id="HungerField"  GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Label fx:id="HungerField"  GridPane.columnIndex="3" GridPane.rowIndex="0">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="feedButton" text="Feed" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="3" GridPane.rowIndex="1" onAction="#onFeed"/>
-                <Label text="Cleanliness:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;">
+                <JFXButton fx:id="feedButton" text="Give bone" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="1" onAction="#onFeed1"/>
+                <JFXButton fx:id="feedButton2" text="Give milk" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#onFeed2"/>
+                <JFXButton fx:id="feedButton3" text="Give seeds" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="3" onAction="#onFeed3"/>
+                <JFXButton fx:id="feedButton4" text="Give pellets" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="4" onAction="#onFeed4"/>
+                <Label text="Cleanliness:" GridPane.columnIndex="4" GridPane.rowIndex="0" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Label fx:id="CleanField"  GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Label fx:id="CleanField"  GridPane.columnIndex="5" GridPane.rowIndex="0">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="cleanButton" text="Wash" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;"  GridPane.columnIndex="3" GridPane.rowIndex="2" onAction="#onClean"/>
+                <JFXButton fx:id="cleanButton" text="Wash" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 20px; -fx-padding: 5 10;"  GridPane.columnIndex="4" GridPane.rowIndex="1" onAction="#onClean"/>
             </GridPane>
         </VBox>
     </StackPane>
 
     <!-- Image Section -->
-    <StackPane AnchorPane.rightAnchor="40" AnchorPane.topAnchor="180" maxWidth="452.0" prefWidth="452" minHeight="500.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
+    <StackPane AnchorPane.rightAnchor="40" AnchorPane.topAnchor="180" maxWidth="200.0" prefWidth="200" minHeight="500.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 10;">
         <VBox alignment="CENTER">
             <Label fx:id="picturePetName" alignment="CENTER">
                 <font>
                     <Font size="50"/>
                 </font>
             </Label>
-            <ImageView fx:id="image" preserveRatio="true" fitHeight="300" fitWidth="300"/>
+            <ImageView fx:id="image" preserveRatio="true" fitHeight="300" fitWidth="200"/>
             <Label fx:id="moodLabel" alignment="CENTER">
                 <font>
                     <Font size="30"/>
                 </font>
             </Label>
-            <ProgressBar fx:id="moodBar" prefWidth="300" progress="0.5" style="-fx-accent: #00796B;" />
+            <ProgressBar fx:id="moodBar" prefWidth="200" progress="0.5" style="-fx-accent: #00796B;" />
         </VBox>
     </StackPane>
 
     <!-- Back and Delete Button Section -->
     <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" prefWidth="-Infinity" alignment="CENTER" spacing="10">
         <HBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" prefWidth="-Infinity" alignment="CENTER" spacing="40">
-            <JFXButton text="Back" alignment="CENTER" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onInteraction">
+            <JFXButton fx:id="backButton" text="Back" alignment="CENTER" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onBack">
                 <effect>
                     <DropShadow radius="10" spread="0.15" color="#004D40" />
                 </effect>
             </JFXButton>
-            <JFXButton text="Delete" alignment="CENTER" style="-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onDelete">
+            <JFXButton fx:id="deleteButton" text="Delete" alignment="CENTER" style="-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onDelete">
                 <effect>
                     <DropShadow radius="10" spread="0.15" color="#B71C1C" />
                 </effect>

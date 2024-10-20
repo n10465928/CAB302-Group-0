@@ -1,6 +1,10 @@
 package vpm.gui_prototype.models.PetStuff;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import vpm.gui_prototype.models.Constants.Constants;
+import vpm.gui_prototype.models.FoodStuff.Food;
+
+import java.util.Objects;
 
 /**
  * Abstract class representing a Pet in the system.
@@ -18,7 +22,6 @@ public abstract class Pet implements IPet {
     private String type;
     private String colour;
     private String personality;
-    private String customTrait;
 
     /**
      * Default constructor for the Pet class.
@@ -44,7 +47,6 @@ public abstract class Pet implements IPet {
         this.foodSatisfaction = Constants.MAXFOODSATISFACTION / 2;
         this.isDirty = true;
         this.personality = null;
-        this.customTrait = null;
     }
 
     /**
@@ -58,11 +60,10 @@ public abstract class Pet implements IPet {
      * @param foodSatisfaction the current food satisfaction level of the pet
      * @param isDirty indicates if the pet is dirty
      * @param personality the personality trait of the pet
-     * @param customTrait a custom trait for the pet
      */
     public Pet(String name, Integer age, String type, String colour,
                Float happiness, Float foodSatisfaction, Boolean isDirty,
-               String personality, String customTrait) {
+               String personality) {
         this.name = name;
         this.age = age;
         this.type = type;
@@ -71,7 +72,6 @@ public abstract class Pet implements IPet {
         this.foodSatisfaction = foodSatisfaction;
         this.isDirty = isDirty;
         this.personality = personality;
-        this.customTrait = customTrait;
     }
 
     /**
@@ -120,9 +120,6 @@ public abstract class Pet implements IPet {
     public String getPersonality() { return personality; }
     public void setPersonality(String personality) { this.personality = personality; }
 
-    public String getCustomTrait() { return customTrait; }
-    public void setCustomTrait(String customTrait) { this.customTrait = customTrait; }
-
     /**
      * Rounds a float value to two decimal places.
      *
@@ -155,6 +152,33 @@ public abstract class Pet implements IPet {
     }
 
     /**
+     * Increases the happiness of the pet by a specified amount.
+     *
+     * @param amount the amount to increase happiness by
+     * @return a message indicating the result of the operation
+     */
+    public String playWtihPet(String type, Float amount) {
+        if(Objects.equals(type, this.type)){
+            happiness += amount;
+        }else{
+            happiness -= amount;
+        }
+        happiness = roundToTwoDecimalPlaces(happiness);
+
+        if (happiness > Constants.MAXHAPPINESS) {
+            happiness = Constants.MAXHAPPINESS;
+            return "Too happy already, cannot be anymore";
+        }
+        if (happiness < 0f) {
+            happiness = 0f;
+            return "Too unhappy already, cannot be anymore";
+        }
+        return "";
+    }
+
+
+
+    /**
      * Decreases the happiness of the pet by a specified amount.
      *
      * @param amount the amount to decrease happiness by
@@ -184,6 +208,30 @@ public abstract class Pet implements IPet {
         }
         return "";
     }
+
+    public String feed(Food food){
+        System.out.println(food.GetNutritionalValue());
+        System.out.println(food.GetCompatiblePet() + " and " + this.type);
+        if(food.GetCompatiblePet().contains(this.type)){
+            foodSatisfaction += food.GetNutritionalValue();
+        }
+        else{
+            foodSatisfaction -= food.GetNutritionalValue();
+        }
+        foodSatisfaction = roundToTwoDecimalPlaces(foodSatisfaction);
+
+        if (foodSatisfaction > Constants.MAXFOODSATISFACTION) {
+            foodSatisfaction = Constants.MAXFOODSATISFACTION;
+            return "Too fed already, cannot be anymore";
+        }
+        if (foodSatisfaction < 0f) {
+            foodSatisfaction = 0f;
+            return "Too unfed already, cannot be anymore";
+        }
+        return "";
+    }
+
+
 
     /**
      * Cleans the pet if it is dirty.

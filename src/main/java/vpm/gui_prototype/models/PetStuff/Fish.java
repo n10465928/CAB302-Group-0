@@ -27,13 +27,11 @@ public class Fish extends Pet {
      * @param foodSatisfaction the current food satisfaction level of the fish
      * @param isDirty indicates if the fish is dirty
      * @param personality the personality trait of the fish
-     * @param customTrait a custom trait for the fish
      */
     public Fish(String name, Integer age, String colour,
                 Float happiness, Float foodSatisfaction,
-                Boolean isDirty, String personality,
-                String customTrait) {
-        super(name, age, "Fish", colour, happiness, foodSatisfaction, isDirty, personality, customTrait);
+                Boolean isDirty, String personality) {
+        super(name, age, "Fish", colour, happiness, foodSatisfaction, isDirty, personality);
     }
 
     /**
