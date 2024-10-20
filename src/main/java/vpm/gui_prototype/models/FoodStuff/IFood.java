@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface IFood
 {
-    public Float GetNutritionalValueL();
-    public Float GetNutritionalValueR();
-    public Float GetFluctuation();
-    public Float GetNutritionalValue();
-    public String GetFoodType();
-    public List<String> GetCompatiblePet();
+    Float GetNutritionalValueL();
+    Float GetNutritionalValueR();
+    Float GetFluctuation();
+    Float GetNutritionalValue();
+    String GetFoodType();
+    List<String> GetCompatiblePet();
 }
