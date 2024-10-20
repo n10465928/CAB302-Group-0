@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
-import vpm.gui_prototype.models.FoodStuff.Food;
+import vpm.gui_prototype.models.FoodStuff.*;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
@@ -314,22 +314,23 @@ public class PetInteractionController {
     // Action handlers for feeding the pet
     @FXML
     private void onFeed1() {
-        Food food = new Food(1.0f, "Dog");
+//        Food food = new Food(1.0f, "Dog");
+        Food food = new Bone(1.0f, 3.0f);
         onFeed(food);
     }
     @FXML
     private void onFeed2() {
-        Food food = new Food(1.0f, "Cat");
+        Food food = new Milk(2.0f, 3.0f);
         onFeed(food);
     }
     @FXML
     private void onFeed3() {
-        Food food = new Food(1.0f, "Bird");
+        Food food = new Seed(1.0f, 1.0f);
         onFeed(food);
     }
     @FXML
     private void onFeed4() {
-        Food food = new Food(1.0f, "Fish");
+        Food food = new Pallets(2.0f, 2.0f);
         onFeed(food);
     }
 
