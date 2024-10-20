@@ -276,7 +276,33 @@ public class CollectionController {
      */
     @FXML
     private void onLogoutPress() {
-        changeScene("/vpm/gui_prototype/fxml/LoginView.fxml", "Logout");
+        showLogoutConfirmation();
+    }
+
+    /**
+     * Shows the logout confirmation dialog.
+     */
+    private void showLogoutConfirmation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LogoutConfirmationView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            LogoutConfirmationController logoutController = loader.getController();
+            logoutController.setMessage("Are you sure you want to log out?");
+            logoutController.setOnConfirmationCallback(confirmed -> {
+                if (confirmed) {
+                    changeScene("/vpm/gui_prototype/fxml/LoginView.fxml", "Logout");
+                }
+            });
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Logout Confirmation");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorMessage("Error: Could not open logout confirmation view.");  // Show error if dialog fails to load
+        }
     }
 
     /**
