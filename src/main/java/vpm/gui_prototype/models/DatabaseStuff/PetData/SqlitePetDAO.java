@@ -43,7 +43,6 @@ public class SqlitePetDAO implements IPetDAO {
                     "petFoodSatisfaction FLOAT NOT NULL, " +
                     "petIsDirty BOOLEAN NOT NULL, " +
                     "petPersonality VARCHAR NULL, " +
-                    "petCustomTrait VARCHAR NULL, " +
                     "lastInteractionTime TIMESTAMP NULL" + // New column to store last interaction time
                     ")";
             statement.execute(createPetsTableQuery);
@@ -66,7 +65,8 @@ public class SqlitePetDAO implements IPetDAO {
 
             // Allow adding a pet if the limit is not reached
             if (numberOfPets < 8) {
-                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName, petType, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait, lastInteractionTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement insertPet = connection.prepareStatement("INSERT INTO pets (userId, petName, petType, petAge, petColour, " +
+                        "petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, lastInteractionTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 insertPet.setInt(1, userId);
                 insertPet.setString(2, pet.getName());
                 insertPet.setString(3, pet.getType());
@@ -76,8 +76,7 @@ public class SqlitePetDAO implements IPetDAO {
                 insertPet.setFloat(7, pet.getFoodSatisfaction());
                 insertPet.setBoolean(8, pet.getIsDirty());
                 insertPet.setString(9, pet.getPersonality());
-                insertPet.setString(10, pet.getCustomTrait());
-                insertPet.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));  // Save current timestamp as last interaction time
+                insertPet.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));  // Save current timestamp as last interaction time
                 insertPet.executeUpdate();
             } else {
                 // Add logic to notify the user about the maximum limit of pets
@@ -91,7 +90,8 @@ public class SqlitePetDAO implements IPetDAO {
     @Override
     public void updatePet(Pet pet, int userId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?, petType = ?, petAge = ?, petColour = ?, petHappiness = ?, petFoodSatisfaction = ?, petIsDirty = ?, petPersonality = ?, petCustomTrait = ?, lastInteractionTime = ? WHERE userId = ? AND petId = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE pets SET petName = ?, petType = ?, petAge = ?, petColour = ?, petHappiness = ?, " +
+                    "petFoodSatisfaction = ?, petIsDirty = ?, petPersonality = ?, lastInteractionTime = ? WHERE userId = ? AND petId = ?");
             statement.setString(1, pet.getName());
             statement.setString(2, pet.getType());
             statement.setInt(3, pet.getAge());
@@ -100,10 +100,9 @@ public class SqlitePetDAO implements IPetDAO {
             statement.setFloat(6, pet.getFoodSatisfaction());
             statement.setBoolean(7, pet.getIsDirty());
             statement.setString(8, pet.getPersonality());
-            statement.setString(9, pet.getCustomTrait());
-            statement.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));  // Update last interaction time
-            statement.setInt(11, userId);
-            statement.setInt(12, pet.getPetID());
+            statement.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));  // Update last interaction time
+            statement.setInt(10, userId);
+            statement.setInt(11, pet.getPetID());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -216,9 +215,8 @@ public class SqlitePetDAO implements IPetDAO {
         float petFoodSatisfaction = resultSet.getFloat("petFoodSatisfaction");
         boolean petIsDirty = resultSet.getBoolean("petIsDirty");
         String petPersonality = resultSet.getString("petPersonality");
-        String petCustomTrait = resultSet.getString("petCustomTrait");
 
-        Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+        Pet pet = createPetSubclass(petType, petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
         pet.setUserID(userId);
         pet.setPetID(petId);
         return pet;
@@ -235,20 +233,19 @@ public class SqlitePetDAO implements IPetDAO {
      * @param petFoodSatisfaction The food satisfaction level of the pet.
      * @param petIsDirty The dirty status of the pet.
      * @param petPersonality The personality of the pet.
-     * @param petCustomTrait Any custom trait of the pet.
      * @return A Pet object of the appropriate subclass.
      * @throws IllegalArgumentException if the pet type is unknown.
      */
-    private Pet createPetSubclass(String petType, String petName, int petAge, String petColour, float petHappiness, float petFoodSatisfaction, boolean petIsDirty, String petPersonality, String petCustomTrait) {
+    private Pet createPetSubclass(String petType, String petName, int petAge, String petColour, float petHappiness, float petFoodSatisfaction, boolean petIsDirty, String petPersonality) {
         switch (petType.toLowerCase()) {
             case "dog":
-                return new Dog(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Dog(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             case "cat":
-                return new Cat(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Cat(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             case "bird":
-                return new Bird(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Bird(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             case "fish":
-                return new Fish(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality, petCustomTrait);
+                return new Fish(petName, petAge, petColour, petHappiness, petFoodSatisfaction, petIsDirty, petPersonality);
             default:
                 throw new IllegalArgumentException("Unknown pet type: " + petType);
         }
