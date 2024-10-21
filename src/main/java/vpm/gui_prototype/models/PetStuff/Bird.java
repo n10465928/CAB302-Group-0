@@ -41,7 +41,7 @@ public class Bird extends Pet {
      */
     @Override
     public int getHappinessDecrementInterval() {
-        return 10;  // Bird's happiness decreases every 10 seconds
+        return 2;  // Bird's happiness decreases every 10 seconds
     }
 
     /**
@@ -51,6 +51,6 @@ public class Bird extends Pet {
      */
     @Override
     public int getHungerDecrementInterval() {
-        return 3;  // Bird's hunger decreases every 3 seconds
+        return 1;  // Bird's hunger decreases every 3 seconds
     }
 }

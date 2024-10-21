@@ -1,7 +1,7 @@
 package vpm.gui_prototype.models.DatabaseStuff.PetData;
 
 import vpm.gui_prototype.models.PetStuff.Pet;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -58,4 +58,19 @@ public interface IPetDAO {
      * @return A list of all pets in the database. If there are no pets, returns an empty list.
      */
     List<Pet> getAllPets();
+
+    /**
+     * Retrieves the last interaction time for a specific pet.
+     *
+     * @param petId The ID of the pet whose last interaction time is to be retrieved.
+     * @return The last interaction time for the pet, or null if not found.
+     */
+    LocalDateTime getLastInteractionTime(int petId);
+
+    /**
+     * Sets the last interaction time for a specific pet.
+     *
+     * @param petId The ID of the pet for which the last interaction time is to be set.
+     */
+    void setLastInteractionTime(int petId);
 }

@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import vpm.gui_prototype.models.DatabaseStuff.PetData.IPetDAO;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.FoodStuff.*;
@@ -35,7 +36,8 @@ import java.util.function.Consumer;
 public class PetInteractionController {
 
     private PetManager petManager;  // Manager for pet-related database operations
-    private IUserDAO userDAO;  // DAO for user-related database operations
+    private IPetDAO petDAO;
+    //private IUserDAO userDAO;  // DAO for user-related database operations
     private Timeline happinessTimeline;  // Timeline for decrementing happiness
     private Timeline hungerTimeline;  // Timeline for decrementing hunger
     private int userId = UserSession.getInstance().getUserId();  // Retrieve userId from the session
@@ -78,7 +80,7 @@ public class PetInteractionController {
     public void setPet(Pet pet) {
         currentPet = pet;  // Store the current pet
         updatePetDetails();  // Update the UI with pet details
-        updateMood();  // Update the mood display
+        adjustStatsBasedOnTimeDifference();  // Adjust stats based on time since last interaction
         startTimelines();  // Start the decrement logic for happiness and hunger
     }
 
@@ -88,88 +90,72 @@ public class PetInteractionController {
     @FXML
     public void initialize() {
         petManager = new PetManager(new SqlitePetDAO());
-        userDAO = new SqliteUserDAO();
+        petDAO = new SqlitePetDAO();  // Initialize petDAO
+        //userDAO = new SqliteUserDAO();
+    }
 
-        // Get the last interaction time and calculate time since then
-        LocalDateTime lastInteractionTime = userDAO.getLastInteractionTime(userId);
+    /**
+     * Adjust the pet's stats based on time passed since last interaction.
+     */
+    private void adjustStatsBasedOnTimeDifference() {
+        LocalDateTime lastInteractionTime = petDAO.getLastInteractionTime(currentPet.getPetID());
         LocalDateTime currentTime = LocalDateTime.now();
 
         if (lastInteractionTime != null) {
             long secondsPassed = ChronoUnit.SECONDS.between(lastInteractionTime, currentTime);
+
+            // Calculate how many decrement intervals have passed
             long happinessIntervalsPassed = secondsPassed / currentPet.getHappinessDecrementInterval();
             long hungerIntervalsPassed = secondsPassed / currentPet.getHungerDecrementInterval();
 
-            // Adjust pet stats based on the time passed
-            adjustPetStatsBasedOnTime(happinessIntervalsPassed, hungerIntervalsPassed);
+            // Adjust stats based on intervals passed, rounding to one decimal place
+            currentPet.decreaseHappiness(roundToOneDecimal(0.1f * happinessIntervalsPassed));
+            currentPet.feed(-roundToOneDecimal(0.1f * hungerIntervalsPassed));
+
+            // Update the database with the adjusted stats
+            petManager.updatePet(currentPet, userId);
+            refreshUI();
         }
 
-        // Update the last interaction time to the current time in the database
-        userDAO.setLastInteractionTime(userId, currentTime);
+        // Save current time as last interaction time in database
+        petDAO.setLastInteractionTime(currentPet.getPetID());
     }
 
     /**
-     * Adjusts the pet's happiness and hunger based on the time intervals passed since the last interaction.
-     *
-     * @param happinessIntervalsPassed The number of happiness intervals that have passed.
-     * @param hungerIntervalsPassed The number of hunger intervals that have passed.
-     */
-    private void adjustPetStatsBasedOnTime(long happinessIntervalsPassed, long hungerIntervalsPassed) {
-        if (currentPet != null) {
-            // Decrease happiness and hunger based on time passed
-            currentPet.decreaseHappiness(0.1f * happinessIntervalsPassed);
-            currentPet.feed(-0.1f * hungerIntervalsPassed);
-            petManager.updatePet(currentPet, userId);  // Update the database with the adjusted stats
-            refreshUI();  // Refresh the UI to reflect changes
-        }
-    }
-
-    /**
-     * Starts separate Timelines for decrementing happiness and hunger based on their specific intervals.
+     * Start timelines to decrement stats in real-time when interacting.
      */
     private void startTimelines() {
-        // Stop any existing timelines to prevent overlap
-        if (happinessTimeline != null) {
-            happinessTimeline.stop();
-        }
-        if (hungerTimeline != null) {
-            hungerTimeline.stop();
-        }
+        stopTimelines();  // Stop any running timelines first
 
-        // Create and start the happiness timeline
-        happinessTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHappinessDecrementInterval()), event -> {
-            decrementHappiness();  // Decrement happiness at specified intervals
-        }));
+        happinessTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHappinessDecrementInterval()), event -> decrementHappiness()));
         happinessTimeline.setCycleCount(Timeline.INDEFINITE);
-        happinessTimeline.play();  // Start the timeline
+        happinessTimeline.play();
 
-        // Create and start the hunger timeline
-        hungerTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHungerDecrementInterval()), event -> {
-            decrementHunger();  // Decrement hunger at specified intervals
-        }));
+        hungerTimeline = new Timeline(new KeyFrame(Duration.seconds(currentPet.getHungerDecrementInterval()), event -> decrementHunger()));
         hungerTimeline.setCycleCount(Timeline.INDEFINITE);
-        hungerTimeline.play();  // Start the timeline
+        hungerTimeline.play();
     }
 
     /**
-     * Decrements the pet's happiness and updates the UI and database accordingly.
+     * Stop both happiness and hunger timelines (e.g., when leaving interaction screen).
      */
+    private void stopTimelines() {
+        if (happinessTimeline != null) happinessTimeline.stop();
+        if (hungerTimeline != null) hungerTimeline.stop();
+    }
+
     private void decrementHappiness() {
-        if (currentPet != null) {
-            currentPet.decreaseHappiness(0.1f);  // Decrease happiness
-            petManager.updatePet(currentPet, userId);  // Update the database with the new stats
-            refreshUI();  // Refresh the UI
-        }
+        currentPet.decreaseHappiness(0.1f);
+        // Update the pet stats in the database
+        petManager.updatePet(currentPet, userId);
+        refreshUI();  // Refresh the UI to show the new values
     }
 
-    /**
-     * Decrements the pet's hunger and updates the UI and database accordingly.
-     */
     private void decrementHunger() {
-        if (currentPet != null) {
-            currentPet.feed(-0.1f);  // Decrease hunger
-            petManager.updatePet(currentPet, userId);  // Update the database with the new stats
-            refreshUI();  // Refresh the UI
-        }
+        currentPet.feed(-0.1f);
+        // Update the pet stats in the database
+        petManager.updatePet(currentPet, userId);
+        refreshUI();  // Refresh the UI to show the new values
     }
 
     /**
@@ -177,7 +163,6 @@ public class PetInteractionController {
      */
     private void updatePetDetails() {
         if (currentPet != null) {
-            // Set UI elements to reflect pet's current stats
             HappinessField.setText(String.format("%.1f", currentPet.getHappiness()));
             HungerField.setText(String.format("%.1f", currentPet.getFoodSatisfaction()));
             CleanField.setText(currentPet.getIsDirty() ? "Dirty" : "Clean");
@@ -186,7 +171,7 @@ public class PetInteractionController {
             petType.setText(currentPet.getType());
             petColour.setText(currentPet.getColour());
             petPersonality.setText(currentPet.getPersonality());
-            setImage();  // Set the pet image
+            setImage();
         }
     }
 
@@ -194,20 +179,12 @@ public class PetInteractionController {
      * Updates the mood label and progress bar based on the pet's happiness and hunger.
      */
     private void updateMood() {
-        // Calculate the mood value based on happiness and food satisfaction
         double moodValue = currentPet.getHappiness() * 0.4 + currentPet.getFoodSatisfaction() * 0.6;
+        if (currentPet.getIsDirty()) moodValue /= 2;
+        moodValue /= 10;  // Normalize the mood value to range 0-1
 
-        // Mood decreases if the pet is dirty
-        if (currentPet.getIsDirty()) {
-            moodValue /= 2;
-        }
-        moodValue /= 10;  // Scale mood value to fit progress bar
-
-        // Determine mood text based on mood value
-        String moodText = determineMoodText(moodValue);
-
-        // Update UI elements with calculated mood
-        moodBar.setProgress(moodValue); // Ensure mood value is between 0.0 and 1.0
+        String moodText = getMoodText(moodValue);
+        moodBar.setProgress(moodValue);
         moodLabel.setText(moodText);
     }
 
@@ -217,31 +194,21 @@ public class PetInteractionController {
      * @param moodValue The calculated mood value.
      * @return A string representing the mood.
      */
-    private String determineMoodText(double moodValue) {
-        if (moodValue >= 0 && moodValue <= 0.1) {
-            return "I'll Run Away!";
-        } else if (moodValue > 0.1 && moodValue <= 0.3) {
-            return "Very Sad";
-        } else if (moodValue > 0.3 && moodValue <= 0.5) {
-            return "Sad";
-        } else if (moodValue > 0.5 && moodValue <= 0.7) {
-            return "Neutral";
-        } else if (moodValue > 0.7 && moodValue <= 0.9) {
-            return "Happy";
-        } else if (moodValue > 0.9 && moodValue <= 1.0) {
-            return "Very Happy";
-        } else {
-            return "Unknown";  // Handle unexpected values
-        }
+    private String getMoodText(double moodValue) {
+        if (moodValue <= 0.1) return "I'll Run Away!";
+        if (moodValue <= 0.3) return "Very Sad";
+        if (moodValue <= 0.5) return "Sad";
+        if (moodValue <= 0.7) return "Neutral";
+        if (moodValue <= 0.9) return "Happy";
+        return "Very Happy";
     }
 
     /**
      * Refreshes the UI to reflect any updates to the pet's status.
      */
-    public void refreshUI() {
-        // Ensure UI updates occur on the JavaFX Application Thread
+    private void refreshUI() {
         Platform.runLater(this::updatePetDetails);
-        updateMood();  // Update mood display
+        updateMood();
     }
 
     /**
@@ -282,6 +249,12 @@ public class PetInteractionController {
         }
     }
 
+    @FXML
+    private void onLeaveInteraction() {
+        petDAO.setLastInteractionTime(currentPet.getPetID());  // Save last interaction time
+        stopTimelines();  // Stop decrementing
+    }
+
     // Action handlers for playing with the pet
     @FXML
     private void onPlay1() {
@@ -314,7 +287,6 @@ public class PetInteractionController {
     // Action handlers for feeding the pet
     @FXML
     private void onFeed1() {
-//        Food food = new Food(1.0f, "Dog");
         Food food = new Bone(1.0f, 3.0f);
         onFeed(food);
     }
@@ -459,18 +431,24 @@ public class PetInteractionController {
      */
     private void goBackToCollectionView() {
         try {
-            userDAO.setLastInteractionTime(userId, LocalDateTime.now());  // Update last interaction time
+            onLeaveInteraction();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/CollectionView.fxml"));
             Scene scene = new Scene(loader.load());
 
             CollectionController collectionController = loader.getController();
-            collectionController.initialize();  // Initialize the collection view
+            collectionController.initialize();
 
-            Stage stage = (Stage) HappinessField.getScene().getWindow();  // Get current stage
-            stage.setScene(scene);  // Set the new scene
-            stage.setTitle("Pet Collection");  // Title for the collection view
+            Stage stage = (Stage) HappinessField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Pet Collection");
         } catch (IOException e) {
-            e.printStackTrace();  // Handle any loading errors
+            e.printStackTrace();
         }
     }
+
+    private float roundToOneDecimal(float value) {
+        return Math.round(value * 10.0f) / 10.0f;  // Round to one decimal
+    }
+
+
 }

@@ -7,6 +7,7 @@ import vpm.gui_prototype.models.PetStuff.Dog;
 import vpm.gui_prototype.models.PetStuff.Fish;
 import vpm.gui_prototype.models.PetStuff.Pet;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,16 @@ class PetManagerTest {
             @Override
             public List<Pet> getAllPets() {
                 return pets;
+            }
+
+            @Override
+            public LocalDateTime getLastInteractionTime(int petId) {
+                return null;
+            }
+
+            @Override
+            public void setLastInteractionTime(int petId) {
+
             }
 
             @Override
