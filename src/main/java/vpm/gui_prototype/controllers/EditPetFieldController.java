@@ -58,7 +58,7 @@ public class EditPetFieldController {
         addTextLimiter(fieldValueTextField, MAX_NAME_LENGTH);
 
         // Initialize color ComboBox with options
-        colourComboBox.getItems().addAll("Red", "Green", "Yellow", "Blue");
+        colourComboBox.getItems().addAll("Red", "Green", "Yellow", "Blue", "Brown", "Black");
 
         // Initialize personality ComboBox with options
         personalityComboBox.getItems().addAll("Affectionate", "Playful", "Independent", "Loyal");

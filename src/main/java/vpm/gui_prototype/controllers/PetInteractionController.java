@@ -20,8 +20,7 @@ import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.FoodStuff.*;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 import vpm.gui_prototype.models.PetStuff.Pet;
-import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
-import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
+import vpm.gui_prototype.services.SoundManager; // Import SoundManager based on its package
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +36,6 @@ public class PetInteractionController {
 
     private PetManager petManager;  // Manager for pet-related database operations
     private IPetDAO petDAO;
-    //private IUserDAO userDAO;  // DAO for user-related database operations
     private Timeline happinessTimeline;  // Timeline for decrementing happiness
     private Timeline hungerTimeline;  // Timeline for decrementing hunger
     private int userId = UserSession.getInstance().getUserId();  // Retrieve userId from the session
@@ -52,7 +50,7 @@ public class PetInteractionController {
     @FXML
     private Label picturePetName;
     @FXML
-    private ImageView image;
+    private ImageView image;  // ImageView for pet image
     @FXML
     private Label petName;
     @FXML
@@ -91,7 +89,6 @@ public class PetInteractionController {
     public void initialize() {
         petManager = new PetManager(new SqlitePetDAO());
         petDAO = new SqlitePetDAO();  // Initialize petDAO
-        //userDAO = new SqliteUserDAO();
     }
 
     /**
@@ -171,7 +168,7 @@ public class PetInteractionController {
             petType.setText(currentPet.getType());
             petColour.setText(currentPet.getColour());
             petPersonality.setText(currentPet.getPersonality());
-            setImage();
+            setImage();  // Set the pet image with color and type
         }
     }
 
@@ -212,10 +209,10 @@ public class PetInteractionController {
     }
 
     /**
-     * Sets the pet's image based on its type.
+     * Sets the pet's image based on its type and color.
      */
     private void setImage() {
-        String imagePath = getPetImagePath(currentPet.getType());  // Get the image path based on pet type
+        String imagePath = getPetImagePath(currentPet.getType(), currentPet.getColour());  // Get the image path based on pet type and color
         if (imagePath != null) {
             InputStream imageStream = getClass().getResourceAsStream(imagePath);
             if (imageStream != null) {
@@ -229,24 +226,14 @@ public class PetInteractionController {
     }
 
     /**
-     * Returns the correct image path based on the pet's type.
+     * Returns the correct image path based on the pet's type and color.
      *
      * @param petType The type of the pet (e.g., cat, dog).
-     * @return The image path corresponding to the pet type.
+     * @param petColour The color of the pet (e.g., brown, red).
+     * @return The image path corresponding to the pet type and color.
      */
-    private String getPetImagePath(String petType) {
-        switch (petType.toLowerCase()) {
-            case "cat":
-                return "/assets/cat.png";
-            case "dog":
-                return "/assets/dog.png";
-            case "fish":
-                return "/assets/fish.png";
-            case "bird":
-                return "/assets/bird.png";
-            default:
-                return null;  // Return null if the type is unrecognized
-        }
+    private String getPetImagePath(String petType, String petColour) {
+        return String.format("/assets/%s_%s.png", petType.toLowerCase(), petColour.toLowerCase());
     }
 
     @FXML
@@ -333,6 +320,8 @@ public class PetInteractionController {
     @FXML
     private void onBack() {
         goBackToCollectionView();  // Navigate back to collection view
+
+        SoundManager.playSound(currentPet.getType(), "leave");
     }
 
     /**
@@ -449,6 +438,4 @@ public class PetInteractionController {
     private float roundToOneDecimal(float value) {
         return Math.round(value * 10.0f) / 10.0f;  // Round to one decimal
     }
-
-
 }

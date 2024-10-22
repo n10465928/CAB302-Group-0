@@ -13,6 +13,7 @@ import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.PetStuff.*;
 import vpm.gui_prototype.models.UserStuff.UserSession;
+import vpm.gui_prototype.services.SoundManager; // Import SoundManager based on its package
 
 import java.io.IOException;
 
@@ -83,28 +84,25 @@ public class PetCreationController {
         String petType = petTypeComboBox.getValue();
         String petAgeText = petAgeField.getText();
 
-        // Check for empty fields
         if (petName == null || petName.isEmpty() || petType == null || petType.isEmpty() || petAgeText == null || petAgeText.isEmpty()) {
-            showErrorMessage("All fields must be filled out."); // Show error for empty fields
+            showErrorMessage("All fields must be filled out.");
             return;
         }
 
         int petAge;
-        // Validate pet age input
         try {
             petAge = Integer.parseInt(petAgeText);
         } catch (NumberFormatException e) {
-            showErrorMessage("Pet age must be a valid number."); // Error for invalid age
+            showErrorMessage("Pet age must be a valid number.");
             return;
         }
 
-        // Validate pet name
         if (!evaluatePetName(petName).equals("Good")) {
-            messageLabel.setText(evaluatePetName(petName)); // Show validation message
+            messageLabel.setText(evaluatePetName(petName));
             return;
         }
 
-        // Create new pet based on selected type
+        // Create the new pet with the default color 'brown'
         Pet newPet;
         switch (petType.toLowerCase()) {
             case "dog":
@@ -120,17 +118,24 @@ public class PetCreationController {
                 newPet = new Fish(petName, petAge);
                 break;
             default:
-                showErrorMessage("Invalid pet type selected."); // Error for invalid pet type
+                showErrorMessage("Invalid pet type selected.");
                 return;
         }
 
-        // Add the new pet to the database
+        // Set default color to "brown"
+        newPet.setColour("brown");
+
         try {
-            petManager.addPet(newPet, userId); // Add pet using PetManager
-            showErrorMessage("Pet added successfully: " + newPet.getName()); // Success message
-            goBackToCollectionView(); // Navigate back to collection view
+            // Add pet to the database
+            petManager.addPet(newPet, userId);
+
+            // Play the create sound based on the pet type
+            SoundManager.playSound(newPet.getType(), "create");
+
+            showErrorMessage("Pet added successfully: " + newPet.getName());
+            goBackToCollectionView();
         } catch (Exception e) {
-            showErrorMessage("Could not add pet to the database."); // Database error
+            showErrorMessage("Could not add pet to the database.");
             e.printStackTrace();
         }
     }

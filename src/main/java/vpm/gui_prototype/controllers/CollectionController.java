@@ -17,6 +17,7 @@ import vpm.gui_prototype.models.DatabaseStuff.PetData.PetManager;
 import vpm.gui_prototype.models.DatabaseStuff.PetData.SqlitePetDAO;
 import vpm.gui_prototype.models.PetStuff.Pet;
 import vpm.gui_prototype.models.UserStuff.UserSession;
+import vpm.gui_prototype.services.SoundManager; // Import SoundManager based on its package
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +31,6 @@ public class CollectionController {
 
     private static final int NUM_SLOTS = 8;  // Number of slots available for pets
     private static final String DEFAULT_IMAGE_PATH = "/assets/default.png";  // Default image path for pets
-    private static final String PET_IMAGE_PATH_FORMAT = "/assets/%s.png";  // Format for pet images based on type
 
     private final PetManager petManager;  // Manages pet data
     private final int userId;  // Current user's ID
@@ -88,7 +88,15 @@ public class CollectionController {
     private VBox createPetTile(Pet pet) {
         VBox tile = createTileLayout();  // Create tile layout
         tile.getChildren().addAll(createPetTypeText(pet), createPetImageView(pet), createPetNameText(pet));
-        tile.setOnMouseClicked(e -> openPetInteraction(pet));  // Set click event for the pet tile
+
+        // Set click event for the pet tile
+        tile.setOnMouseClicked(e -> {
+            // Play the interact sound for the pet
+            SoundManager.playSound(pet.getType(), "interact");
+
+            // Open the pet interaction view
+            openPetInteraction(pet);
+        });
         return tile;
     }
 
@@ -130,7 +138,7 @@ public class CollectionController {
     }
 
     /**
-     * Creates an ImageView displaying the pet's image.
+     * Creates an ImageView displaying the pet's image based on its type and color.
      *
      * @param pet The pet whose image is to be displayed.
      * @return An ImageView for the pet's image.
@@ -140,7 +148,7 @@ public class CollectionController {
         petImageView.setFitWidth(100);
         petImageView.setFitHeight(100);
         petImageView.setPreserveRatio(true);  // Preserve aspect ratio
-        setImage(petImageView, getPetImagePath(pet.getType()));  // Set pet image
+        setImage(petImageView, getPetImagePath(pet.getType(), pet.getColour()));  // Set pet image based on type and color
         return petImageView;
     }
 
@@ -202,21 +210,14 @@ public class CollectionController {
     }
 
     /**
-     * Gets the image path for a pet based on its type.
+     * Gets the image path for a pet based on its type and color.
      *
      * @param petType The type of the pet.
-     * @return The image path for the pet, or null if the type is unrecognized.
+     * @param petColour The color of the pet.
+     * @return The image path for the pet.
      */
-    private String getPetImagePath(String petType) {
-        switch (petType.toLowerCase()) {
-            case "cat":
-            case "dog":
-            case "fish":
-            case "bird":
-                return String.format(PET_IMAGE_PATH_FORMAT, petType.toLowerCase());  // Return formatted path
-            default:
-                return null;  // Unrecognized type
-        }
+    private String getPetImagePath(String petType, String petColour) {
+        return String.format("/assets/%s_%s.png", petType.toLowerCase(), petColour.toLowerCase());
     }
 
     /**
