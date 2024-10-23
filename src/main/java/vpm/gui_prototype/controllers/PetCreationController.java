@@ -122,8 +122,8 @@ public class PetCreationController {
                 return;
         }
 
-        // Set default color to "brown"
-        newPet.setColour("brown");
+        // Set default color to "Brown"
+        newPet.setColour("Brown");
 
         try {
             // Add pet to the database

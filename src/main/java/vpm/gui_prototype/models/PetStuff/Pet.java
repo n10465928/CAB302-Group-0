@@ -43,8 +43,8 @@ public abstract class Pet implements IPet {
         this.type = type;
         this.age = age;
         this.colour = null;
-        this.happiness = Constants.MAXHAPPINESS / 2;
-        this.foodSatisfaction = Constants.MAXFOODSATISFACTION / 2;
+        this.happiness = Constants.MAX_HAPPINESS / 2;
+        this.foodSatisfaction = Constants.MAX_FOOD_SATISFACTION / 2;
         this.isDirty = true;
         this.personality = null;
     }
@@ -140,8 +140,8 @@ public abstract class Pet implements IPet {
         happiness += amount;
         happiness = roundToTwoDecimalPlaces(happiness);
 
-        if (happiness > Constants.MAXHAPPINESS) {
-            happiness = Constants.MAXHAPPINESS;
+        if (happiness > Constants.MAX_HAPPINESS) {
+            happiness = Constants.MAX_HAPPINESS;
             return "Too happy already, cannot be anymore";
         }
         if (happiness < 0f) {
@@ -165,8 +165,8 @@ public abstract class Pet implements IPet {
         }
         happiness = roundToTwoDecimalPlaces(happiness);
 
-        if (happiness > Constants.MAXHAPPINESS) {
-            happiness = Constants.MAXHAPPINESS;
+        if (happiness > Constants.MAX_HAPPINESS) {
+            happiness = Constants.MAX_HAPPINESS;
             return "Too happy already, cannot be anymore";
         }
         if (happiness < 0f) {
@@ -198,8 +198,8 @@ public abstract class Pet implements IPet {
         foodSatisfaction += food;
         foodSatisfaction = roundToTwoDecimalPlaces(foodSatisfaction);
 
-        if (foodSatisfaction > Constants.MAXFOODSATISFACTION) {
-            foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        if (foodSatisfaction > Constants.MAX_FOOD_SATISFACTION) {
+            foodSatisfaction = Constants.MAX_FOOD_SATISFACTION;
             return "Too fed already, cannot be anymore";
         }
         if (foodSatisfaction < 0f) {
@@ -210,8 +210,6 @@ public abstract class Pet implements IPet {
     }
 
     public String feed(Food food){
-        System.out.println(food.GetNutritionalValue());
-        System.out.println(food.GetCompatiblePet() + " and " + this.type);
         if(food.GetCompatiblePet().contains(this.type)){
             foodSatisfaction += food.GetNutritionalValue();
         }
@@ -220,8 +218,8 @@ public abstract class Pet implements IPet {
         }
         foodSatisfaction = roundToTwoDecimalPlaces(foodSatisfaction);
 
-        if (foodSatisfaction > Constants.MAXFOODSATISFACTION) {
-            foodSatisfaction = Constants.MAXFOODSATISFACTION;
+        if (foodSatisfaction > Constants.MAX_FOOD_SATISFACTION) {
+            foodSatisfaction = Constants.MAX_FOOD_SATISFACTION;
             return "Too fed already, cannot be anymore";
         }
         if (foodSatisfaction < 0f) {

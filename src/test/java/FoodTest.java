@@ -22,7 +22,7 @@ public class FoodTest {
         Food milk = new Milk();
         assertEquals(0f, milk.GetNutritionalValue());
 
-        Food pallets = new Pallets();
+        Food pallets = new Pellets();
         assertEquals(0f, pallets.GetNutritionalValue());
     }
 
@@ -49,7 +49,7 @@ public class FoodTest {
     @Test
     public void testGetCompatiblePets() {
         List<String> compatiblePets = Arrays.asList("Cat", "Dog", "Bird", "Fish");
-        Food pallets = new Pallets();
+        Food pallets = new Pellets();
         assertEquals(pallets.GetCompatiblePet(), compatiblePets);
 
         compatiblePets = Arrays.asList("Cat", "Dog");

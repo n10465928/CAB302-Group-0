@@ -6,14 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Food implements IFood
-{
-    Float nutritionalValueL, nutritionalValueR, fluctuation;
-    String foodType;
-    List<String> compatiblePets;
+/**
+ * Abstract class representing food items for pets.
+ * This class implements the IFood interface and contains common properties and methods
+ * for various types of food.
+ */
+public abstract class Food implements IFood {
+    private Float nutritionalValueL; // Lower bound of nutritional value
+    private Float nutritionalValueR; // Upper bound of nutritional value
+    private Float fluctuation; // Fluctuation range for nutritional value
+    private String foodType; // Type of food (e.g., Bone, Meat)
+    private List<String> compatiblePets; // List of pets that can consume this food
 
     /**
-     * Default constructor for Food class
+     * Default constructor for Food class.
+     * Initializes nutritional values and food type to default.
      */
     public Food() {
         nutritionalValueL = nutritionalValueR = fluctuation = 0f;
@@ -22,10 +29,11 @@ public abstract class Food implements IFood
     }
 
     /**
-     * Constructor for Food class
-     * @param nutritionalValueL the lowerbound of the nutritionalValue
-     * @param nutritionalValueR the upperbound of the nutritionalValue
-     * @param foodType the type of food
+     * Constructor for Food class with specified nutritional values and food type.
+     *
+     * @param nutritionalValueL The lower bound of the nutritional value.
+     * @param nutritionalValueR The upper bound of the nutritional value.
+     * @param foodType          The type of food.
      */
     public Food(Float nutritionalValueL, Float nutritionalValueR, String foodType) {
         this.nutritionalValueL = nutritionalValueL;
@@ -34,12 +42,14 @@ public abstract class Food implements IFood
     }
 
     /**
-     * Constructor for Food class
-     * @param nutritionalValueL the lowerbound of the nutritionalValue
-     * @param nutritionalValueR the upperbound of the nutritionalValue
-     * @param fluctuation the fluctuation range of nutritionalValue
-     * @param foodType the type of food
-     * @param compatiblePets the list of pets that is compatible to the food
+     * Constructor for Food class with specified nutritional values, fluctuation, food type,
+     * and compatible pets.
+     *
+     * @param nutritionalValueL  The lower bound of the nutritional value.
+     * @param nutritionalValueR  The upper bound of the nutritional value.
+     * @param fluctuation        The fluctuation range of the nutritional value.
+     * @param foodType          The type of food.
+     * @param compatiblePets     The list of pets compatible with this food.
      */
     public Food(Float nutritionalValueL, Float nutritionalValueR, Float fluctuation, String foodType, List<String> compatiblePets) {
         this.nutritionalValueL = nutritionalValueL;
@@ -50,31 +60,37 @@ public abstract class Food implements IFood
     }
 
     /**
-     *  Return a random value in range [L, R] of nutritionalValue
-     *  as food may vary in actual nutritionalValue
+     * Returns a random nutritional value within the range [L, R].
+     * The actual nutritional value may vary due to fluctuation.
+     *
+     * @return A randomly generated nutritional value.
      */
     @Override
     public Float GetNutritionalValue() {
         Random rand = new Random();
-        float mid = (nutritionalValueL + nutritionalValueR)/2;
-        // random fluctuation value in range [-fluctuation, fluctuation]
+        float mid = (nutritionalValueL + nutritionalValueR) / 2;
+        // Random fluctuation in range [-fluctuation, fluctuation]
         float randFluctuation = (rand.nextFloat() * 2 - 1) * fluctuation;
         float nutritionValue = randFluctuation + mid;
-        nutritionValue = Math.max(nutritionValue, nutritionalValueL);
-        nutritionValue = Math.min(nutritionValue, nutritionalValueR);
+        nutritionValue = Math.max(nutritionValue, nutritionalValueL); // Ensure it does not go below L
+        nutritionValue = Math.min(nutritionValue, nutritionalValueR); // Ensure it does not exceed R
         return nutritionValue;
     }
 
     /**
-     * Function to get the type of food
-     * @return the type of food
+     * Returns the type of food.
+     *
+     * @return The type of food.
      */
     @Override
-    public String GetFoodType() {return foodType;}
+    public String GetFoodType() {
+        return foodType;
+    }
 
     /**
-     * Function to get the list of pets that is compatible to the food.
-     * @return the list of pets that is compatible to the food
+     * Returns the list of pets compatible with this food.
+     *
+     * @return A list of compatible pets.
      */
     @Override
     public List<String> GetCompatiblePet() {
@@ -82,8 +98,9 @@ public abstract class Food implements IFood
     }
 
     /**
-     * Get function for nutritionalValueL
-     * @return the nutritionalValueL
+     * Returns the lower bound of the nutritional value.
+     *
+     * @return The lower bound of the nutritional value.
      */
     @Override
     public Float GetNutritionalValueL() {
@@ -91,8 +108,9 @@ public abstract class Food implements IFood
     }
 
     /**
-     * Get function for nutritionalValueR
-     * @return the nutritionalValueR
+     * Returns the upper bound of the nutritional value.
+     *
+     * @return The upper bound of the nutritional value.
      */
     @Override
     public Float GetNutritionalValueR() {
@@ -100,12 +118,12 @@ public abstract class Food implements IFood
     }
 
     /**
-     * Get function for fluctuation
-     * @return the fluctuation
+     * Returns the fluctuation range for the nutritional value.
+     *
+     * @return The fluctuation range.
      */
     @Override
     public Float GetFluctuation() {
         return fluctuation;
     }
-
 }
