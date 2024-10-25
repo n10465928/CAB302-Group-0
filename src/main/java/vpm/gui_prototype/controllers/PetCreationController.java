@@ -103,7 +103,8 @@ public class PetCreationController {
         }
 
         // Create the new pet with the default color 'brown'
-        Pet newPet;
+        Pet newPet = PetFactory.createPet(petType.toLowerCase(), petName, petAge);
+        /*
         switch (petType.toLowerCase()) {
             case "dog":
                 newPet = new Dog(petName, petAge);
@@ -120,9 +121,10 @@ public class PetCreationController {
             default:
                 showErrorMessage("Invalid pet type selected.");
                 return;
-        }
+        }*/
 
         // Set default color to "Brown"
+        assert newPet != null;
         newPet.setColour("Brown");
 
         try {
