@@ -18,9 +18,9 @@ public class PetFactory {
     private static Pet createCat(String name, int age){
         return new Cat(name, age);}
     private static Pet createFish(String name, int age){
-        return new Cat(name, age);
+        return new Fish(name, age);
     }
     private static Pet createBird(String name, int age){
-        return new Dog(name, age);}
+        return new Bird(name, age);}
 
 }
