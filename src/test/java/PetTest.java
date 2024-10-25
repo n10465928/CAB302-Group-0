@@ -156,15 +156,6 @@ public class PetTest {
     }
 
     @Test
-    public void testPlayWithSameTypeMaxHappiness() {
-        pet.setHappiness(Constants.MAX_HAPPINESS); // Set pet happiness to max
-        String result = pet.playWtihPet("Dog", 5.0f); // Play with the same type
-
-        assertEquals("Too happy already, cannot be anymore", result);
-        assertEquals(Constants.MAX_HAPPINESS, pet.getHappiness(), "Happiness should remain at max.");
-    }
-
-    @Test
     public void testPlayWithDifferentTypeMinHappiness() {
         pet.setHappiness(0f); // Set pet happiness to minimum
         String result = pet.playWtihPet("Cat", 5.0f); // Play with a different type

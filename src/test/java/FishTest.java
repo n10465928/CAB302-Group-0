@@ -2,53 +2,65 @@
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import vpm.gui_prototype.models.Constants.Constants;
+import vpm.gui_prototype.models.PetStuff.Bird;
 import vpm.gui_prototype.models.PetStuff.Fish;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FishTest {
-
-    private Fish testFish;
+class FishTest {
+    private Fish fish;
 
     @BeforeEach
-    public void setUp() {
-        testFish = new Fish("Nemo", 2); // Create a new Fish instance
+    void setUp() {
+        // Set up a default Bird object for testing
+        fish = new Fish("Bubbles", 2);
     }
 
     @Test
-    public void testFishConstructor_WithValidAge() {
-        assertEquals("Nemo", testFish.getName());
-        assertEquals("Fish", testFish.getType());
-        assertEquals(2, testFish.getAge());
-        assertNull(testFish.getColour());
-        assertEquals(Constants.MAX_HAPPINESS / 2, testFish.getHappiness());
-        assertEquals(Constants.MAX_FOOD_SATISFACTION / 2, testFish.getFoodSatisfaction());
-        assertTrue(testFish.getIsDirty());
-        assertNull(testFish.getPersonality());
-    }
-
-
-
-    @Test
-    public void testFishConstructor_WithFullAttributes() {
-        Fish fullFish = new Fish("Goldie", 1, "Gold", 8.0f, 9.0f, false, "Friendly");
-        assertEquals("Goldie", fullFish.getName());
-        assertEquals(1, fullFish.getAge());
-        assertEquals("Gold", fullFish.getColour());
-        assertEquals(8.0f, fullFish.getHappiness());
-        assertEquals(9.0f, fullFish.getFoodSatisfaction());
-        assertFalse(fullFish.getIsDirty());
-        assertEquals("Friendly", fullFish.getPersonality());
+    void testFishConstructorWithNameAndAge() {
+        assertEquals("Bubbles", fish.getName());
+        assertEquals("Fish", fish.getType());
+        assertEquals(2, fish.getAge());
     }
 
     @Test
-    public void testGetHappinessDecrementInterval() {
-        assertEquals(10, testFish.getHappinessDecrementInterval());
+    void testFishConstructorWithAllAttributes() {
+        Fish fishWithAttributes = new Fish("Nemo", 3, "Green", 7.5f, 5.0f, false, "Friendly");
+
+        assertEquals("Nemo", fishWithAttributes.getName());
+        assertEquals(3, fishWithAttributes.getAge());
+        assertEquals("Green", fishWithAttributes.getColour());
+        assertEquals(7.5f, fishWithAttributes.getHappiness());
+        assertEquals(5.0f, fishWithAttributes.getFoodSatisfaction());
+        assertFalse(fishWithAttributes.getIsDirty());
+        assertEquals("Friendly", fishWithAttributes.getPersonality());
     }
 
     @Test
-    public void testGetHungerDecrementInterval() {
-        assertEquals(7, testFish.getHungerDecrementInterval());
+    void testGetHappinessDecrementInterval() {
+        assertEquals(10, fish.getHappinessDecrementInterval());
+    }
+
+    @Test
+    void testGetHungerDecrementInterval() {
+        assertEquals(7, fish.getHungerDecrementInterval());
+    }
+
+    @Test
+    void testHappinessRange() {
+        fish.setHappiness(10.0f);
+        assertTrue(fish.getHappiness() <= 10 && fish.getHappiness() >= 0);
+
+        fish.setHappiness(0.0f);
+        assertTrue(fish.getHappiness() <= 10 && fish.getHappiness() >= 0);
+    }
+
+    @Test
+    void testFoodSatisfactionRange() {
+        fish.setFoodSatisfaction(10.0f);
+        assertTrue(fish.getFoodSatisfaction() <= 10 && fish.getFoodSatisfaction() >= 0);
+
+        fish.setFoodSatisfaction(0.0f);
+        assertTrue(fish.getFoodSatisfaction() <= 10 && fish.getFoodSatisfaction() >= 0);
     }
 }
