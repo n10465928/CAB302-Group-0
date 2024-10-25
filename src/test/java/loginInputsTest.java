@@ -39,7 +39,7 @@ public class loginInputsTest {
         assertEquals(loginController.validInputs("", "pass"), condition1);
     }
 
-    /*
+
     @Test
     void testMatchingCredentials() {
         String password = "qwerty1";
@@ -62,7 +62,4 @@ public class loginInputsTest {
         // Cleanup
         userDAO.deleteUser(user1);
     }
-
-     */
-
 }

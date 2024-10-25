@@ -39,4 +39,11 @@ public class UserSession {
     public int getUserId() {
         return userId; // Return the current user ID
     }
+
+    /**
+     * Resets the User ID for tests
+     */
+    public void reset() {
+        this.userId = 0;
+    }
 }
