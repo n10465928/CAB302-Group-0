@@ -3,7 +3,7 @@ package vpm.gui_prototype.services;
 import vpm.gui_prototype.models.UserStuff.UserSession;
 
 /**
- * Service class to handle user login operations.
+ *
  */
 public class LoginService {
 
