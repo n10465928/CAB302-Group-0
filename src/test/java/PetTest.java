@@ -16,9 +16,6 @@ public class PetTest {
         pet = new Dog("Max", 4, "Black",
                 10f, 10f, true,
                 "Playful");
-        pet = new Bird("Budgie", 40, "Crimson Red",
-                10f, 10f, true,
-                "Grumpy");
 
     }
     @Test
