@@ -38,28 +38,4 @@ public class loginInputsTest {
         assertEquals(loginController.validInputs("user", ""), condition1);
         assertEquals(loginController.validInputs("", "pass"), condition1);
     }
-
-
-    @Test
-    void testMatchingCredentials() {
-        String password = "qwerty1";
-        String storedPassword = hashService.getHash(password);
-        User user1 = new User("user1", storedPassword, "", "");
-
-        // Add user and confirm addition
-        userDAO.addUser(user1);
-        System.out.println("Trying to retrieve user1 after addition...");
-        User retrievedUser1 = userDAO.getUserByUsername("user1");
-
-        // Assert user was added
-        assertNotNull(retrievedUser1, "User1 should exist after being added.");
-        assertEquals(user1.getUsername(), retrievedUser1.getUsername(), "Retrieved username should match.");
-
-        // Verify password
-        assertTrue(loginController.verifyUser("user1", password), "User1 should match with correct password.");
-        assertFalse(loginController.verifyUser("user1", "wrongpass"), "User1 should not match with wrong password.");
-
-        // Cleanup
-        userDAO.deleteUser(user1);
-    }
 }

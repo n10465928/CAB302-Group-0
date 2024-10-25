@@ -12,5 +12,4 @@ public class PetFactory {
                 .setAge(age)
                 .build();
     }
-
 }
