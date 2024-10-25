@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Main application class.
+ * Main application class for the virtual pet simulator.
  */
 public class Main extends Application {
 
