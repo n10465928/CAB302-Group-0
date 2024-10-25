@@ -1,7 +1,5 @@
 package vpm.gui_prototype.models.FoodStuff;
 
-import vpm.gui_prototype.models.PetStuff.Pet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

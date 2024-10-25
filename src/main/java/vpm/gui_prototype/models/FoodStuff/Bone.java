@@ -1,8 +1,5 @@
 package vpm.gui_prototype.models.FoodStuff;
 
-import vpm.gui_prototype.models.PetStuff.Cat;
-import vpm.gui_prototype.models.PetStuff.Pet;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,12 +15,20 @@ public class Bone extends Food {
     // List of pets that can consume this food
     private static final List<String> defaultCompatiblePets = Arrays.asList("Cat", "Dog");
 
+    // Nutritional values
+    private Float nutritionalValueL;
+    private Float nutritionalValueR;
+    private Float fluctuation;
+
     /**
      * Default constructor that initializes a Bone object with default values.
      */
     public Bone() {
         // Call the superclass constructor with default values
         super(0f, 0f, defaultFluctuation, foodType, defaultCompatiblePets);
+        this.nutritionalValueL = 0f;
+        this.nutritionalValueR = 0f;
+        this.fluctuation = defaultFluctuation;
     }
 
     /**
@@ -33,8 +38,10 @@ public class Bone extends Food {
      * @param nutritionalValueR The upper bound of the nutritional value.
      */
     public Bone(Float nutritionalValueL, Float nutritionalValueR) {
-        // Call the superclass constructor with the provided nutritional values
         super(nutritionalValueL, nutritionalValueR, defaultFluctuation, foodType, defaultCompatiblePets);
+        this.nutritionalValueL = nutritionalValueL;
+        this.nutritionalValueR = nutritionalValueR;
+        this.fluctuation = defaultFluctuation;
     }
 
     /**
@@ -45,7 +52,30 @@ public class Bone extends Food {
      * @param fluctuation The fluctuation range of the nutritional value.
      */
     public Bone(Float nutritionalValueL, Float nutritionalValueR, Float fluctuation) {
-        // Call the superclass constructor with the provided parameters
         super(nutritionalValueL, nutritionalValueR, fluctuation, foodType, defaultCompatiblePets);
+        this.nutritionalValueL = nutritionalValueL;
+        this.nutritionalValueR = nutritionalValueR;
+        this.fluctuation = fluctuation;
+    }
+
+    // Getter methods
+    public Float getNutritionalValueL() {
+        return nutritionalValueL;
+    }
+
+    public Float getNutritionalValueR() {
+        return nutritionalValueR;
+    }
+
+    public Float getFluctuation() {
+        return fluctuation;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public List<String> getCompatiblePets() {
+        return defaultCompatiblePets;
     }
 }
