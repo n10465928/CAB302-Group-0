@@ -45,7 +45,9 @@ class PetFactoryTest {
 
     @Test
     void testCreateUnknownType() {
-        Pet unknown = PetFactory.createPet("unknown", "Mystery", 5);
-        assertNull(unknown, "Unknown pet type should return null");
+        // Assert that an IllegalArgumentException is thrown with an unknown pet type
+        assertThrows(IllegalArgumentException.class, () -> {
+            PetFactory.createPet("unknown", "Mystery", 5);
+        });
     }
 }
