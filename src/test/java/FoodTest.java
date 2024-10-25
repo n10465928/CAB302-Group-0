@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import vpm.gui_prototype.models.FoodStuff.Bone;
 import vpm.gui_prototype.models.FoodStuff.Food;
 
 import static org.junit.jupiter.api.Assertions.*;
