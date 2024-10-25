@@ -1,27 +1,39 @@
 package vpm.gui_prototype.models.PetStuff;
 
+/**
+ * Factory class for creating Pet instances.
+ * Provides a static method to create pets based on type, name, and age.
+ */
 public class PetFactory {
 
-    public static Pet createPet(String type, String name, int age){
-        return switch (type) {
-            case "dog" -> createDog(name, age);
-            case "cat" -> createCat(name, age);
-            case "bird" -> createBird(name, age);
-            case "fish" -> createFish(name, age);
-            default -> null;
-        };
+    /**
+     * Creates a new Pet of the specified type, name, and age.
+     *
+     * @param type the type of pet (e.g., "Dog", "Cat")
+     * @param name the name of the pet
+     * @param age  the age of the pet
+     * @return a new Pet instance with the specified attributes
+     * @throws IllegalArgumentException if the pet type is unsupported
+     * @throws IllegalStateException    if required fields (name or type) are missing
+     */
+    public static Pet createPet(String type, String name, int age) {
+        return buildPet(name, type, age);
     }
 
-    private static Pet createDog(String name, int age){
-        return new Dog(name, age);
-    }
-    private static Pet createCat(String name, int age){
-        return new Cat(name, age);
-    }
-    private static Pet createFish(String name, int age){
-        return new Fish(name, age);
-    }
-    private static Pet createBird(String name, int age){
-        return new Bird(name, age);
+    /**
+     * Helper method to build a Pet instance using PetBuilder.
+     * Configures the PetBuilder with the provided attributes and invokes the build method.
+     *
+     * @param name the name of the pet
+     * @param type the type of pet (e.g., "Dog", "Cat")
+     * @param age  the age of the pet
+     * @return a new Pet instance with the specified attributes
+     */
+    private static Pet buildPet(String name, String type, int age) {
+        return new PetBuilder()
+                .setName(name)
+                .setType(type)
+                .setAge(age)
+                .build();
     }
 }
