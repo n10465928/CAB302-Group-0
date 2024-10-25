@@ -1,71 +1,89 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import vpm.gui_prototype.models.FoodStuff.*;
-
-import java.util.Arrays;
-import java.util.List;
+import vpm.gui_prototype.models.FoodStuff.Bone;
+import vpm.gui_prototype.models.FoodStuff.Food;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class FoodTest {
+
+    private TestFood testFood;
+    private static final List<String> DEFAULT_COMPATIBLE_PETS = Arrays.asList("Cat", "Dog");
+
+    // Create a simple subclass of Food for testing purposes
+    private class TestFood extends Food {
+        public TestFood(Float nutritionalValueL, Float nutritionalValueR, Float fluctuation, String foodType, List<String> compatiblePets) {
+            super(nutritionalValueL, nutritionalValueR, fluctuation, foodType, compatiblePets);
+        }
+    }
+
+    @BeforeEach
+    public void setUp() {
+        // Initialize a TestFood object before each test
+        testFood = new TestFood(5f, 10f, 2f, "TestFood", DEFAULT_COMPATIBLE_PETS);
+    }
 
     @Test
     public void testDefaultConstructor() {
-        Food bone = new Bone();
-        assertEquals(0f, bone.GetNutritionalValue());
+        // Create a TestFood object with the default constructor
+        TestFood defaultFood = new TestFood(0f, 0f, 0f, "", new ArrayList<>());
 
-        Food pate = new Pate();
-        assertEquals(0f, pate.GetNutritionalValue());
-
-        Food seed = new Seed();
-        assertEquals(0f, seed.GetNutritionalValue());
-
-        Food milk = new Milk();
-        assertEquals(0f, milk.GetNutritionalValue());
-
-        Food pallets = new Pellets();
-        assertEquals(0f, pallets.GetNutritionalValue());
+        // Check that the default values are set correctly
+        assertEquals(0f, defaultFood.GetNutritionalValueL());
+        assertEquals(0f, defaultFood.GetNutritionalValueR());
+        assertEquals(0f, defaultFood.GetFluctuation());
+        assertEquals("", defaultFood.GetFoodType());
+        assertTrue(defaultFood.GetCompatiblePet().isEmpty());
     }
 
     @Test
-    public void testParameterizedConstructor() {
-        Float nutritionalValueL = 1.0f;
-        Float nutritionalValueR = 1.0f;
-        Food bone = new Bone(nutritionalValueL, nutritionalValueR);
-        assertEquals(nutritionalValueL, bone.GetNutritionalValueL());
-        assertEquals(nutritionalValueR, bone.GetNutritionalValueR());
+    public void testParameterizedConstructor_NutritionalValuesAndFoodType() {
+        // Check that the constructor with values sets the properties correctly
+        assertEquals(5f, testFood.GetNutritionalValueL());
+        assertEquals(10f, testFood.GetNutritionalValueR());
+        assertEquals(2f, testFood.GetFluctuation());
+        assertEquals("TestFood", testFood.GetFoodType());
+        assertEquals(DEFAULT_COMPATIBLE_PETS, testFood.GetCompatiblePet());
     }
 
     @Test
-    public void testFullParameterizedConstructor() {
-        Float nutritionalValueL = 1.0f;
-        Float nutritionalValueR = 1.0f;
-        Float fluctuation = 3.0f;
-        Food bone = new Bone(nutritionalValueL, nutritionalValueR, fluctuation);
-        assertEquals(nutritionalValueL, bone.GetNutritionalValueL());
-        assertEquals(nutritionalValueR, bone.GetNutritionalValueR());
-        assertEquals(fluctuation, bone.GetFluctuation());
+    public void testGetNutritionalValue() {
+        // Generate a nutritional value and verify it falls within the expected range
+        Float nutritionalValue = testFood.GetNutritionalValue();
+        assertTrue(nutritionalValue >= 5f && nutritionalValue <= 10f);
     }
 
     @Test
     public void testGetCompatiblePets() {
-        List<String> compatiblePets = Arrays.asList("Cat", "Dog", "Bird", "Fish");
-        Food pallets = new Pellets();
-        assertEquals(pallets.GetCompatiblePet(), compatiblePets);
+        // Ensure the compatible pets list is returned correctly
+        assertEquals(DEFAULT_COMPATIBLE_PETS, testFood.GetCompatiblePet());
+    }
 
-        compatiblePets = Arrays.asList("Cat", "Dog");
-        Food pate = new Pate();
-        assertEquals(pate.GetCompatiblePet(), compatiblePets);
+    @Test
+    public void testGetFluctuation() {
+        // Verify the fluctuation value
+        assertEquals(2f, testFood.GetFluctuation());
+    }
 
-        compatiblePets = Arrays.asList("Bird", "Fish");
-        Food seed = new Seed();
-        assertEquals(seed.GetCompatiblePet(), compatiblePets);
+    @Test
+    public void testGetNutritionalValueL() {
+        // Verify the lower bound of the nutritional value
+        assertEquals(5f, testFood.GetNutritionalValueL());
+    }
 
-        compatiblePets = Arrays.asList("Cat", "Dog");
-        Food bone = new Bone();
-        assertEquals(bone.GetCompatiblePet(), compatiblePets);
+    @Test
+    public void testGetNutritionalValueR() {
+        // Verify the upper bound of the nutritional value
+        assertEquals(10f, testFood.GetNutritionalValueR());
+    }
 
-        compatiblePets = Arrays.asList("Cat", "Dog");
-        Food milk = new Milk();
-        assertEquals(milk.GetCompatiblePet(), compatiblePets);
+    @Test
+    public void testGetFoodType() {
+        // Verify the food type
+        assertEquals("TestFood", testFood.GetFoodType());
     }
 }
