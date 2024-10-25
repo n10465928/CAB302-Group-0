@@ -57,31 +57,35 @@
 
                 <!-- Password Field -->
                 <Label text="Password:" style="-fx-font-size: 18px;" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <PasswordField fx:id="passwordField" promptText="Enter password" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" HBox.hgrow="ALWAYS"/>
-                    <TextField fx:id="passwordFieldVisible" promptText="Enter password" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10; -fx-display-caret: false;" HBox.hgrow="ALWAYS" visible="false"/>
+                <HBox GridPane.columnIndex="1" GridPane.rowIndex="2" spacing="3">
+                    <StackPane maxWidth="600" minWidth="500">
+                        <PasswordField fx:id="passwordField" promptText="Enter password" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" HBox.hgrow="ALWAYS"/>
+                        <TextField fx:id="passwordFieldVisible" promptText="Enter password" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10; -fx-display-caret: false;" HBox.hgrow="ALWAYS" visible="false"/>
+                    </StackPane>
                     <JFXButton text="Show" onMousePressed="#showPassword" onMouseReleased="#hidePassword" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5; -fx-padding: 5 10;"/>
                 </HBox>
 
                 <!-- Confirm Password Field -->
                 <Label text="Confirm Password:" style="-fx-font-size: 18px;" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
-                    <PasswordField fx:id="confirmPasswordField" promptText="Enter password again" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" HBox.hgrow="ALWAYS"/>
-                    <TextField fx:id="confirmPasswordFieldVisible" promptText="Enter password again" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10; -fx-display-caret: false;" HBox.hgrow="ALWAYS" visible="false"/>
+                <HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="3">
+                    <StackPane maxWidth="600" minWidth="500">
+                        <PasswordField fx:id="confirmPasswordField" promptText="Enter password again" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10;" HBox.hgrow="ALWAYS"/>
+                        <TextField fx:id="confirmPasswordFieldVisible" promptText="Enter password again" style="-fx-font-size: 16px; -fx-background-color: #f0f8ff; -fx-border-color: #00796B; -fx-border-radius: 5; -fx-padding: 10; -fx-display-caret: false;" HBox.hgrow="ALWAYS" visible="false"/>
+                    </StackPane>
                     <JFXButton text="Show" onMousePressed="#showConfirmPassword" onMouseReleased="#hideConfirmPassword" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5; -fx-padding: 5 10;"/>
                 </HBox>
 
                 <!-- Buttons Section with Padding and Spacing -->
                 <VBox alignment="CENTER" spacing="15.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" style="-fx-padding: 20 0 0 0;">
                     <!-- Register Button -->
-                    <JFXButton fx:id="registerButton" text="Register" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onRegisterPress">
+                    <JFXButton fx:id="registerButton" text="Register" style="-fx-background-color: #0288D1; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onRegisterPress">
                         <effect>
                             <DropShadow radius="10" spread="0.15" color="#004D40" />
                         </effect>
                     </JFXButton>
 
                     <!-- Back Button -->
-                    <JFXButton fx:id="backButton" text="Back" style="-fx-background-color: #0288D1; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onBackPress">
+                    <JFXButton fx:id="backButton" text="Back" style="-fx-background-color: #00796B; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 20px; -fx-padding: 10 30;" onAction="#onBackPress">
                         <effect>
                             <DropShadow radius="10" spread="0.15" color="#01579B" />
                         </effect>

@@ -1,5 +1,6 @@
 package vpm.gui_prototype.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
@@ -61,6 +64,19 @@ public class RegisterController {
     public RegisterController() {
         userDAO = new SqliteUserDAO();
         hashService = new PasswordHashingService();
+    }
+
+    @FXML
+    public void initialize() {
+        confirmPasswordField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ENTER)  {
+                    onRegisterPress();
+                }
+            }
+        });
+
     }
 
     /**
@@ -227,12 +243,19 @@ public class RegisterController {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vpm/gui_prototype/fxml/LoginView.fxml"));
+
             Parent loginView = loader.load();
 
             // Get the current stage and load the new scene
             Stage stage = (Stage) registerButton.getScene().getWindow();
             stage.setScene(new Scene(loginView));
-            stage.setTitle("Register");
+            stage.setTitle("Login");
+
+            // Logs the user in as they register
+            LoginController controller = loader.getController();
+
+            controller.setLoginTextFields(usernameField.getText(), passwordField.getText());
+            controller.onLoginPress();
         } catch (IOException e) {
             e.printStackTrace();
         }

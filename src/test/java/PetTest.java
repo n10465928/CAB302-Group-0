@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import vpm.gui_prototype.models.Constants.Constants;
 import vpm.gui_prototype.models.PetStuff.Dog;
+import vpm.gui_prototype.models.PetStuff.Bird;
 import vpm.gui_prototype.models.PetStuff.Pet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +16,10 @@ public class PetTest {
         pet = new Dog("Max", 4, "Black",
                 10f, 10f, true,
                 "Playful");
+        pet = new Bird("Budgie", 40, "Crimson Red",
+                10f, 10f, true,
+                "Grumpy");
+
     }
     @Test
     public void testSetUserId() {

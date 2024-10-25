@@ -1,5 +1,7 @@
 package vpm.gui_prototype.controllers;
 
+import javafx.animation.PauseTransition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,11 +9,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.IUserDAO;
 import vpm.gui_prototype.models.DatabaseStuff.UserData.SqliteUserDAO;
 import vpm.gui_prototype.services.LoginService;
 
+//import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 /**
@@ -45,6 +51,28 @@ public class LoginController {
     public LoginController() {
         // Initialize the user DAO to interact with the user database
         userDAO = new SqliteUserDAO();
+    }
+
+    public void setLoginTextFields(String username, String password)
+    {
+        if (username != null && password != null)
+        {
+            usernameField.setText(username);
+            passwordField.setText(password);
+        }
+    }
+
+    @FXML
+    public void initialize() {
+        passwordField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ENTER)  {
+                    onLoginPress();
+                }
+            }
+        });
+
     }
 
     /**
@@ -103,6 +131,7 @@ public class LoginController {
             e.printStackTrace(); // Print stack trace for any exceptions
         }
     }
+
 
     /**
      * Handles the registration button press event.
